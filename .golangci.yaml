@@ -1,0 +1,21 @@
+run:
+  timeout: 5m
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+
+linters:
+  enable-all: true
+  disable:
+    - nolintlint
+    - tenv
+
+issues:
+  exclude-dirs:
+    - tmp
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - funlen
+        - maintidx
+        - dupl
+        - cyclop
