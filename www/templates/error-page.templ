@@ -1,0 +1,13 @@
+package templates
+
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+
+templ ErrorPage(err error) {
+	<main>
+		<div class="container mx-auto py-4 flex flex-col gap-2">
+			<h1 class="as-h1">خطا</h1>
+			<pre dir="ltr" class="text-wrap w-full">{ err.Error() }</pre>
+			<p><a href={ GetBaseURL(ctx) } class="as-button variant-outlined is-primary size-md">برو به خانه</a></p>
+		</div>
+	</main>
+}

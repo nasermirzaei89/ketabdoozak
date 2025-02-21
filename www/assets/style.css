@@ -1,0 +1,157 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+    --color-primary-50: var(--color-indigo-50);
+    --color-primary-100: var(--color-indigo-100);
+    --color-primary-200: var(--color-indigo-200);
+    --color-primary-300: var(--color-indigo-300);
+    --color-primary-400: var(--color-indigo-400);
+    --color-primary-500: var(--color-indigo-500);
+    --color-primary-600: var(--color-indigo-600);
+    --color-primary-700: var(--color-indigo-700);
+    --color-primary-800: var(--color-indigo-800);
+    --color-primary-900: var(--color-indigo-900);
+    --color-primary-950: var(--color-indigo-950);
+
+    --font-sans: Vazirmatn, sans-serif;
+
+    --layout-template: auto 1fr auto;
+}
+
+.as-h1 {
+    @apply text-4xl font-bold;
+}
+
+.as-h2 {
+    @apply text-3xl font-bold;
+}
+
+.as-h3 {
+    @apply text-2xl font-bold;
+}
+
+.as-h4 {
+    @apply text-xl font-bold;
+}
+
+.as-h5 {
+    @apply text-lg font-bold;
+}
+
+.as-h6 {
+    @apply text-base font-bold;
+}
+
+.as-button {
+    @apply rounded font-semibold duration-200 outline-none focus:ring-2 ring-black/30 inline-flex gap-1 items-center justify-center stroke-current fill-current cursor-pointer;
+    @apply hover:opacity-80;
+    @apply disabled:opacity-50 disabled:cursor-auto;
+    @apply text-nowrap;
+
+    &.variant-filled {
+        @apply text-white bg-black;
+
+        &.is-primary {
+            @apply bg-primary-600;
+        }
+
+        &.is-danger {
+            @apply bg-red-600;
+        }
+    }
+
+    &.variant-outlined {
+        @apply text-black border-2 border-black;
+
+        &.is-primary {
+            @apply text-primary-600 border-primary-600;
+        }
+
+        &.is-danger {
+            @apply text-red-600 border-red-600;
+        }
+    }
+
+    &.variant-text {
+        @apply text-black;
+
+        &.is-primary {
+            @apply text-primary-600;
+        }
+
+        &.is-danger {
+            @apply text-red-600;
+        }
+    }
+
+    &.variant-link {
+        @apply text-black underline;
+
+        &.is-primary {
+            @apply text-primary-600;
+        }
+
+        &.is-danger {
+            @apply text-red-600;
+        }
+    }
+
+    &.is-primary {
+        @apply ring-primary-600;
+    }
+
+    &.is-danger {
+        @apply ring-red-600;
+    }
+
+    &.size-sm {
+        @apply h-8 px-2 text-sm;
+    }
+
+    &.size-md {
+        @apply h-10 px-4 text-base;
+    }
+
+    &.size-lg {
+        @apply h-14 px-6 text-lg;
+    }
+}
+
+.as-badge {
+    @apply px-1 rounded-md border border-black bg-black/10 text-black;
+
+    &.color-primary {
+        @apply border-primary-600 bg-primary-50 text-primary-700;
+    }
+
+    &.color-yellow {
+        @apply border-yellow-600 bg-yellow-50 text-yellow-700;
+    }
+
+    &.color-green {
+        @apply border-green-600 bg-green-50 text-green-700;
+    }
+}
+
+.wysiwyg-editor {
+    @apply rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 bg-white w-full;
+}
+
+.wysiwyg-editor-toolbar {
+    @apply flex flex-row flex-wrap divide-x py-2 border-b border-gray-700 ;
+}
+
+.wysiwyg-editor-toolbar {
+    .toolset {
+        @apply inline-flex gap-2 px-2;
+
+        button {
+            @apply rounded-sm cursor-pointer hover:bg-gray-100;
+
+            svg {
+                @apply fill-gray-700 size-5;
+            }
+        }
+    }
+}

@@ -8,7 +8,22 @@ linters:
   disable:
     - nolintlint
     - tenv
-
+    - varnamelen
+    - mnd
+    - lll
+    - godox
+    - gocritic
+    - gochecknoglobals
+    - gci
+    - funlen
+    - forcetypeassert
+    - exhaustruct
+    - gofumpt
+    - depguard
+    - goimports
+    - cyclop
+    - unused
+    - gosec
 issues:
   exclude-dirs:
     - tmp

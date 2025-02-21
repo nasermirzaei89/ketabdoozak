@@ -1,0 +1,18 @@
+g, system:anonymous, system:unauthenticated
+
+p, system:group:root, *, *
+
+p, system:authenticated, -, uploadFile
+p, system:authenticated, *, getPublicFileUrl
+p, system:unauthenticated, *, getPublicFileUrl
+
+p, system:authenticated, *, readCategory
+p, system:unauthenticated, *, readCategory
+
+p, system:service:authentication, *, readUser
+p, system:service:authentication, -, createUser
+
+p, system:service:www, *, readUser
+p, system:service:www, -, createUser
+
+p, system:authenticated, *, createItem

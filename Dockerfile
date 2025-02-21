@@ -16,7 +16,7 @@ COPY go.sum .
 RUN go mod download
 
 COPY . .
-RUN make build
+RUN IN_DOCKER=true make build
 
 ###
 

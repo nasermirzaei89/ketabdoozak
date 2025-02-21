@@ -1,0 +1,12 @@
+package components
+
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+
+templ SearchBar(q string) {
+	<form class="flex p-2 justify-center">
+		<label class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-96">
+			@icons.MdiMagnify(8)
+			<input type="search" class="text-base w-full pe-2 focus:outline-none focus:ring-0" value={ q } name="q" placeholder="جستجوی کتاب"/>
+		</label>
+	</form>
+}

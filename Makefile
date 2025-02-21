@@ -4,16 +4,31 @@ CGO_ENABLED?=0
 
 APP_NAME?=ketabdoozak
 
+IN_DOCKER?=false
+
 IMAGE_REPOSITORY?=ghcr.io/nasermirzaei89/ketabdoozak
 IMAGE_TAG?=latest
 
+OS_NAME=$(shell uname -s | tr '[:upper:]' '[:lower:]')
+OS_ARCH=$(shell uname -m)
+
+ifeq ($(OS_NAME),darwin)
+    OS_NAME := macos
+endif
+
+SWAG_CMD=go run github.com/swaggo/swag/v2/cmd/swag@v2.0.0-rc4
 GOLANGCI_LINT_CMD=go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5
 AIR_CMD=go run github.com/air-verse/air@v1.61.7
+TEMPL_CMD=go run github.com/a-h/templ/cmd/templ@v0.3.833
 TAGALIGN_CMD=go run github.com/4meepo/tagalign/cmd/tagalign@v1.4.2
+
+TAILWINDCSS_VERSION=v4.0.7
+TAILWINDCSS_URL="https://github.com/tailwindlabs/tailwindcss/releases/download/$(TAILWINDCSS_VERSION)/tailwindcss-$(OS_NAME)-$(OS_ARCH)"
+TAILWINDCSS_CMD=$(ROOT)/bin/tailwindcss
 
 .DEFAULT_GOAL := .default
 
-.default: format build lint test
+.default: format generate-docs build lint test
 
 .PHONY: help
 help: ## Show help
@@ -24,26 +39,68 @@ help: ## Show help
 
 .PHONY: build
 build: .which-go ## Build binary
-	CGO_ENABLED=1 go build -v -o $(ROOT)/bin/$(APP_NAME) $(ROOT)
+ifeq ($(IN_DOCKER),false)
+	make templ-generate
+	make tailwindcss-build
+endif
+	CGO_ENABLED=1 go build -v -o $(APP_NAME) $(ROOT)
 
 .PHONY: run
-run: .which-go ## Run dev
-	go run $(ROOT)
+dev: # Run dev mode
+	make -j4 air-run tailwindcss-watch templ-watch air-watch-static
 
 .PHONY: dev
 dev: air-run ## Run dev mode
 
+.PHONY: templ-generate
+templ-generate: ## Generate Templ Go files
+	$(TEMPL_CMD) generate
+
+.PHONY: templ-watch
+templ-watch: ## Watch and generate Templ Go files
+	$(TEMPL_CMD) generate -watch -proxy=http://localhost:8080 -proxyport 3000
+
 air-run: .which-go
 	$(AIR_CMD) \
  --build.cmd "go build -o tmp/main" --build.bin "tmp/main" --build.delay "1000" \
- --build.include_ext "go" \
+ --build.exclude_dir "docs" \
+ --build.include_ext "go,css" \
  --build.include_file ".env" \
- --build.stop_on_error "false"
+ --build.stop_on_error "false" \
+ --build.pre_cmd "make generate-docs"
+
+.which-tailwindcss:
+	@which $(TAILWINDCSS_CMD) > /dev/null || ( \
+		echo "Downloading $(TAILWINDCSS_URL)" && \
+		curl -L --create-dirs -o $(TAILWINDCSS_CMD) $(TAILWINDCSS_URL) && \
+        chmod +x  $(TAILWINDCSS_CMD) \
+	)
+
+.PHONY: tailwindcss-watch
+tailwindcss-watch: .which-tailwindcss  ## Watch and build style.css
+	$(TAILWINDCSS_CMD) --input $(ROOT)/www/assets/style.css --output $(ROOT)/www/static/style.css --watch
+
+.PHONY: tailwindcss-build
+tailwindcss-build: .which-tailwindcss ## Build style.css
+	$(TAILWINDCSS_CMD) --input $(ROOT)/www/assets/style.css --output $(ROOT)/www/static/style.css
+	$(TAILWINDCSS_CMD) --input $(ROOT)/www/assets/style.css --output $(ROOT)/www/static/style.min.css --minify
+
+.PHONY: air-watch-static
+air-watch-static:
+	$(AIR_CMD) \
+ --build.cmd "$(TEMPL_CMD) generate --notify-proxy -proxyport 3000" \
+ --build.bin "true" \
+ --build.delay "100" \
+ --build.exclude_dir "" \
+ --build.include_dir "www/static" \
+ --build.include_ext "js,css"
 
 .PHONY: format
 format: .which-go ## Format files
 	go mod tidy
 	gofmt -s -w $(ROOT)
+	$(SWAG_CMD) fmt
+	$(TEMPL_CMD) fmt $(ROOT)/www/templates/
 	$(TAGALIGN_CMD) -fix $(ROOT)/... || echo "tags aligned"
 
 .PHONY: lint
@@ -53,6 +110,10 @@ lint: .which-go ## Check lint
 .PHONY: test
 test: .which-go ## Run tests
 	CGO_ENABLED=1 go test -race -cover $(ROOT)/...
+
+.PHONY: generate-docs
+generate-docs: .which-go ## Generate swagger files
+	$(SWAG_CMD) init
 
 .which-docker:
 	@which docker > /dev/null || (echo "Install Docker from https://www.docker.com/get-started/" & exit 1)
