@@ -166,6 +166,8 @@ github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18 h1:xAqWmwmq
 github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18/go.mod h1:93WvbP7qSzQzCsi6s0hmq9LauUOYjGTHEODeNFiS4HY=
 github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695 h1:qWRe3e3yaf4d9A3ZVF1+J7Vyt9W6QqmtK7x6IGL6fWw=
 github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695/go.mod h1:NsyNOWWgsH0JJB/yaUYXbf0NXqcAJWJArRrBb4pA/HY=
+github.com/nasermirzaei89/services v0.0.0-20250225060922-814ddd2f63a4 h1:zfMJv7Nh1YLozUyh4e+taztwSTVH5qY/P4xeUFrNR/U=
+github.com/nasermirzaei89/services v0.0.0-20250225060922-814ddd2f63a4/go.mod h1:giTABam/HzCFtfLN51EYamsmh+eM/Fcv2R+71qEZS4c=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/opencontainers/go-digest v1.0.0 h1:apOUWs51W5PlhuyGyz9FCeeBIOUDA/6nW8Oi/yOhh5U=
 github.com/opencontainers/go-digest v1.0.0/go.mod h1:0JzlMkj0TRzQZfJkVvzbP0HBR3IKzErnv2BNG4W4MAM=
