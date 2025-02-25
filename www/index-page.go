@@ -4,8 +4,8 @@ import (
 	"github.com/a-h/templ"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
+	"github.com/pkg/errors"
 	"net/http"
-	"time"
 )
 
 func (h *Handler) indexPageHandler() http.HandlerFunc {
@@ -16,176 +16,22 @@ func (h *Handler) indexPageHandler() http.HandlerFunc {
 			return
 		}
 
-		timeNow := time.Now()
+		q := r.URL.Query().Get("q")
 
-		items := []listing.Item{
-			{
-				ID:            "item-1",
-				Title:         "آموزش برنامه نویسی C++ به زبان ساده",
-				LocationID:    "tehran-saadatabad",
-				LocationTitle: "تهران، سعادت آباد",
-				Types: []listing.ItemType{
-					listing.ItemTypeDonate,
-					listing.ItemTypeExchange,
-				},
-				ContactInfo: []listing.ItemContactInfo{
-					{
-						Type:  listing.ItemContactInfoTypePhoneNumber,
-						Value: "+1234567890",
-					},
-					{
-						Type:  listing.ItemContactInfoTypeTelegram,
-						Value: "t.me/user1",
-					},
-				},
-				Description: `
-<p>
-کتاب آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-				Status:       listing.ItemStatusPublished,
-				Lent:         false,
-				ThumbnailURL: "https://placehold.co/300x300",
-				CreatedAt:    timeNow,
-				UpdatedAt:    timeNow,
-				PublishedAt:  &timeNow,
-			},
-			{
-				ID:            "item-2",
-				Title:         "آموزش گام به گام برنامه نویسی Go",
-				LocationID:    "tehran-saadatabad",
-				LocationTitle: "تهران، سعادت آباد",
-				Types: []listing.ItemType{
-					listing.ItemTypeDonate,
-					listing.ItemTypeExchange,
-				},
-				ContactInfo: []listing.ItemContactInfo{
-					{
-						Type:  listing.ItemContactInfoTypePhoneNumber,
-						Value: "+1234567890",
-					},
-					{
-						Type:  listing.ItemContactInfoTypeTelegram,
-						Value: "t.me/user1",
-					},
-				},
-				Description: `
-<p>
-کتاب آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-				Status:       listing.ItemStatusPublished,
-				Lent:         false,
-				ThumbnailURL: "https://placehold.co/300x300",
-				CreatedAt:    timeNow,
-				UpdatedAt:    timeNow,
-				PublishedAt:  &timeNow,
-			},
-			{
-				ID:            "item-3",
-				Title:         "Dependency Injection in Go",
-				LocationID:    "tehran-saadatabad",
-				LocationTitle: "تهران، سعادت آباد",
-				Types: []listing.ItemType{
-					listing.ItemTypeDonate,
-					listing.ItemTypeExchange,
-				},
-				ContactInfo: []listing.ItemContactInfo{
-					{
-						Type:  listing.ItemContactInfoTypePhoneNumber,
-						Value: "+1234567890",
-					},
-					{
-						Type:  listing.ItemContactInfoTypeTelegram,
-						Value: "t.me/user1",
-					},
-				},
-				Description: `
-<p>
-کتاب آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-				Status:       listing.ItemStatusPublished,
-				Lent:         false,
-				ThumbnailURL: "https://placehold.co/300x300",
-				CreatedAt:    timeNow,
-				UpdatedAt:    timeNow,
-				PublishedAt:  &timeNow,
-			},
-			{
-				ID:            "item-4",
-				Title:         "کتاب مدیریت پروژه",
-				LocationID:    "tehran-saadatabad",
-				LocationTitle: "تهران، سعادت آباد",
-				Types: []listing.ItemType{
-					listing.ItemTypeDonate,
-					listing.ItemTypeExchange,
-				},
-				ContactInfo: []listing.ItemContactInfo{
-					{
-						Type:  listing.ItemContactInfoTypePhoneNumber,
-						Value: "+1234567890",
-					},
-					{
-						Type:  listing.ItemContactInfoTypeTelegram,
-						Value: "t.me/user1",
-					},
-				},
-				Description: `
-<p>
-کتاب آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-				Status:       listing.ItemStatusPublished,
-				Lent:         false,
-				ThumbnailURL: "https://placehold.co/300x300",
-				CreatedAt:    timeNow,
-				UpdatedAt:    timeNow,
-				PublishedAt:  &timeNow,
-			},
-			{
-				ID:            "item-5",
-				Title:         "Domain Driven Design by Eric Evans",
-				LocationID:    "tehran-saadatabad",
-				LocationTitle: "تهران، سعادت آباد",
-				Types: []listing.ItemType{
-					listing.ItemTypeDonate,
-					listing.ItemTypeExchange,
-				},
-				ContactInfo: []listing.ItemContactInfo{
-					{
-						Type:  listing.ItemContactInfoTypePhoneNumber,
-						Value: "+1234567890",
-					},
-					{
-						Type:  listing.ItemContactInfoTypeTelegram,
-						Value: "t.me/user1",
-					},
-				},
-				Description: `
-<p>
-کتاب آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-				Status:       listing.ItemStatusPublished,
-				Lent:         false,
-				ThumbnailURL: "https://placehold.co/300x300",
-				CreatedAt:    timeNow,
-				UpdatedAt:    timeNow,
-				PublishedAt:  &timeNow,
-			},
+		req := &listing.ListItemsRequest{
+			Query: q,
 		}
 
-		templ.Handler(templates.HTML(templates.IndexPage(items, r.URL.Query().Get("q")))).ServeHTTP(w, r)
+		res, err := h.listingSvc.ListItems(r.Context(), req)
+		if err != nil {
+			err = errors.Wrap(err, "failed to list items")
+
+			w.WriteHeader(http.StatusInternalServerError)
+			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+
+			return
+		}
+
+		templ.Handler(templates.HTML(templates.IndexPage(res.Items, q))).ServeHTTP(w, r)
 	}
 }

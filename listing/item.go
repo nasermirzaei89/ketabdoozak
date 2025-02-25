@@ -1,6 +1,7 @@
 package listing
 
 import (
+	"context"
 	"html/template"
 	"time"
 )
@@ -58,4 +59,7 @@ type Item struct {
 	PublishedAt   *time.Time
 }
 
-type ItemRepository interface{}
+type ItemRepository interface {
+	List(ctx context.Context, req *ListItemsRequest) (items []*Item, err error)
+	Get(ctx context.Context, itemID string) (item *Item, err error)
+}

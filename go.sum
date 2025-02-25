@@ -160,6 +160,8 @@ github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 h1:C3w9PqII01/Oq
 github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822/go.mod h1:+n7T8mK8HuQTcFwEeznm/DIxMOiR9yIdICNftLE1DvQ=
 github.com/nasermirzaei89/env v1.6.0 h1:FMntq3TaGs6C3TME/GOuzlBxjAzOmifTizFG8v1CHdA=
 github.com/nasermirzaei89/env v1.6.0/go.mod h1:96s0YOKjcla1UATakvJ5+o8hXNBbqLVyfLlZyK95uwY=
+github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d h1:x69l2NBkbo2m4EA0KhPh8zdq4vsheF7tzr7oQ41S6fs=
+github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d/go.mod h1:kdWj9DQp+u8Nby+sfDaGkOXyIKJ44pZZzUNuckbX21Q=
 github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18 h1:xAqWmwmqOJkrwqOFayvNGsKKG1vLYCQR+Uh1IgTRI7k=
 github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18/go.mod h1:93WvbP7qSzQzCsi6s0hmq9LauUOYjGTHEODeNFiS4HY=
 github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695 h1:qWRe3e3yaf4d9A3ZVF1+J7Vyt9W6QqmtK7x6IGL6fWw=

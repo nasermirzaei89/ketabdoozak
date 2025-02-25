@@ -14,7 +14,7 @@ import (
 	. "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 )
 
-func BookGrid(title string, items []listing.Item) templ.Component {
+func BookGrid(title string, items []*listing.Item) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -58,12 +58,12 @@ func BookGrid(title string, items []listing.Item) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for i := range items {
-				templ_7745c5c3_Err = BookGridItem(&items[i]).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = BookGridItem(items[i]).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"flex justify-center\"><button class=\"as-button variant-outlined size-md\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div><div class=\"flex justify-center hidden\"><button class=\"as-button variant-outlined size-md\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

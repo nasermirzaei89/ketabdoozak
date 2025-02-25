@@ -18,6 +18,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/minio/minio-go/v7 v7.0.87
 	github.com/nasermirzaei89/env v1.6.0
+	github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d
 	github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18
 	github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695
 	github.com/pkg/errors v0.9.1

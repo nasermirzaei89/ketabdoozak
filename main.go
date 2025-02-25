@@ -5,11 +5,18 @@ import (
 	goerrors "errors"
 	"github.com/gorilla/sessions"
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/nasermirzaei89/env"
 	"github.com/nasermirzaei89/ketabdoozak/api"
+	"github.com/nasermirzaei89/ketabdoozak/authentication"
+	"github.com/nasermirzaei89/ketabdoozak/authorization"
+	"github.com/nasermirzaei89/ketabdoozak/db/postgres"
 	_ "github.com/nasermirzaei89/ketabdoozak/docs"
 	"github.com/nasermirzaei89/ketabdoozak/filemanager"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
+	"github.com/nasermirzaei89/ketabdoozak/swagger"
+	"github.com/nasermirzaei89/ketabdoozak/validation"
 	"github.com/nasermirzaei89/ketabdoozak/www"
 	"github.com/nasermirzaei89/problem"
 	problemoutput "github.com/nasermirzaei89/problem/output"
@@ -35,8 +42,7 @@ import (
 //	@termsOfService							http://swagger.io/terms/
 //
 //	@securityDefinitions.oauth2.implicit	OAuth2Implicit
-//	@tokenUrl								https://ketabdoozak.eu.auth0.com/oauth/token
-//	@authorizationUrl						https://ketabdoozak.eu.auth0.com/authorize
+//	@authorizationUrl						https://auth.applicaset.com/realms/ketabdoozak/protocol/openid-connect/auth
 
 func main() {
 	if err := run(); err != nil {
@@ -96,79 +102,81 @@ func run() error {
 	// TODO: set otel logger
 	problem.SetLogger(problemoutput.New())
 
-	//// Minio
-	//minioEndpoint := env.GetString("MINIO_ENDPOINT", "localhost:9000")
-	//minioUsername := env.MustGetString("MINIO_USERNAME")
-	//minioPassword := env.MustGetString("MINIO_PASSWORD")
-	//minioUseSSL := env.GetBool("MINIO_USE_SSL", false)
-	//
-	//minioClient, err := minio.New(minioEndpoint, &minio.Options{
-	//	Creds:  credentials.NewStaticV4(minioUsername, minioPassword, ""),
-	//	Secure: minioUseSSL,
-	//})
-	//if err != nil {
-	//	return errors.Wrap(err, "error creating minio client")
-	//}
+	// Minio
+	minioEndpoint := env.GetString("MINIO_ENDPOINT", "localhost:9000")
+	minioUsername := env.MustGetString("MINIO_USERNAME")
+	minioPassword := env.MustGetString("MINIO_PASSWORD")
+	minioUseSSL := env.GetBool("MINIO_USE_SSL", false)
 
-	//// Database
-	//dbDSN := env.MustGetString("DATABASE_DSN")
-	//
-	//sqlDB, dbCloseFunc, err := postgres.NewDB(ctx, dbDSN)
-	//if err != nil {
-	//	return errors.Wrap(err, "error opening db")
-	//}
-	//
-	//defer func() {
-	//	err = goerrors.Join(err, dbCloseFunc())
-	//}()
+	minioClient, err := minio.New(minioEndpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(minioUsername, minioPassword, ""),
+		Secure: minioUseSSL,
+	})
+	if err != nil {
+		return errors.Wrap(err, "error creating minio client")
+	}
 
-	//// Validator
-	//validate, err := validation.NewValidator()
-	//if err != nil {
-	//	return errors.Wrap(err, "error initializing validator")
-	//}
+	// Database
+	dbDSN := env.MustGetString("DATABASE_DSN")
 
-	//// Authentication Service
-	//authIssuer := env.MustGetString("AUTHENTICATION_ISSUER")
-	//authClientID := env.MustGetString("AUTHENTICATION_CLIENT_ID")
-	//
-	//authSvc, err := authentication.NewService(ctx, authIssuer, authClientID)
-	//if err != nil {
-	//	return errors.Wrap(err, "failed to initialize auth service")
-	//}
-	//
-	//// Authorization Service
-	//authzSvc, err := authorization.NewService(sqlDB)
+	sqlDB, dbCloseFunc, err := postgres.NewDB(ctx, dbDSN)
+	if err != nil {
+		return errors.Wrap(err, "error opening db")
+	}
 
-	//// File Manager Service
-	//fileManagerMinioBucketName := env.GetString("FILE_MANAGER_MINIO_BUCKET_NAME", "files")
-	//
-	//exists, err := minioClient.BucketExists(ctx, fileManagerMinioBucketName)
-	//if err != nil {
-	//	return errors.Wrap(err, "error checking if minio bucket exists")
-	//}
-	//
-	//if !exists {
-	//	if env.GetBool("FILE_MANAGER_MINIO_BUCKET_CREATE_IF_NOT_EXISTS", false) {
-	//		err = minioClient.MakeBucket(ctx, fileManagerMinioBucketName, minio.MakeBucketOptions{})
-	//		if err != nil {
-	//			return errors.Wrap(err, "error creating minio bucket")
-	//		}
-	//	} else {
-	//		return errors.Errorf("minio bucket does not exist: %s", fileManagerMinioBucketName)
-	//	}
-	//}
-	//
-	//fileRepo := postgres.NewFileRepo(sqlDB)
-	//
-	//fileManagerSvc := filemanager.NewService(authzSvc, minioClient, fileManagerMinioBucketName, fileRepo)
-	//
-	//fileManagerHandler := filemanager.NewHandler(fileManagerSvc)
+	defer func() {
+		err = goerrors.Join(err, postgres.MigrateDown(ctx, sqlDB))
+		err = goerrors.Join(err, dbCloseFunc())
+	}()
 
-	//// Listing Service
-	//listingItemRepo := postgres.NewListingItemRepo(sqlDB)
-	//
-	//listingSvc := listing.NewService(listingItemRepo, validate)
+	// Validator
+	validate, err := validation.NewValidator()
+	if err != nil {
+		return errors.Wrap(err, "error initializing validator")
+	}
+
+	// Authentication Service
+	authOIDCIssuerURL := env.MustGetString("AUTHENTICATION_OIDC_ISSUER_URL")
+	authOIDCClientID := env.MustGetString("AUTHENTICATION_OIDC_CLIENT_ID")
+	authOIDCUsernameClaim := env.GetString("AUTHENTICATION_OIDC_USERNAME_CLAIM", "sub")
+
+	authSvc, err := authentication.NewService(ctx, authOIDCIssuerURL, authOIDCClientID, authOIDCUsernameClaim)
+	if err != nil {
+		return errors.Wrap(err, "failed to initialize auth service")
+	}
+
+	// Authorization Service
+	authzSvc, err := authorization.NewService(sqlDB)
+
+	// File Manager Service
+	fileManagerMinioBucketName := env.GetString("FILE_MANAGER_MINIO_BUCKET_NAME", "files")
+
+	exists, err := minioClient.BucketExists(ctx, fileManagerMinioBucketName)
+	if err != nil {
+		return errors.Wrap(err, "error checking if minio bucket exists")
+	}
+
+	if !exists {
+		if env.GetBool("FILE_MANAGER_MINIO_BUCKET_CREATE_IF_NOT_EXISTS", false) {
+			err = minioClient.MakeBucket(ctx, fileManagerMinioBucketName, minio.MakeBucketOptions{})
+			if err != nil {
+				return errors.Wrap(err, "error creating minio bucket")
+			}
+		} else {
+			return errors.Errorf("minio bucket does not exist: %s", fileManagerMinioBucketName)
+		}
+	}
+
+	fileRepo := postgres.NewFileRepo(sqlDB)
+
+	fileManagerSvc := filemanager.NewService(authzSvc, minioClient, fileManagerMinioBucketName, fileRepo)
+
+	fileManagerHandler := filemanager.NewHandler(fileManagerSvc)
+
+	// Listing Service
+	listingItemRepo := postgres.NewListingItemRepo(sqlDB)
+
+	listingSvc := listing.NewService(listingItemRepo, validate)
 
 	// Cookie Store
 	key := env.GetString("STORE_KEY", "super-secret-key")
@@ -204,10 +212,8 @@ func run() error {
 		wwwAuth,
 		wwwAuth0Domain,
 		wwwAuth0ClientID,
-		//fileManagerSvc,
-		&filemanager.Service{},
-		//listingSvc,
-		&listing.Service{},
+		fileManagerSvc,
+		listingSvc,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to initialize www handler")
@@ -215,9 +221,9 @@ func run() error {
 
 	// API Handler
 	h, err := api.NewHandler(
-		//api.RegisterMiddleware(authSvc.AuthenticateMiddleware()),
-		//api.RegisterEndpoint("/swagger/", http.StripPrefix("/swagger", swagger.NewHandler())),
-		//api.RegisterEndpoint("/filemanager/", http.StripPrefix("/filemanager", fileManagerHandler)),
+		api.RegisterMiddleware(authSvc.AuthenticateMiddleware()),
+		api.RegisterEndpoint("/swagger/", http.StripPrefix("/swagger", swagger.NewHandler())),
+		api.RegisterEndpoint("/filemanager/", http.StripPrefix("/filemanager", fileManagerHandler)),
 		api.RegisterEndpoint("/www/", http.StripPrefix("/www", wwwHandler)),
 		api.RedirectRootTo("/www/"),
 	)

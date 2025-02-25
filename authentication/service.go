@@ -16,13 +16,14 @@ import (
 )
 
 type Service struct {
-	verifier *oidc.IDTokenVerifier
-	logger   *slog.Logger
-	tracer   trace.Tracer
+	verifier      *oidc.IDTokenVerifier
+	usernameClaim string
+	logger        *slog.Logger
+	tracer        trace.Tracer
 }
 
-func NewService(ctx context.Context, issuer, clientID string) (*Service, error) {
-	provider, err := oidc.NewProvider(ctx, issuer)
+func NewService(ctx context.Context, issuerURL, clientID, usernameClaim string) (*Service, error) {
+	provider, err := oidc.NewProvider(ctx, issuerURL)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to initialize oidc provider")
 	}
@@ -37,9 +38,10 @@ func NewService(ctx context.Context, issuer, clientID string) (*Service, error) 
 	}
 
 	return &Service{
-		verifier: provider.Verifier(config),
-		logger:   defaultLogger,
-		tracer:   defaultTracer,
+		verifier:      provider.Verifier(config),
+		usernameClaim: usernameClaim,
+		logger:        defaultLogger,
+		tracer:        defaultTracer,
 	}, nil
 }
 
@@ -83,8 +85,26 @@ func (svc *Service) AuthenticateMiddleware() func(http.Handler) http.Handler {
 				return
 			}
 
+			var claims map[string]interface{}
+
+			err = idToken.Claims(&claims)
+			if err != nil {
+				span.SetStatus(codes.Error, err.Error())
+
+				respond.Done(w, r, problem.Unauthorized("invalid token claims"))
+
+				return
+			}
+
+			username, ok := claims[svc.usernameClaim].(string)
+			if !ok {
+				respond.Done(w, r, problem.Unauthorized("invalid token claims"))
+
+				return
+			}
+
 			// Token is valid, pass to next handler
-			r = r.WithContext(sharedcontext.WithSubject(ctx, idToken.Subject))
+			r = r.WithContext(sharedcontext.WithSubject(ctx, username))
 			next.ServeHTTP(w, r)
 		})
 	}

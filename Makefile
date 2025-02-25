@@ -43,14 +43,11 @@ ifeq ($(IN_DOCKER),false)
 	make templ-generate
 	make tailwindcss-build
 endif
-	CGO_ENABLED=1 go build -v -o $(APP_NAME) $(ROOT)
-
-.PHONY: run
-dev: # Run dev mode
-	make -j4 air-run tailwindcss-watch templ-watch air-watch-static
+	CGO_ENABLED=1 go build -v -o $(ROOT)/bin/$(APP_NAME) $(ROOT)
 
 .PHONY: dev
-dev: air-run ## Run dev mode
+dev: ## Run dev mode
+	make -j4 air-run tailwindcss-watch templ-watch air-watch-static
 
 .PHONY: templ-generate
 templ-generate: ## Generate Templ Go files
@@ -63,7 +60,7 @@ templ-watch: ## Watch and generate Templ Go files
 air-run: .which-go
 	$(AIR_CMD) \
  --build.cmd "go build -o tmp/main" --build.bin "tmp/main" --build.delay "1000" \
- --build.exclude_dir "docs" \
+ --build.exclude_dir "docs,infra" \
  --build.include_ext "go,css" \
  --build.include_file ".env" \
  --build.stop_on_error "false" \

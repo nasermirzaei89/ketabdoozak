@@ -37,7 +37,7 @@ paths:
       - filemanager
 securityDefinitions:
   OAuth2Implicit:
-    authorizationUrl: https://ketabdoozak.eu.auth0.com/authorize
+    authorizationUrl: https://auth.applicaset.com/realms/ketabdoozak/protocol/openid-connect/auth
     flow: implicit
     type: oauth2
 swagger: "2.0"

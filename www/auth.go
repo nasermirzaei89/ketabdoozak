@@ -19,7 +19,7 @@ type Authenticator struct {
 func NewAuthenticator(ctx context.Context, auth0Domain, auth0ClientID, auth0ClientSecret, auth0CallbackURL string) (*Authenticator, error) {
 	provider, err := oidc.NewProvider(
 		ctx,
-		"https://"+auth0Domain+"/",
+		"https://"+auth0Domain,
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create oidc provider")
@@ -78,10 +78,12 @@ func (h *Handler) setRequestContextSubject(r *http.Request) (*http.Request, erro
 		return nil, errors.Errorf("got www session profile with type %T", session.Values["profile"])
 	}
 
-	sub, ok := sessionProfile["sub"].(string)
+	username, ok := sessionProfile["preferred_username"].(string)
 	if !ok {
-		return nil, errors.Errorf("got www session profile.sub with type %T", sessionProfile["sub"])
+		return nil, errors.Errorf("got www session profile.preferred_username with type %T", sessionProfile["preferred_username"])
 	}
 
-	return r.WithContext(sharedcontext.WithSubject(r.Context(), sub)), nil
+	r = r.WithContext(sharedcontext.WithSubject(r.Context(), username))
+
+	return r, nil
 }

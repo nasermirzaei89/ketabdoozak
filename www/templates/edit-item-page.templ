@@ -1,0 +1,128 @@
+package templates
+
+import "github.com/nasermirzaei89/ketabdoozak/listing"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+import "slices"
+
+templ EditItemPage(item *listing.Item) {
+	<main>
+		<div class="container mx-auto py-4">
+			<form class="flex flex-col gap-4">
+				<h1 class="text-2xl font-semibold text-gray-900">
+					ویرایش کتاب
+				</h1>
+				<div class="flex flex-row gap-2 justify-end">
+					<button class="as-button variant-filled is-primary size-md">
+						@icons.MdiSend(6)
+						ارسال برای انتشار
+					</button>
+					<button class="as-button variant-outlined size-md">
+						@icons.MdiContentSave(6)
+						ذخیره پیش‌نویس
+					</button>
+					<button class="as-button variant-outlined size-md">
+						لغو
+					</button>
+				</div>
+				<div class="flex flex-row gap-4">
+					<div class="grow flex flex-col gap-4">
+						<div class="flex flex-col gap-1">
+							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
+							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full">
+								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder="" value={ item.Title }/>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label for="location" class="text-xl font-semibold">محل دریافت</label>
+							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
+								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="location">
+									<option value="tehran" selected?={ item.LocationID == "tehran" }>تهران</option>
+									<option value="mashhad" selected?={ item.LocationID == "mashhad" }>مشهد</option>
+								</select>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<div class="text-xl font-semibold">انواع ارائه</div>
+							<div class="flex flex-col gap-2 px-2">
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="type" value={ string(listing.ItemTypeDonate) } checked?={ slices.Contains(item.Types, listing.ItemTypeDonate) }/>
+									اهدا
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="type" value={ string(listing.ItemTypeExchange) } checked?={ slices.Contains(item.Types, listing.ItemTypeExchange) }/>
+									معاوضه
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="type" value={ string(listing.ItemTypeLend) } checked?={ slices.Contains(item.Types, listing.ItemTypeLend) }/>
+									امانت
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="type" value={ string(listing.ItemTypeSell) } checked?={ slices.Contains(item.Types, listing.ItemTypeSell) }/>
+									فروشی
+								</label>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<div class="text-xl font-semibold">اطلاعات تماس</div>
+							<div class="flex flex-col gap-2 px-2">
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypePhoneNumber) }/>
+									شماره تماس
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeSMS) }/>
+									شماره پیامک
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeTelegram) }/>
+									شناسه تلگرام
+								</label>
+								<label class="inline-flex gap-2">
+									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeWhatsapp) }/>
+									شماره واتساپ
+								</label>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label for="description" class="text-xl font-semibold">توضیحات</label>
+							<textarea
+								id="description"
+								name="description"
+								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base"
+								data-wysiwyg-editor
+							>{ string(item.Description) }</textarea>
+						</div>
+					</div>
+					<div class="grow max-w-80 flex flex-col gap-4">
+						<div class="flex flex-col gap-1">
+							<div class="text-xl font-semibold">وضعیت انتشار</div>
+							<div>{ string(item.Status) }</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<div class="text-xl font-semibold">تصویر کتاب</div>
+							<img src={ item.ThumbnailURL } alt=""/>
+							<div class="flex flex-row gap-2">
+								<div class="as-button variant-filled size-md">
+									@icons.MdiUpload(6)
+									بارگزاری تصویر
+								</div>
+								<div class="as-button variant-outlined size-md">
+									@icons.MdiDelete(6)
+									حذف تصویر
+								</div>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<div class="text-xl font-semibold">وضعیت امانت</div>
+							<label class="inline-flex gap-2">
+								<input type="checkbox" name="lent" checked?={ item.Lent }/>
+								به امانت برده شده؟
+							</label>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</main>
+	@InitWysiwygEditor()
+}

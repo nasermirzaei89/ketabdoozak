@@ -16,10 +16,12 @@ func (h *Handler) registerRoutes() {
 	//h.mux.Handle("GET /items/{itemId}/contact-info", h.singleItemGetContactInfoHandler())
 	//
 	//h.mux.Handle("GET /my/items", h.userItemsPageHandler())
-	//h.mux.Handle("GET /items/new", h.newItemPageHandler())
-	//h.mux.Handle("GET /items/{itemId}/edit", h.editItemPageHandler())
+	h.mux.Handle("GET /items/new", h.newItemPageHandler())
+	h.mux.Handle("GET /items/{itemId}/edit", h.editItemPageHandler())
 	//h.mux.Handle("PUT /items/{itemId}", h.updateItemHandler())
 	//h.mux.Handle("POST /items", h.createItemHandler())
+
+	h.mux.Handle("POST /upload-item-thumbnail", h.uploadItemThumbnailHandler())
 
 	h.mux.Handle("GET /about-us", h.aboutUsPageHandler())
 }
