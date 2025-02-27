@@ -16,11 +16,11 @@ ifeq ($(OS_NAME),darwin)
     OS_NAME := macos
 endif
 
-SWAG_CMD=go run github.com/swaggo/swag/v2/cmd/swag@v2.0.0-rc4
-GOLANGCI_LINT_CMD=go run github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.5
-AIR_CMD=go run github.com/air-verse/air@v1.61.7
-TEMPL_CMD=go run github.com/a-h/templ/cmd/templ@v0.3.833
-TAGALIGN_CMD=go run github.com/4meepo/tagalign/cmd/tagalign@v1.4.2
+SWAG_CMD=go tool swag
+GOLANGCI_LINT_CMD=go tool golangci-lint
+AIR_CMD=go tool air
+TEMPL_CMD=go tool templ
+TAGALIGN_CMD=go tool tagalign
 
 TAILWINDCSS_VERSION=v4.0.7
 TAILWINDCSS_URL="https://github.com/tailwindlabs/tailwindcss/releases/download/$(TAILWINDCSS_VERSION)/tailwindcss-$(OS_NAME)-$(OS_ARCH)"
