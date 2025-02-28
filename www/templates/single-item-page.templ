@@ -3,6 +3,7 @@ package templates
 import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 
 templ SingleItemPage(item *listing.Item) {
 	<main>
@@ -32,7 +33,12 @@ templ SingleItemPage(item *listing.Item) {
 						}
 					</div>
 					<div>
-						<button class="as-button variant-filled is-primary size-md">
+						<button
+							class="as-button variant-filled is-primary size-md"
+							hx-get={ string(GetItemContactInfoURL(ctx, item.ID)) }
+							hx-target="body"
+							hx-swap="beforeend"
+						>
 							@icons.MdiPhone(6)
 							دریافت اطلاعات تماس
 						</button>

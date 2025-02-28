@@ -1,0 +1,69 @@
+package templates
+
+import "github.com/nasermirzaei89/ketabdoozak/listing"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+
+templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
+	<div id="contact-info" x-data x-ref="target" @click="$event.target === $el && $el.remove()">
+		<div role="dialog" class="flex flex-col w-screen max-w-100" autofocus>
+			<div class="flex flex-row p-2 ps-4">
+				<div class="grow">اطلاعات تماس</div>
+				<div role="button" @click="$refs.target.remove()" class="cursor-pointer">
+					@icons.MdiClose(6)
+				</div>
+			</div>
+			<div class="flex flex-col gap-2 p-2">
+				<div>
+					شما می‌توانید از راه‌های زیر با صاحب کتاب تماس بگیرید:
+				</div>
+				<div role="list" class="flex flex-col py-1 border rounded border-gray-300">
+					for i := range contactInfo {
+						switch (contactInfo[i].Type) {
+							case listing.ItemContactInfoTypePhoneNumber:
+								<a role="listitem" href={ PhoneNumberURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+									<div class="inline-flex items-center gap-2">
+										@icons.MdiPhone(6)
+										<span>شماره تماس</span>
+									</div>
+									<div dir="ltr">
+										{ FormatPhoneNumber(contactInfo[i].Value) }
+									</div>
+								</a>
+							case listing.ItemContactInfoTypeSMS:
+								<a role="listitem" href={ SMSURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+									<div class="inline-flex items-center gap-2">
+										@icons.MdiCellphoneMessage(6)
+										<span>شماره پیامک</span>
+									</div>
+									<div dir="ltr">
+										{ FormatPhoneNumber(contactInfo[i].Value) }
+									</div>
+								</a>
+							case listing.ItemContactInfoTypeTelegram:
+								<a role="listitem" href={ TelegramURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+									<div class="inline-flex items-center gap-2">
+										@icons.MdiTelegram(6)
+										<span>تلگرام</span>
+									</div>
+									<div dir="ltr">
+										{ FormatTelegramID(contactInfo[i].Value) }
+									</div>
+								</a>
+							case listing.ItemContactInfoTypeWhatsapp:
+								<a role="listitem" href={ WhatsappURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+									<div class="inline-flex items-center gap-2">
+										@icons.MdiWhatsapp(6)
+										<span>واتساپ</span>
+									</div>
+									<div dir="ltr">
+										{ FormatPhoneNumber(contactInfo[i].Value) }
+									</div>
+								</a>
+						}
+					}
+				</div>
+			</div>
+		</div>
+	</div>
+}

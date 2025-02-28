@@ -13,8 +13,8 @@ func (h *Handler) registerRoutes() {
 	h.mux.Handle("GET /", h.indexPageHandler())
 
 	h.mux.Handle("GET /items/{itemId}", h.singleItemPageHandler())
-	//h.mux.Handle("GET /items/{itemId}/contact-info", h.singleItemGetContactInfoHandler())
-	//
+	h.mux.Handle("GET /items/{itemId}/contact-info", h.singleItemGetContactInfoHandler())
+
 	//h.mux.Handle("GET /my/items", h.userItemsPageHandler())
 	h.mux.Handle("GET /items/new", h.newItemPageHandler())
 	h.mux.Handle("GET /items/{itemId}/edit", h.editItemPageHandler())
