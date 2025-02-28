@@ -74,16 +74,14 @@ func (h *Handler) setRequestContextSubject(r *http.Request) (*http.Request, erro
 	}
 
 	sessionProfile, ok := session.Values["profile"].(map[string]any)
-	if !ok {
-		return nil, errors.Errorf("got www session profile with type %T", session.Values["profile"])
+	if ok {
+		username, ok := sessionProfile["preferred_username"].(string)
+		if ok {
+			r = r.WithContext(sharedcontext.WithSubject(r.Context(), username))
+		} else {
+			r = r.WithContext(sharedcontext.WithSubject(r.Context(), sharedcontext.Anonymous))
+		}
 	}
-
-	username, ok := sessionProfile["preferred_username"].(string)
-	if !ok {
-		return nil, errors.Errorf("got www session profile.preferred_username with type %T", sessionProfile["preferred_username"])
-	}
-
-	r = r.WithContext(sharedcontext.WithSubject(r.Context(), username))
 
 	return r, nil
 }

@@ -568,6 +568,12 @@
       max-width: 96rem;
     }
   }
+  .m-5 {
+    margin: calc(var(--spacing) * 5);
+  }
+  .m-6 {
+    margin: calc(var(--spacing) * 6);
+  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -1056,6 +1062,9 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-6 {
+    width: calc(var(--spacing) * 6);
+  }
   .w-full {
     width: 100%;
   }
@@ -1438,8 +1447,6 @@
   justify-content: center;
   gap: calc(var(--spacing) * 1);
   border-radius: 0.25rem;
-  fill: currentColor;
-  stroke: currentColor;
   --tw-font-weight: var(--font-weight-semibold);
   font-weight: var(--font-weight-semibold);
   --tw-ring-color: color-mix(in oklab, var(--color-black) 30%, transparent);

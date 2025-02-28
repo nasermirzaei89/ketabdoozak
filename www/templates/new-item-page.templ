@@ -2,6 +2,7 @@ package templates
 
 import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 
 templ NewItemPage() {
 	<main>
@@ -19,9 +20,9 @@ templ NewItemPage() {
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس
 					</button>
-					<button class="as-button variant-outlined size-md">
+					<a class="as-button variant-outlined size-md" href={ GetURL(ctx, "my/items") }>
 						لغو
-					</button>
+					</a>
 				</div>
 				<div class="flex flex-row gap-4">
 					<div class="grow flex flex-col gap-4">

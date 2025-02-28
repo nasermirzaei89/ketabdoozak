@@ -7,7 +7,9 @@ import (
 	"github.com/gorilla/sessions"
 	"github.com/nasermirzaei89/ketabdoozak/filemanager"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
+	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+	"github.com/pkg/errors"
 	"net/http"
 )
 
@@ -62,6 +64,21 @@ func NewHandler(
 		func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyIsAuthenticated, h.isAuthenticated(r)))
+				next.ServeHTTP(w, r)
+			})
+		},
+		func(next http.Handler) http.Handler {
+			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				r, err := h.setRequestContextSubject(r)
+				if err != nil {
+					err = errors.Wrap(err, "failed to set request context subject")
+
+					w.WriteHeader(http.StatusInternalServerError)
+					templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+
+					return
+				}
+
 				next.ServeHTTP(w, r)
 			})
 		},

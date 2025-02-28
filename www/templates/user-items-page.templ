@@ -1,0 +1,26 @@
+package templates
+
+import "github.com/nasermirzaei89/ketabdoozak/listing"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+
+templ UserItemsPage(items []*listing.Item, q string) {
+	<main>
+		<div class="container mx-auto py-4 gap-4">
+			@components.SearchBar(q)
+			if q == "" {
+				@components.BookGrid("کتاب‌های من", items, UserItemsGridActions())
+			} else {
+				@components.BookGrid("نتایج جستجو برای «"+q+"» در کتاب‌های من", items, UserItemsGridActions())
+			}
+		</div>
+	</main>
+}
+
+templ UserItemsGridActions() {
+	<a href={ GetURL(ctx, "items/new") } class="as-button variant-filled is-primary size-md">
+		@icons.MdiPlus(6)
+		افزودن کتاب
+	</a>
+}

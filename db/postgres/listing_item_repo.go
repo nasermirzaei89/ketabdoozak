@@ -75,12 +75,31 @@ func (repo *ListingItemRepo) Get(ctx context.Context, itemID string) (*listing.I
 	return item, nil
 }
 
+func (repo *ListingItemRepo) Delete(ctx context.Context, itemID string) error {
+	q := squirrel.Delete(repo.table).Where(squirrel.Eq{"id": itemID})
+
+	_, err := q.RunWith(repo.db).PlaceholderFormat(squirrel.Dollar).ExecContext(ctx)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return listing.ItemWithIDNotFoundError{ID: itemID}
+		}
+
+		return errors.Wrap(err, "execute query failed")
+	}
+
+	return nil
+}
+
 func (repo *ListingItemRepo) List(ctx context.Context, req *listing.ListItemsRequest) ([]*listing.Item, error) {
 	q := squirrel.Select(repo.cols...).From(repo.table)
 
 	if req != nil {
 		if req.Query != "" {
 			q = q.Where("(to_tsvector(title) || location_title || description) @@ plainto_tsquery(?)", req.Query)
+		}
+
+		if req.OwnerID != "" {
+			q = q.Where(squirrel.Eq{"owner_id": req.OwnerID})
 		}
 	}
 

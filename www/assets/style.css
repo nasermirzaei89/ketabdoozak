@@ -44,7 +44,7 @@
 }
 
 .as-button {
-    @apply rounded font-semibold duration-200 outline-none focus:ring-2 ring-black/30 inline-flex gap-1 items-center justify-center stroke-current fill-current cursor-pointer;
+    @apply rounded font-semibold duration-200 outline-none focus:ring-2 ring-black/30 inline-flex gap-1 items-center justify-center cursor-pointer;
     @apply hover:opacity-80;
     @apply disabled:opacity-50 disabled:cursor-auto;
     @apply text-nowrap;

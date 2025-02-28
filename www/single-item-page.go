@@ -2,6 +2,7 @@ package www
 
 import (
 	"github.com/a-h/templ"
+	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/pkg/errors"
 	"net/http"
@@ -13,6 +14,12 @@ func (h *Handler) singleItemPageHandler() http.HandlerFunc {
 
 		item, err := h.listingSvc.GetItem(r.Context(), itemID)
 		if err != nil {
+			if errors.As(err, &listing.ItemWithIDNotFoundError{}) {
+				h.notFoundPageHandler()(w, r)
+
+				return
+			}
+
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)

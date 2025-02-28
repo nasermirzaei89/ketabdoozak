@@ -8,10 +8,8 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/nasermirzaei89/ketabdoozak/listing"
-	"github.com/nasermirzaei89/ketabdoozak/www/templates/components"
-)
+import "github.com/nasermirzaei89/ketabdoozak/listing"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
 
 func IndexPage(items []*listing.Item, q string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -43,12 +41,12 @@ func IndexPage(items []*listing.Item, q string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if q == "" {
-			templ_7745c5c3_Err = components.BookGrid("تازه‌ترین کتاب‌ها", items).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.BookGrid("تازه‌ترین کتاب‌ها", items, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = components.BookGrid("نتایج جستجو برای «"+q+"»", items).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = components.BookGrid("نتایج جستجو برای «"+q+"»", items, templ.NopComponent).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

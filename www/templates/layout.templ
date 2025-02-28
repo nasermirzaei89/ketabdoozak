@@ -39,9 +39,9 @@ templ pageHeader() {
 			</a>
 			<div class="inline-flex gap-4 *:hover:text-primary-600 *:font-medium">
 				if IsAuthenticated(ctx) {
-					<a href={ GetURL(ctx, "/items/new") } class="as-button variant-filled is-primary size-md">
-						@icons.MdiPlus(6)
-						افزودن کتاب
+					<a href={ GetURL(ctx, "my/items") } class="as-button variant-text is-primary size-md">
+						@icons.MdiBookshelf(6)
+						کتاب‌های من
 					</a>
 					<a href={ GetURL(ctx, "/logout") } class="as-button variant-text size-md">
 						@icons.MdiLogout(6)
