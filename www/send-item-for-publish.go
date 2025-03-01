@@ -10,6 +10,13 @@ import (
 
 func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if !h.isAuthenticated(r) {
+			w.WriteHeader(http.StatusForbidden)
+			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+
+			return
+		}
+
 		itemID := r.PathValue("itemId")
 
 		err := h.listingSvc.SendItemForPublish(r.Context(), itemID)

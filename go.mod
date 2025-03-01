@@ -13,6 +13,7 @@ require (
 	github.com/go-playground/validator/v10 v10.25.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 	github.com/gorilla/sessions v1.4.0
+	github.com/gosimple/slug v1.15.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
 	github.com/minio/minio-go/v7 v7.0.87
@@ -137,6 +138,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gordonklaus/ineffassign v0.1.0 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
+	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/gostaticanalysis/analysisutil v0.7.1 // indirect
 	github.com/gostaticanalysis/comment v1.4.2 // indirect
 	github.com/gostaticanalysis/forcetypeassert v0.2.0 // indirect

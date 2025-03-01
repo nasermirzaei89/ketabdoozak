@@ -4,50 +4,46 @@ import (
 	"github.com/a-h/templ"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
+	"github.com/pkg/errors"
 	"net/http"
-	"time"
 )
 
 func (h *Handler) editItemPageHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		timeNow := time.Now()
+		if !h.isAuthenticated(r) {
+			http.Redirect(w, r, h.BaseURL()+"login", http.StatusTemporaryRedirect)
 
-		item := &listing.Item{
-			ID:            "item-1",
-			Title:         "آموزش برنامه نویسی C++ به زبان ساده",
-			OwnerID:       "user1",
-			OwnerName:     "ناصر میرزائی",
-			LocationID:    "mashhad",
-			LocationTitle: "مشهد",
-			Types: []listing.ItemType{
-				listing.ItemTypeDonate,
-				listing.ItemTypeExchange,
-			},
-			ContactInfo: []listing.ItemContactInfo{
-				{
-					Type:  listing.ItemContactInfoTypePhoneNumber,
-					Value: "+1234567890",
-				},
-				{
-					Type:  listing.ItemContactInfoTypeTelegram,
-					Value: "t.me/user1",
-				},
-			},
-			Description: `
-<p>
-<b>کتاب</b> آموزش برنامه نویسی سی پلاس، تقریبا نو. رایگان برای هرکسی که علاقه به خوندنش داره.
-<br>
-لطفا برای دریافت آن تماس بگیرید.
-</p>
-`,
-			Status:       listing.ItemStatusPublished,
-			Lent:         true,
-			ThumbnailURL: "https://placehold.co/300x300",
-			CreatedAt:    timeNow,
-			UpdatedAt:    timeNow,
-			PublishedAt:  &timeNow,
+			return
 		}
 
-		templ.Handler(templates.HTML(templates.EditItemPage(item))).ServeHTTP(w, r)
+		itemID := r.PathValue("itemId")
+
+		item, err := h.listingSvc.GetItem(r.Context(), itemID)
+		if err != nil {
+			if errors.As(err, &listing.ItemWithIDNotFoundError{}) {
+				h.notFoundPageHandler()(w, r)
+
+				return
+			}
+
+			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
+
+			w.WriteHeader(http.StatusInternalServerError)
+			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+
+			return
+		}
+
+		listLocationsRes, err := h.listingSvc.ListLocations(r.Context())
+		if err != nil {
+			err = errors.Wrap(err, "failed to list locations")
+
+			w.WriteHeader(http.StatusInternalServerError)
+			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+
+			return
+		}
+
+		templ.Handler(templates.HTML(templates.EditItemPage(item, listLocationsRes.Items))).ServeHTTP(w, r)
 	}
 }

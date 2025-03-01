@@ -10,6 +10,13 @@ import (
 
 func (h *Handler) archiveItemHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if !h.isAuthenticated(r) {
+			w.WriteHeader(http.StatusForbidden)
+			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+
+			return
+		}
+
 		itemID := r.PathValue("itemId")
 
 		err := h.listingSvc.ArchiveItem(r.Context(), itemID)

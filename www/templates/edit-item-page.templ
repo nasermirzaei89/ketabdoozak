@@ -2,9 +2,10 @@ package templates
 
 import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 import "slices"
 
-templ EditItemPage(item *listing.Item) {
+templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 	<main>
 		<div class="container mx-auto py-4">
 			<form class="flex flex-col gap-4">
@@ -12,17 +13,17 @@ templ EditItemPage(item *listing.Item) {
 					ویرایش کتاب
 				</h1>
 				<div class="flex flex-row gap-2 justify-end">
-					<button class="as-button variant-filled is-primary size-md">
+					<button class="as-button variant-filled is-primary size-md" hx-put={ string(GetItemURL(ctx, item.ID)) } hx-target="main">
 						@icons.MdiSend(6)
 						ارسال برای انتشار
 					</button>
-					<button class="as-button variant-outlined size-md">
+					<button class="as-button variant-outlined size-md" hx-put={ string(GetItemURL(ctx, item.ID)) + "?as-draft" } hx-target="main">
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس
 					</button>
-					<button class="as-button variant-outlined size-md">
+					<a class="as-button variant-outlined size-md" href={ GetURL(ctx, "my/items") }>
 						لغو
-					</button>
+					</a>
 				</div>
 				<div class="flex flex-row gap-4">
 					<div class="grow flex flex-col gap-4">
@@ -35,9 +36,12 @@ templ EditItemPage(item *listing.Item) {
 						<div class="flex flex-col gap-1">
 							<label for="location" class="text-xl font-semibold">محل دریافت</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
-								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="location">
-									<option value="tehran" selected?={ item.LocationID == "tehran" }>تهران</option>
-									<option value="mashhad" selected?={ item.LocationID == "mashhad" }>مشهد</option>
+								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
+									for i := range locations {
+										<option value={ locations[i].ID } selected?={ item.LocationID == locations[i].ID }>
+											{ locations[i].Title }
+										</option>
+									}
 								</select>
 							</div>
 						</div>
@@ -45,42 +49,38 @@ templ EditItemPage(item *listing.Item) {
 							<div class="text-xl font-semibold">انواع ارائه</div>
 							<div class="flex flex-col gap-2 px-2">
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeDonate) } checked?={ slices.Contains(item.Types, listing.ItemTypeDonate) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeDonate) } checked?={ slices.Contains(item.Types, listing.ItemTypeDonate) }/>
 									اهدا
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeExchange) } checked?={ slices.Contains(item.Types, listing.ItemTypeExchange) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeExchange) } checked?={ slices.Contains(item.Types, listing.ItemTypeExchange) }/>
 									معاوضه
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeLend) } checked?={ slices.Contains(item.Types, listing.ItemTypeLend) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeLend) } checked?={ slices.Contains(item.Types, listing.ItemTypeLend) }/>
 									امانت
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeSell) } checked?={ slices.Contains(item.Types, listing.ItemTypeSell) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeSell) } checked?={ slices.Contains(item.Types, listing.ItemTypeSell) }/>
 									فروشی
 								</label>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">اطلاعات تماس</div>
-							<div class="flex flex-col gap-2 px-2">
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypePhoneNumber) }/>
-									شماره تماس
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeSMS) }/>
-									شماره پیامک
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeTelegram) }/>
-									شناسه تلگرام
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeWhatsapp) }/>
-									شماره واتساپ
-								</label>
+							<div class="flex flex-col gap-2 items-start">
+								for _, v := range item.ContactInfo {
+									@ContactInfoFormItem(v.Type, v.Value)
+								}
+								<div
+									role="button"
+									class="as-button variant-outlined size-md"
+									hx-get={ string(GetURL(ctx, "/new-contact-info-item")) }
+									hx-swap="beforebegin"
+								>
+									@icons.MdiPlus(6)
+									افزودن
+								</div>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
@@ -88,7 +88,7 @@ templ EditItemPage(item *listing.Item) {
 							<textarea
 								id="description"
 								name="description"
-								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base"
+								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden"
 								data-wysiwyg-editor
 							>{ string(item.Description) }</textarea>
 						</div>
@@ -100,13 +100,19 @@ templ EditItemPage(item *listing.Item) {
 						</div>
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">تصویر کتاب</div>
-							<img src={ item.ThumbnailURL } alt=""/>
+							<img
+								src={ item.ThumbnailURL }
+								id="thumbnailPreview"
+								alt=""
+								class="rounded-sm aspect-square w-full bg-gray-500"
+							/>
+							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
 							<div class="flex flex-row gap-2">
-								<div class="as-button variant-filled size-md">
+								<div class="as-button variant-filled size-md" role="button" onclick="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
 								</div>
-								<div class="as-button variant-outlined size-md">
+								<div class="as-button variant-outlined size-md" role="button">
 									@icons.MdiDelete(6)
 									حذف تصویر
 								</div>
@@ -124,5 +130,4 @@ templ EditItemPage(item *listing.Item) {
 			</form>
 		</div>
 	</main>
-	@InitWysiwygEditor()
 }

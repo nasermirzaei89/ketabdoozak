@@ -2,12 +2,12 @@ package www
 
 import (
 	"github.com/a-h/templ"
-	"github.com/nasermirzaei89/ketabdoozak/filemanager"
+	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"net/http"
 )
 
-func (h *Handler) uploadItemThumbnailHandler() http.HandlerFunc {
+func (h *Handler) newContactInfoItemHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
 			w.WriteHeader(http.StatusForbidden)
@@ -16,6 +16,6 @@ func (h *Handler) uploadItemThumbnailHandler() http.HandlerFunc {
 			return
 		}
 
-		filemanager.UploadFileHandler(h.fileManagerSvc).ServeHTTP(w, r)
+		templ.Handler(templates.ContactInfoFormItem(listing.ItemContactInfoType(""), "")).ServeHTTP(w, r)
 	}
 }

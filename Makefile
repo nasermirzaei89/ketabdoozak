@@ -61,7 +61,7 @@ air-run: .which-go
 	$(AIR_CMD) \
  --build.cmd "go build -o tmp/main" --build.bin "tmp/main" --build.delay "1000" \
  --build.exclude_dir "docs,infra" \
- --build.include_ext "go,css" \
+ --build.include_ext "go,css,js" \
  --build.include_file ".env" \
  --build.stop_on_error "false" \
  --build.pre_cmd "make generate-docs"

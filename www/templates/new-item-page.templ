@@ -4,7 +4,7 @@ import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 
-templ NewItemPage() {
+templ NewItemPage(locations []*listing.Location) {
 	<main>
 		<div class="container mx-auto py-4">
 			<form class="flex flex-col gap-4">
@@ -12,11 +12,11 @@ templ NewItemPage() {
 					افزودن کتاب
 				</h1>
 				<div class="flex flex-row gap-2 justify-end">
-					<button class="as-button variant-filled is-primary size-md">
+					<button class="as-button variant-filled is-primary size-md" hx-post={ string(GetURL(ctx, "items")) }>
 						@icons.MdiSend(6)
 						ارسال برای انتشار
 					</button>
-					<button class="as-button variant-outlined size-md">
+					<button class="as-button variant-outlined size-md" hx-post={ string(GetURL(ctx, "items?as-draft")) }>
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس
 					</button>
@@ -29,15 +29,18 @@ templ NewItemPage() {
 						<div class="flex flex-col gap-1">
 							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full">
-								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder=""/>
+								<input type="text" dir="auto" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder=""/>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
 							<label for="location" class="text-xl font-semibold">محل دریافت</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
-								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="location">
-									<option value="tehran">تهران</option>
-									<option value="mashhad">مشهد</option>
+								<select class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
+									for i := range locations {
+										<option value={ locations[i].ID }>
+											{ locations[i].Title }
+										</option>
+									}
 								</select>
 							</div>
 						</div>
@@ -45,42 +48,30 @@ templ NewItemPage() {
 							<div class="text-xl font-semibold">انواع ارائه</div>
 							<div class="flex flex-col gap-2 px-2">
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeDonate) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeDonate) }/>
 									اهدا
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeExchange) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeExchange) }/>
 									معاوضه
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeLend) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeLend) }/>
 									امانت
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="type" value={ string(listing.ItemTypeSell) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeSell) }/>
 									فروشی
 								</label>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">اطلاعات تماس</div>
-							<div class="flex flex-col gap-2 px-2">
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypePhoneNumber) }/>
-									شماره تماس
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeSMS) }/>
-									شماره پیامک
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeTelegram) }/>
-									شناسه تلگرام
-								</label>
-								<label class="inline-flex gap-2">
-									<input type="checkbox" name="contactInfo" value={ string(listing.ItemContactInfoTypeWhatsapp) }/>
-									شماره واتساپ
-								</label>
+							<div class="flex flex-col gap-2 items-start">
+								<div role="button" class="as-button variant-outlined size-md" hx-get={ string(GetURL(ctx, "/new-contact-info-item")) } hx-swap="beforebegin">
+									@icons.MdiPlus(6)
+									افزودن
+								</div>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
@@ -88,7 +79,7 @@ templ NewItemPage() {
 							<textarea
 								id="description"
 								name="description"
-								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base"
+								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden"
 								data-wysiwyg-editor
 							></textarea>
 						</div>
@@ -100,7 +91,12 @@ templ NewItemPage() {
 						</div>
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">تصویر کتاب</div>
-							<img src="https://placehold.co/300x300?text=No Thumbnail" id="thumbnailPreview" alt="" class="rounded-sm aspect-square w-full bg-gray-500"/>
+							<img
+								src="https://placehold.co/300x300?text=No Thumbnail"
+								id="thumbnailPreview"
+								alt=""
+								class="rounded-sm aspect-square w-full bg-gray-500"
+							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl"/>
 							<div class="flex flex-row gap-2">
 								<div class="as-button variant-filled size-md" role="button" onclick="chooseThumbnailUrl()">
@@ -112,47 +108,38 @@ templ NewItemPage() {
 									حذف تصویر
 								</div>
 							</div>
-							<script>
-                                function chooseThumbnailUrl() {
-                                    const fileInput = document.createElement("input");
-                                    fileInput.type = "file"
-                                    fileInput.accept = "image/png, image/jpeg"
-                                    fileInput.click();
-                                    fileInput.onchange = async function(changeEvent) {
-                                        const file = changeEvent.target.files[0];
-                                        if (!file) return;
-
-                                        const formData = new FormData();
-                                        formData.append("file", file);
-
-                                        try {
-                                            const response = await fetch("/www/upload-item-thumbnail", {
-                                                method: "POST",
-                                                body: formData,
-                                            });
-
-                                            if (!response.ok) throw new Error("Upload failed");
-
-                                            const json = await response.json();
-
-                                            textInput = document.getElementById("thumbnailUrl");
-
-                                            textInput.value = (new URL(`/filemanager/files/${json.filename}`, location)).toString();
-
-                                            thumbnailPreview = document.getElementById("thumbnailPreview");
-
-                                            thumbnailPreview.src = textInput.value;
-                                        } catch (error) {
-                                            console.error("error uploading file:", error);
-                                        }
-                                    }
-                                }
-                            </script>
 						</div>
 					</div>
 				</div>
 			</form>
 		</div>
 	</main>
-	@InitWysiwygEditor()
+}
+
+templ ContactInfoFormItem(typ listing.ItemContactInfoType, val string) {
+	<div class="flex flex-row gap-2 w-full" x-data>
+		<label class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
+			<select class="text-base w-full pe-2 focus:outline-none focus:ring-0" name="contactInfoType">
+				<option value="phoneNumber" selected?={ typ == listing.ItemContactInfoTypePhoneNumber }>
+					شماره تماس
+				</option>
+				<option value="sms" selected?={ typ == listing.ItemContactInfoTypeSMS }>
+					شماره پیامک
+				</option>
+				<option value="telegram" selected?={ typ == listing.ItemContactInfoTypeTelegram }>
+					شناسه تلگرام
+				</option>
+				<option value="whatsapp" selected?={ typ == listing.ItemContactInfoTypeWhatsapp }>
+					شماره واتساپ
+				</option>
+			</select>
+		</label>
+		<label class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
+			<input type="text" dir="ltr" class="text-base w-full pe-2 focus:outline-none focus:ring-0" name="contactInfoValue" value={ val }/>
+		</label>
+		<div role="button" class="as-button variant-outlined size-md" @click="$el.parentElement.remove()">
+			@icons.MdiDelete(6)
+			حذف
+		</div>
+	</div>
 }

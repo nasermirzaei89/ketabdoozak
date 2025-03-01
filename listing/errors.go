@@ -2,6 +2,14 @@ package listing
 
 import "fmt"
 
+type LocationWithIDNotFoundError struct {
+	ID string
+}
+
+func (err LocationWithIDNotFoundError) Error() string {
+	return fmt.Sprintf("location with id '%s' not found", err.ID)
+}
+
 type ItemWithIDNotFoundError struct {
 	ID string
 }

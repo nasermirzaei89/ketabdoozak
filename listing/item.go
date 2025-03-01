@@ -63,4 +63,5 @@ type ItemRepository interface {
 	List(ctx context.Context, req *ListItemsRequest) (items []*Item, err error)
 	Get(ctx context.Context, itemID string) (item *Item, err error)
 	Replace(ctx context.Context, id string, item *Item) (err error)
+	Insert(ctx context.Context, item *Item) (err error)
 }

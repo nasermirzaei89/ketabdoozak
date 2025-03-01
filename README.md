@@ -2,9 +2,9 @@
 
 ## TODO
 
-* My Books Page
-* Add Book Page
-* Edit Book Page
+* Delete Thumbnail Url action
 * Responsive
 * Deploy
 * SEO
+* Use Typescript
+* Write e2e tests

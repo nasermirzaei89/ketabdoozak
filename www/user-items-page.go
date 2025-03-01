@@ -11,6 +11,12 @@ import (
 
 func (h *Handler) userItemsPageHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		if !h.isAuthenticated(r) {
+			http.Redirect(w, r, h.BaseURL()+"login", http.StatusTemporaryRedirect)
+
+			return
+		}
+
 		q := r.URL.Query().Get("q")
 
 		ctx := r.Context()

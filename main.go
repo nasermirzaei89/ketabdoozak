@@ -125,7 +125,6 @@ func run() error {
 	}
 
 	defer func() {
-		err = goerrors.Join(err, postgres.MigrateDown(ctx, sqlDB))
 		err = goerrors.Join(err, dbCloseFunc())
 	}()
 
@@ -174,9 +173,10 @@ func run() error {
 	fileManagerHandler := filemanager.NewHandler(fileManagerSvc)
 
 	// Listing Service
+	listingLocation := postgres.NewListingLocationRepo(sqlDB)
 	listingItemRepo := postgres.NewListingItemRepo(sqlDB)
 
-	listingSvc := listing.NewService(listingItemRepo, validate)
+	listingSvc := listing.NewService(listingLocation, listingItemRepo, validate)
 
 	// Cookie Store
 	key := env.GetString("STORE_KEY", "super-secret-key")

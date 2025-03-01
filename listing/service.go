@@ -3,29 +3,50 @@ package listing
 import (
 	"context"
 	"github.com/go-playground/validator/v10"
+	"github.com/gosimple/slug"
 	"github.com/nasermirzaei89/ketabdoozak/sharedcontext"
 	"github.com/pkg/errors"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
+	"html/template"
 	"log/slog"
 	"slices"
 	"time"
 )
 
 type Service struct {
-	itemRepo ItemRepository
-	validate *validator.Validate
-	logger   *slog.Logger
-	tracer   trace.Tracer
+	locationRepo LocationRepository
+	itemRepo     ItemRepository
+	validate     *validator.Validate
+	logger       *slog.Logger
+	tracer       trace.Tracer
 }
 
-func NewService(itemRepo ItemRepository, validate *validator.Validate) *Service {
+func NewService(locationRepo LocationRepository, itemRepo ItemRepository, validate *validator.Validate) *Service {
 	return &Service{
-		itemRepo: itemRepo,
-		validate: validate,
-		logger:   defaultLogger,
-		tracer:   defaultTracer,
+		locationRepo: locationRepo,
+		itemRepo:     itemRepo,
+		validate:     validate,
+		logger:       defaultLogger,
+		tracer:       defaultTracer,
 	}
+}
+
+type ListLocationsResponse struct {
+	Items []*Location `json:"items"`
+}
+
+func (svc *Service) ListLocations(ctx context.Context) (*ListLocationsResponse, error) {
+	locations, err := svc.locationRepo.List(ctx)
+	if err != nil {
+		return nil, errors.Wrap(err, "error on list locations")
+	}
+
+	rsp := &ListLocationsResponse{
+		Items: locations,
+	}
+
+	return rsp, nil
 }
 
 type ListItemsRequest struct {
@@ -197,6 +218,123 @@ func (svc *Service) DeleteItem(ctx context.Context, itemID string) error {
 
 	item.Status = ItemStatusDeleted
 	item.UpdatedAt = time.Now()
+
+	err = svc.itemRepo.Replace(ctx, item.ID, item)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on replace item with id '%s'", itemID)
+	}
+
+	return nil
+}
+
+type CreateItemRequest struct {
+	Title        string
+	LocationID   string
+	Types        []ItemType
+	ContactInfo  []ItemContactInfo
+	Description  template.HTML
+	ThumbnailURL string
+	AsDraft      bool
+}
+
+func (svc *Service) CreateItem(ctx context.Context, req *CreateItemRequest) (*Item, error) {
+	ctx, span := svc.tracer.Start(ctx, "CreateItem")
+	defer span.End()
+
+	username := sharedcontext.GetSubject(ctx)
+
+	location, err := svc.locationRepo.Get(ctx, req.LocationID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return nil, errors.Wrap(err, "error on get location")
+	}
+
+	timeNow := time.Now()
+
+	item := &Item{
+		ID:            slug.Make(req.Title),
+		Title:         req.Title,
+		OwnerID:       username,
+		OwnerName:     "", // FIXME
+		LocationID:    location.ID,
+		LocationTitle: location.Title,
+		Types:         req.Types,
+		ContactInfo:   req.ContactInfo,
+		Description:   req.Description,
+		Status:        ItemStatusPendingReview,
+		Lent:          false,
+		ThumbnailURL:  req.ThumbnailURL,
+		CreatedAt:     timeNow,
+		UpdatedAt:     timeNow,
+		PublishedAt:   nil,
+	}
+
+	if req.AsDraft {
+		item.Status = ItemStatusDraft
+	}
+
+	err = svc.itemRepo.Insert(ctx, item)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return nil, errors.Wrap(err, "error on insert item")
+	}
+
+	return item, nil
+}
+
+type UpdateItemRequest struct {
+	Title        string
+	LocationID   string
+	Types        []ItemType
+	ContactInfo  []ItemContactInfo
+	Description  template.HTML
+	Lent         bool
+	ThumbnailURL string
+	AsDraft      bool
+}
+
+func (svc *Service) UpdateItem(ctx context.Context, itemID string, req *UpdateItemRequest) error {
+	ctx, span := svc.tracer.Start(ctx, "UpdateItem")
+	defer span.End()
+
+	item, err := svc.itemRepo.Get(ctx, itemID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on get item with id '%s'", itemID)
+	}
+
+	item.Title = req.Title
+	item.LocationID = req.LocationID
+
+	location, err := svc.locationRepo.Get(ctx, req.LocationID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrap(err, "error on get location")
+	}
+
+	item.LocationTitle = location.Title
+
+	item.Types = req.Types
+	item.ContactInfo = req.ContactInfo
+	item.Description = req.Description
+	item.Lent = req.Lent
+	item.ThumbnailURL = req.ThumbnailURL
+
+	timeNow := time.Now()
+
+	if req.AsDraft {
+		item.Status = ItemStatusDraft
+	} else {
+		item.Status = ItemStatusPendingReview
+	}
+
+	item.UpdatedAt = timeNow
 
 	err = svc.itemRepo.Replace(ctx, item.ID, item)
 	if err != nil {
