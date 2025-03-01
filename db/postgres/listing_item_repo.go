@@ -75,21 +75,6 @@ func (repo *ListingItemRepo) Get(ctx context.Context, itemID string) (*listing.I
 	return item, nil
 }
 
-func (repo *ListingItemRepo) Delete(ctx context.Context, itemID string) error {
-	q := squirrel.Delete(repo.table).Where(squirrel.Eq{"id": itemID})
-
-	_, err := q.RunWith(repo.db).PlaceholderFormat(squirrel.Dollar).ExecContext(ctx)
-	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return listing.ItemWithIDNotFoundError{ID: itemID}
-		}
-
-		return errors.Wrap(err, "execute query failed")
-	}
-
-	return nil
-}
-
 func (repo *ListingItemRepo) List(ctx context.Context, req *listing.ListItemsRequest) ([]*listing.Item, error) {
 	q := squirrel.Select(repo.cols...).From(repo.table)
 
@@ -100,6 +85,10 @@ func (repo *ListingItemRepo) List(ctx context.Context, req *listing.ListItemsReq
 
 		if req.OwnerID != "" {
 			q = q.Where(squirrel.Eq{"owner_id": req.OwnerID})
+		}
+
+		if req.Status != "" {
+			q = q.Where(squirrel.Eq{"status": req.Status})
 		}
 	}
 
@@ -140,6 +129,8 @@ func (repo *ListingItemRepo) List(ctx context.Context, req *listing.ListItemsReq
 }
 
 func (repo *ListingItemRepo) Insert(ctx context.Context, item *listing.Item) error {
+	itemTypes := extypes.NewJSONObject(item.Types)
+	itemContactInfo := extypes.NewJSONObject(item.ContactInfo)
 	q := squirrel.Insert(repo.table).Columns(repo.cols...).Values(
 		item.ID,
 		item.Title,
@@ -147,8 +138,8 @@ func (repo *ListingItemRepo) Insert(ctx context.Context, item *listing.Item) err
 		item.OwnerName,
 		item.LocationID,
 		item.LocationTitle,
-		item.Types,
-		item.ContactInfo,
+		itemTypes,
+		itemContactInfo,
 		item.Description,
 		item.Status,
 		item.Lent,
@@ -167,6 +158,9 @@ func (repo *ListingItemRepo) Insert(ctx context.Context, item *listing.Item) err
 }
 
 func (repo *ListingItemRepo) Replace(ctx context.Context, itemID string, item *listing.Item) error {
+	itemTypes := extypes.NewJSONObject(item.Types)
+	itemContactInfo := extypes.NewJSONObject(item.ContactInfo)
+
 	q := squirrel.Update(repo.table).SetMap(map[string]any{
 		"id":             item.ID,
 		"title":          item.Title,
@@ -174,8 +168,8 @@ func (repo *ListingItemRepo) Replace(ctx context.Context, itemID string, item *l
 		"owner_name":     item.OwnerName,
 		"location_id":    item.LocationID,
 		"location_title": item.LocationTitle,
-		"types":          item.Types,
-		"contact_info":   item.ContactInfo,
+		"types":          itemTypes,
+		"contact_info":   itemContactInfo,
 		"description":    item.Description,
 		"status":         item.Status,
 		"lent":           item.Lent,

@@ -4,6 +4,7 @@ import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
 import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+import "slices"
 
 templ SingleItemPage(item *listing.Item) {
 	<main>
@@ -17,19 +18,12 @@ templ SingleItemPage(item *listing.Item) {
 				</div>
 				<div class="w-full flex flex-col gap-4">
 					if IsCurrentUser(ctx, item.OwnerID) {
+						<div class="inline-flex items-center gap-1 text-base text-gray-900">
+							@icons.MdiFileEye(6)
+							@ItemStatusText(item.Status)
+						</div>
 						<div class="flex flex-row gap-2">
-							<a class="as-button variant-filled is-primary size-md" href={ GetEditItemURL(ctx, item.ID) }>
-								@icons.MdiPencil(6)
-								ویرایش
-							</a>
-							<button
-								class="as-button variant-outlined is-danger size-md"
-								hx-delete={ string(GetItemURL(ctx, item.ID)) }
-								hx-confirm="آیا از پاک کردن این کتاب مطمئنید؟"
-							>
-								@icons.MdiDelete(6)
-								حذف
-							</button>
+							@OwnerItemActions(item)
 						</div>
 					}
 					<h1 class="as-h1 text-gray-900">
@@ -66,4 +60,75 @@ templ SingleItemPage(item *listing.Item) {
 			</article>
 		</div>
 	</main>
+}
+
+templ OwnerItemActions(item *listing.Item) {
+	<a class="as-button variant-outlined size-md" href={ GetEditItemURL(ctx, item.ID) }>
+		@icons.MdiPencil(6)
+		ویرایش
+	</a>
+	if slices.Contains([]listing.ItemStatus{listing.ItemStatusDraft}, item.Status) {
+		<button
+			class="as-button variant-filled is-primary size-md"
+			hx-post={ string(GetItemSendForPublishURL(ctx, item.ID)) }
+			hx-confirm="آیا می‌خواهید این کتاب را برای بررسی و انتشار ارسال نمائید؟"
+			hx-target="main"
+		>
+			@icons.MdiSend(6)
+			ارسال برای انتشار
+		</button>
+	}
+	if slices.Contains([]listing.ItemStatus{listing.ItemStatusExpired, listing.ItemStatusArchived}, item.Status) {
+		<button
+			class="as-button variant-outlined size-md"
+			hx-post={ string(GetItemPublishURL(ctx, item.ID)) }
+			hx-confirm="آیا می‌خواهید این کتاب را مجددا منتشر کنید؟"
+			hx-target="main"
+		>
+			@icons.MdiPublish(6)
+			انتشار
+		</button>
+	}
+	if slices.Contains([]listing.ItemStatus{listing.ItemStatusExpired, listing.ItemStatusPublished}, item.Status) {
+		<button
+			class="as-button variant-outlined size-md"
+			hx-post={ string(GetItemArchiveURL(ctx, item.ID)) }
+			hx-confirm="آیا می‌خواهید این کتاب را آرشیو کنید؟"
+			hx-target="main"
+		>
+			@icons.MdiArchive(6)
+			آرشیو
+		</button>
+	}
+	if slices.Contains([]listing.ItemStatus{listing.ItemStatusDraft, listing.ItemStatusArchived}, item.Status) {
+		<button
+			class="as-button variant-outlined is-danger size-md"
+			hx-delete={ string(GetItemURL(ctx, item.ID)) }
+			hx-confirm="آیا از پاک کردن این کتاب مطمئنید؟"
+		>
+			@icons.MdiDelete(6)
+			حذف
+		</button>
+	}
+}
+
+templ ItemStatusText(status listing.ItemStatus) {
+	switch (status) {
+		case listing.ItemStatusDraft:
+			<span>پیش‌نویس</span>
+		case listing.ItemStatusPendingReview:
+			<span>منتظر بررسی</span>
+		case listing.ItemStatusPublished:
+			<span>منتشر شده</span>
+		case listing.ItemStatusRejected:
+			<span>رد شده</span>
+		case listing.ItemStatusExpired:
+			<span>منقضی شده</span>
+		case listing.ItemStatusArchived:
+			<span>آرشیو شده</span>
+		case listing.ItemStatusDeleted:
+			<span>حذف شده</span>
+		default:
+			<span>{ string(status) }</span>
+	}
 }

@@ -21,6 +21,9 @@ func (h *Handler) registerRoutes() {
 	h.mux.Handle("GET /items/{itemId}/edit", h.editItemPageHandler())
 	//h.mux.Handle("PUT /items/{itemId}", h.updateItemHandler())
 	h.mux.Handle("DELETE /items/{itemId}", h.deleteItemHandler())
+	h.mux.Handle("POST /items/{itemId}/send-for-publish", h.sendItemForPublishHandler())
+	h.mux.Handle("POST /items/{itemId}/publish", h.publishItemHandler())
+	h.mux.Handle("POST /items/{itemId}/archive", h.archiveItemHandler())
 
 	h.mux.Handle("POST /upload-item-thumbnail", h.uploadItemThumbnailHandler())
 

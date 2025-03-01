@@ -30,6 +30,18 @@ func GetItemContactInfoURL(ctx context.Context, itemID string) templ.SafeURL {
 	return GetURL(ctx, "/items/"+itemID+"/contact-info")
 }
 
+func GetItemSendForPublishURL(ctx context.Context, itemID string) templ.SafeURL {
+	return GetURL(ctx, "/items/"+itemID+"/send-for-publish")
+}
+
+func GetItemPublishURL(ctx context.Context, itemID string) templ.SafeURL {
+	return GetURL(ctx, "/items/"+itemID+"/publish")
+}
+
+func GetItemArchiveURL(ctx context.Context, itemID string) templ.SafeURL {
+	return GetURL(ctx, "/items/"+itemID+"/archive")
+}
+
 func PhoneNumberURL(number string) templ.SafeURL {
 	return templ.URL("tel:" + number)
 }

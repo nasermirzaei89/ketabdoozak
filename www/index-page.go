@@ -19,7 +19,8 @@ func (h *Handler) indexPageHandler() http.HandlerFunc {
 		q := r.URL.Query().Get("q")
 
 		req := &listing.ListItemsRequest{
-			Query: q,
+			Query:  q,
+			Status: listing.ItemStatusPublished,
 		}
 
 		res, err := h.listingSvc.ListItems(r.Context(), req)

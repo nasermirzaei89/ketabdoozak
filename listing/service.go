@@ -3,10 +3,13 @@ package listing
 import (
 	"context"
 	"github.com/go-playground/validator/v10"
+	"github.com/nasermirzaei89/ketabdoozak/sharedcontext"
 	"github.com/pkg/errors"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
 	"log/slog"
+	"slices"
+	"time"
 )
 
 type Service struct {
@@ -28,6 +31,7 @@ func NewService(itemRepo ItemRepository, validate *validator.Validate) *Service 
 type ListItemsRequest struct {
 	Query   string
 	OwnerID string
+	Status  ItemStatus
 }
 
 type ListItemsResponse struct {
@@ -63,7 +67,112 @@ func (svc *Service) GetItem(ctx context.Context, itemID string) (*Item, error) {
 		return nil, errors.Wrapf(err, "error on get item with id '%s'", itemID)
 	}
 
+	if item.OwnerID != sharedcontext.GetSubject(ctx) && item.Status != ItemStatusPublished {
+		return nil, ItemWithIDNotFoundError{
+			ID: item.ID,
+		}
+	}
+
 	return item, nil
+}
+
+func (svc *Service) SendItemForPublish(ctx context.Context, itemID string) error {
+	ctx, span := svc.tracer.Start(ctx, "SendItemForPublish")
+	defer span.End()
+
+	item, err := svc.itemRepo.Get(ctx, itemID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on get item with id '%s'", itemID)
+	}
+
+	if item.Status != ItemStatusDraft {
+		span.SetStatus(codes.Error, "item is not draft")
+
+		return CannotSendItemForReviewError{
+			ID:     item.ID,
+			Status: item.Status,
+		}
+	}
+
+	item.Status = ItemStatusPendingReview
+	item.UpdatedAt = time.Now()
+
+	err = svc.itemRepo.Replace(ctx, item.ID, item)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on replace item with id '%s'", itemID)
+	}
+
+	return nil
+}
+
+func (svc *Service) PublishItem(ctx context.Context, itemID string) error {
+	ctx, span := svc.tracer.Start(ctx, "PublishItem")
+	defer span.End()
+
+	item, err := svc.itemRepo.Get(ctx, itemID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on get item with id '%s'", itemID)
+	}
+
+	if !slices.Contains([]ItemStatus{ItemStatusExpired, ItemStatusArchived}, item.Status) {
+		span.SetStatus(codes.Error, "cannot publish item")
+
+		return CannotPublishItemError{
+			ID:     item.ID,
+			Status: item.Status,
+		}
+	}
+
+	item.Status = ItemStatusPublished
+	item.UpdatedAt = time.Now()
+
+	err = svc.itemRepo.Replace(ctx, item.ID, item)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on replace item with id '%s'", itemID)
+	}
+
+	return nil
+}
+
+func (svc *Service) ArchiveItem(ctx context.Context, itemID string) error {
+	ctx, span := svc.tracer.Start(ctx, "ArchiveItem")
+	defer span.End()
+
+	item, err := svc.itemRepo.Get(ctx, itemID)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on get item with id '%s'", itemID)
+	}
+
+	if !slices.Contains([]ItemStatus{ItemStatusPublished, ItemStatusExpired}, item.Status) {
+		span.SetStatus(codes.Error, "cannot archive item")
+
+		return CannotArchiveItemError{
+			ID:     item.ID,
+			Status: item.Status,
+		}
+	}
+
+	item.Status = ItemStatusArchived
+	item.UpdatedAt = time.Now()
+
+	err = svc.itemRepo.Replace(ctx, item.ID, item)
+	if err != nil {
+		span.SetStatus(codes.Error, err.Error())
+
+		return errors.Wrapf(err, "error on replace item with id '%s'", itemID)
+	}
+
+	return nil
 }
 
 func (svc *Service) DeleteItem(ctx context.Context, itemID string) error {
@@ -77,11 +186,23 @@ func (svc *Service) DeleteItem(ctx context.Context, itemID string) error {
 		return errors.Wrapf(err, "error on get item with id '%s'", itemID)
 	}
 
-	err = svc.itemRepo.Delete(ctx, item.ID)
+	if !slices.Contains([]ItemStatus{ItemStatusDraft, ItemStatusArchived}, item.Status) {
+		span.SetStatus(codes.Error, "cannot delete item")
+
+		return CannotDeleteItemError{
+			ID:     item.ID,
+			Status: item.Status,
+		}
+	}
+
+	item.Status = ItemStatusDeleted
+	item.UpdatedAt = time.Now()
+
+	err = svc.itemRepo.Replace(ctx, item.ID, item)
 	if err != nil {
 		span.SetStatus(codes.Error, err.Error())
 
-		return errors.Wrapf(err, "error on delete item with id '%s'", itemID)
+		return errors.Wrapf(err, "error on replace item with id '%s'", itemID)
 	}
 
 	return nil
