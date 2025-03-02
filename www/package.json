@@ -1,0 +1,13 @@
+{
+  "name": "www",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "ts-generate": "tsc ./assets/scripts.ts"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.9",
+    "tailwindcss": "^4.0.9",
+    "typescript": "^5.8.2"
+  }
+}
