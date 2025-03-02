@@ -16,7 +16,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to generate random state")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -26,7 +26,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to get www session")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -38,7 +38,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to save session")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}

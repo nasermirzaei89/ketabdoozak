@@ -25,6 +25,7 @@ linters:
     - unused
     - gosec
     - dupl
+    - stylecheck
 issues:
   exclude-dirs:
     - tmp

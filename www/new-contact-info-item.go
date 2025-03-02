@@ -2,7 +2,6 @@ package www
 
 import (
 	"github.com/a-h/templ"
-	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"net/http"
 )
@@ -16,6 +15,6 @@ func (h *Handler) newContactInfoItemHandler() http.HandlerFunc {
 			return
 		}
 
-		templ.Handler(templates.ContactInfoFormItem(listing.ItemContactInfoType(""), "")).ServeHTTP(w, r)
+		templ.Handler(templates.ContactInfoFormItem("", "")).ServeHTTP(w, r)
 	}
 }

@@ -547,6 +547,12 @@
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
+  .z-4 {
+    z-index: 4;
+  }
+  .z-35 {
+    z-index: 35;
+  }
   .order-last {
     order: 9999;
   }
@@ -570,6 +576,12 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .m-5 {
+    margin: calc(var(--spacing) * 5);
+  }
+  .m-6 {
+    margin: calc(var(--spacing) * 6);
   }
   .mx-auto {
     margin-inline: auto;

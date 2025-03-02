@@ -4,14 +4,18 @@ import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
 import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 
-templ HTML(children templ.Component) {
+templ HTML(children templ.Component, head Head) {
 	<!DOCTYPE html>
-	<html lang="en" dir="rtl">
+	<html lang="fa" dir="rtl">
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			for _, meta := range head.Meta {
+				<meta name={ meta.Name } content={ meta.Content }/>
+			}
 			<link rel="icon" type="image/png" href={ string(GetURL(ctx, "/static/favicon.ico")) } sizes="32x32"/>
-			<title>کتابدوزک</title>
+			<title>{ head.PageTitle() } </title>
 			<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css"/>
 			if IsProduction(ctx) {
 				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.min.css")) }/>

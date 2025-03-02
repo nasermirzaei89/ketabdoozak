@@ -20,11 +20,16 @@ func (h *Handler) newItemPageHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to list locations")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
 
-		templ.Handler(templates.HTML(templates.NewItemPage(res.Items))).ServeHTTP(w, r)
+		head := templates.Head{
+			Title: "افزودن کتاب",
+			Meta:  nil,
+		}
+
+		templ.Handler(templates.HTML(templates.NewItemPage(res.Items), head)).ServeHTTP(w, r)
 	}
 }

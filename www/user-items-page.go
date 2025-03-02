@@ -31,11 +31,16 @@ func (h *Handler) userItemsPageHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to list items")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
 
-		templ.Handler(templates.HTML(templates.UserItemsPage(res.Items, q))).ServeHTTP(w, r)
+		head := templates.Head{
+			Title: "کتاب‌های من",
+			Meta:  nil,
+		}
+
+		templ.Handler(templates.HTML(templates.UserItemsPage(res.Items, q), head)).ServeHTTP(w, r)
 	}
 }

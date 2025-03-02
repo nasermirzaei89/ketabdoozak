@@ -29,7 +29,7 @@ func (h *Handler) editItemPageHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -39,11 +39,16 @@ func (h *Handler) editItemPageHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to list locations")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
 
-		templ.Handler(templates.HTML(templates.EditItemPage(item, listLocationsRes.Items))).ServeHTTP(w, r)
+		head := templates.Head{
+			Title: "ویرایش کتاب",
+			Meta:  nil,
+		}
+
+		templ.Handler(templates.HTML(templates.EditItemPage(item, listLocationsRes.Items), head)).ServeHTTP(w, r)
 	}
 }

@@ -24,7 +24,7 @@ func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to send item with id '%s' for publish", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
 
 			return
 		}
@@ -40,7 +40,7 @@ func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
 
 			return
 		}

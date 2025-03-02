@@ -28,11 +28,11 @@ func (h *Handler) indexPageHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to list items")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
 
-		templ.Handler(templates.HTML(templates.IndexPage(res.Items, q))).ServeHTTP(w, r)
+		templ.Handler(templates.HTML(templates.IndexPage(res.Items, q), templates.EmptyHead())).ServeHTTP(w, r)
 	}
 }

@@ -46,7 +46,7 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to update item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
 
 			return
 		}
@@ -62,7 +62,7 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
 
 			return
 		}
@@ -72,7 +72,7 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to list locations")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
 
 			return
 		}

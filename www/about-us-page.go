@@ -8,6 +8,11 @@ import (
 
 func (h *Handler) aboutUsPageHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		templ.Handler(templates.HTML(templates.AboutUsPage())).ServeHTTP(w, r)
+		head := templates.Head{
+			Title: "درباره ما",
+			Meta:  nil,
+		}
+
+		templ.Handler(templates.HTML(templates.AboutUsPage(), head)).ServeHTTP(w, r)
 	}
 }

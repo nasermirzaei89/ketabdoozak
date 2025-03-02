@@ -14,7 +14,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to get www session")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -23,8 +23,10 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 		queryState := r.URL.Query().Get("state")
 
 		if sessionState != queryState {
+			err = errors.New("invalid state parameter")
+
 			w.WriteHeader(http.StatusBadRequest)
-			templ.Handler(templates.HTML(templates.ErrorPage(errors.New("invalid state parameter")))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -34,7 +36,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to exchange token")
 
 			w.WriteHeader(http.StatusUnauthorized)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -44,7 +46,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to verify ID token")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -56,7 +58,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to extract claims")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
@@ -69,7 +71,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			err = errors.Wrap(err, "failed to save session")
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}

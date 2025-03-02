@@ -74,7 +74,7 @@ func NewHandler(
 					err = errors.Wrap(err, "failed to set request context subject")
 
 					w.WriteHeader(http.StatusInternalServerError)
-					templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+					templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 					return
 				}

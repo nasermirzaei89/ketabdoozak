@@ -23,11 +23,33 @@ func (h *Handler) singleItemPageHandler() http.HandlerFunc {
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.HTML(templates.ErrorPage(err))).ServeHTTP(w, r)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
 
 			return
 		}
 
-		templ.Handler(templates.HTML(templates.SingleItemPage(item))).ServeHTTP(w, r)
+		head := templates.Head{
+			Title: item.Title,
+			Meta: []templates.Meta{
+				{
+					Name:    templates.MetaNameOGTitle,
+					Content: item.Title,
+				},
+				{
+					Name:    templates.MetaNameOGImage,
+					Content: item.ThumbnailURL,
+				},
+				{
+					Name:    templates.MetaNameTwitterTitle,
+					Content: item.Title,
+				},
+				{
+					Name:    templates.MetaNameTwitterImage,
+					Content: item.ThumbnailURL,
+				},
+			},
+		}
+
+		templ.Handler(templates.HTML(templates.SingleItemPage(item), head)).ServeHTTP(w, r)
 	}
 }
