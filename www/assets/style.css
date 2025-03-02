@@ -157,11 +157,16 @@
 }
 
 #contact-info {
-    @apply flex fixed size-full items-center justify-center bg-black/10 backdrop-blur-sm;
+    @apply flex fixed size-full items-center justify-center bg-black/10 backdrop-blur-sm overflow-y-scroll;
 
     div[role="dialog"] {
         @apply bg-white shadow-md rounded-md;
         /*inset: 50% auto auto 50%;*/
         /*transform: translate(-50%, -50%);*/
     }
+}
+
+body:has(#contact-info) {
+    height: 100vh;
+    overflow-y: hidden;
 }

@@ -7,11 +7,11 @@ import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 templ NewItemPage(locations []*listing.Location) {
 	<main>
 		<div class="container mx-auto py-4">
-			<form class="flex flex-col gap-4">
+			<form class="flex flex-col gap-4 px-2 sm:px-0">
 				<h1 class="text-2xl font-semibold text-gray-900">
 					افزودن کتاب
 				</h1>
-				<div class="flex flex-row gap-2 justify-end">
+				<div class="flex flex-col sm:flex-row order-last sm:order-none gap-2 justify-end">
 					<button class="as-button variant-filled is-primary size-md" hx-post={ string(GetURL(ctx, "items")) }>
 						@icons.MdiSend(6)
 						ارسال برای انتشار
@@ -24,7 +24,7 @@ templ NewItemPage(locations []*listing.Location) {
 						لغو
 					</a>
 				</div>
-				<div class="flex flex-row gap-4">
+				<div class="flex flex-col md:flex-row gap-4">
 					<div class="grow flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
 							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
@@ -34,7 +34,7 @@ templ NewItemPage(locations []*listing.Location) {
 						</div>
 						<div class="flex flex-col gap-1">
 							<label for="location" class="text-xl font-semibold">محل دریافت</label>
-							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
+							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
 								<select class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
 									for i := range locations {
 										<option value={ locations[i].ID }>
@@ -84,7 +84,7 @@ templ NewItemPage(locations []*listing.Location) {
 							></textarea>
 						</div>
 					</div>
-					<div class="grow max-w-80 flex flex-col gap-4">
+					<div class="grow sm:max-w-80 flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">وضعیت انتشار</div>
 							<div>ذخیره نشده</div>
@@ -98,7 +98,7 @@ templ NewItemPage(locations []*listing.Location) {
 								class="rounded-sm aspect-square w-full bg-gray-500"
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl"/>
-							<div class="flex flex-row gap-2">
+							<div class="flex flex-row gap-2 justify-center">
 								<div class="as-button variant-filled size-md" role="button" onclick="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
@@ -139,7 +139,7 @@ templ ContactInfoFormItem(typ listing.ItemContactInfoType, val string) {
 		</label>
 		<div role="button" class="as-button variant-outlined size-md" @click="$el.parentElement.remove()">
 			@icons.MdiDelete(6)
-			حذف
+			<span class="hidden sm:inline">حذف</span>
 		</div>
 	</div>
 }

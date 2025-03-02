@@ -8,16 +8,24 @@ import "slices"
 templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 	<main>
 		<div class="container mx-auto py-4">
-			<form class="flex flex-col gap-4">
+			<form class="flex flex-col gap-4 px-2 sm:px-0">
 				<h1 class="text-2xl font-semibold text-gray-900">
 					ویرایش کتاب
 				</h1>
-				<div class="flex flex-row gap-2 justify-end">
-					<button class="as-button variant-filled is-primary size-md" hx-put={ string(GetItemURL(ctx, item.ID)) } hx-target="main">
+				<div class="flex flex-col sm:flex-row order-last sm:order-none gap-2 justify-end">
+					<button
+						class="as-button variant-filled is-primary size-md"
+						hx-put={ string(GetItemURL(ctx, item.ID)) }
+						hx-target="main"
+					>
 						@icons.MdiSend(6)
 						ارسال برای انتشار
 					</button>
-					<button class="as-button variant-outlined size-md" hx-put={ string(GetItemURL(ctx, item.ID)) + "?as-draft" } hx-target="main">
+					<button
+						class="as-button variant-outlined size-md"
+						hx-put={ string(GetItemURL(ctx, item.ID)) + "?as-draft" }
+						hx-target="main"
+					>
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس
 					</button>
@@ -25,7 +33,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 						لغو
 					</a>
 				</div>
-				<div class="flex flex-row gap-4">
+				<div class="flex flex-col md:flex-row gap-4">
 					<div class="grow flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
 							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
@@ -35,7 +43,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 						</div>
 						<div class="flex flex-col gap-1">
 							<label for="location" class="text-xl font-semibold">محل دریافت</label>
-							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
+							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
 								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
 									for i := range locations {
 										<option value={ locations[i].ID } selected?={ item.LocationID == locations[i].ID }>
@@ -93,7 +101,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 							>{ string(item.Description) }</textarea>
 						</div>
 					</div>
-					<div class="grow max-w-80 flex flex-col gap-4">
+					<div class="grow sm:max-w-80 flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">وضعیت انتشار</div>
 							<div>
@@ -109,7 +117,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 								class="rounded-sm aspect-square w-full bg-gray-500"
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
-							<div class="flex flex-row gap-2">
+							<div class="flex flex-row gap-2 justify-center">
 								<div class="as-button variant-filled size-md" role="button" onclick="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر

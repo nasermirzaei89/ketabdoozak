@@ -38,15 +38,17 @@ templ pageHeader() {
 				@components.HeaderLogo()
 				کتابدوزک
 			</a>
-			<div class="inline-flex gap-4 *:hover:text-primary-600 *:font-medium">
+			<div class="inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium">
 				if IsAuthenticated(ctx) {
 					<a href={ GetURL(ctx, "my/items") } class="as-button variant-text is-primary size-md">
 						@icons.MdiBookshelf(6)
 						کتاب‌های من
 					</a>
 					<a href={ GetURL(ctx, "/logout") } class="as-button variant-text size-md">
+						<span class="hidden sm:inline">
+							خروج
+						</span>
 						@icons.MdiLogout(6)
-						خروج
 					</a>
 				} else {
 					<a href={ GetURL(ctx, "/login") } class="as-button variant-filled is-primary size-md">
@@ -61,16 +63,8 @@ templ pageHeader() {
 
 templ pageFooter() {
 	<footer class="border-t border-gray-300">
-		<div class="container mx-auto p-4 flex justify-between">
-			<div class="inline-flex items-center p-2 gap-2 text-base">
-				@icons.MdiCopyleft(6)
-				<span>
-					2025
-					-
-					آزاد برای استفاده، تغییر و انتشار
-				</span>
-			</div>
-			<nav class="flex flex-row gap-4 items-center">
+		<div class="container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between">
+			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center">
 				<a href={ GetURL(ctx, "/about-us") } class="as-button variant-text size-md">درباره ما</a>
 				<a href="https://github.com/nasermirzaei89/ketabdoozak" target="_blank" class="as-button variant-text size-md">
 					@icons.MdiGithub(6)
@@ -81,6 +75,14 @@ templ pageFooter() {
 					دونیت
 				</a>
 			</nav>
+			<div class="inline-flex justify-center sm:justify-start items-center p-2 gap-2 text-base sm:order-first">
+				@icons.MdiCopyleft(6)
+				<span>
+					2025
+					-
+					آزاد برای استفاده، تغییر و انتشار
+				</span>
+			</div>
 		</div>
 	</footer>
 }

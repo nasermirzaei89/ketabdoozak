@@ -7,7 +7,7 @@ import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 	<div id="contact-info" x-data x-ref="target" @click="$event.target === $el && $el.remove()">
 		<div role="dialog" class="flex flex-col w-screen max-w-100" autofocus>
-			<div class="flex flex-row p-2 ps-4">
+			<div class="flex flex-row p-2 ps-4 sticky top-0 bg-white">
 				<div class="grow">اطلاعات تماس</div>
 				<div role="button" @click="$refs.target.remove()" class="cursor-pointer">
 					@icons.MdiClose(6)

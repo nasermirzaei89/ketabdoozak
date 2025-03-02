@@ -33,7 +33,7 @@ func NewItemPage(locations []*listing.Location) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><form class=\"flex flex-col gap-4\"><h1 class=\"text-2xl font-semibold text-gray-900\">افزودن کتاب</h1><div class=\"flex flex-row gap-2 justify-end\"><button class=\"as-button variant-filled is-primary size-md\" hx-post=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><form class=\"flex flex-col gap-4 px-2 sm:px-0\"><h1 class=\"text-2xl font-semibold text-gray-900\">افزودن کتاب</h1><div class=\"flex flex-col sm:flex-row order-last sm:order-none gap-2 justify-end\"><button class=\"as-button variant-filled is-primary size-md\" hx-post=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -84,7 +84,7 @@ func NewItemPage(locations []*listing.Location) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\">لغو</a></div><div class=\"flex flex-row gap-4\"><div class=\"grow flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><label for=\"title\" class=\"text-xl font-semibold\">عنوان کتاب</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full\"><input type=\"text\" dir=\"auto\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"title\" name=\"title\" placeholder=\"\"></div></div><div class=\"flex flex-col gap-1\"><label for=\"location\" class=\"text-xl font-semibold\">محل دریافت</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80\"><select class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"location\" name=\"locationId\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\">لغو</a></div><div class=\"flex flex-col md:flex-row gap-4\"><div class=\"grow flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><label for=\"title\" class=\"text-xl font-semibold\">عنوان کتاب</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full\"><input type=\"text\" dir=\"auto\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"title\" name=\"title\" placeholder=\"\"></div></div><div class=\"flex flex-col gap-1\"><label for=\"location\" class=\"text-xl font-semibold\">محل دریافت</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80\"><select class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"location\" name=\"locationId\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -193,7 +193,7 @@ func NewItemPage(locations []*listing.Location) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "افزودن</div></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor></textarea></div></div><div class=\"grow max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2\"><div class=\"as-button variant-filled size-md\" role=\"button\" onclick=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "افزودن</div></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor></textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" onclick=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -299,7 +299,7 @@ func ContactInfoFormItem(typ listing.ItemContactInfoType, val string) templ.Comp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "حذف</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<span class=\"hidden sm:inline\">حذف</span></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

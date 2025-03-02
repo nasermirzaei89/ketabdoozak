@@ -57,7 +57,7 @@ func MdiSend(size int) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" viewBox=\"0 0 24 24\"><path fill=\"currentColor\" d=\"m2 21l21-9L2 3v7l15 2l-15 2z\"></path></svg>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" viewBox=\"0 0 24 24\" class=\"rtl:-scale-x-100\"><path fill=\"currentColor\" d=\"m2 21l21-9L2 3v7l15 2l-15 2z\"></path></svg>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
