@@ -25,7 +25,11 @@ templ HTML(children templ.Component, head Head) {
 			<script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js" integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1" crossorigin="anonymous"></script>
 			<script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
-			<script src={ string(GetURL(ctx, "/static/scripts.js")) } type="module"></script>
+			if IsProduction(ctx) {
+				<script src={ string(GetURL(ctx, "/static/scripts.min.js")) } type="module"></script>
+			} else {
+				<script src={ string(GetURL(ctx, "/static/scripts.js")) } type="module"></script>
+			}
 		</head>
 		<body class="grid grid-rows-(--layout-template) min-h-screen">
 			@pageHeader()
