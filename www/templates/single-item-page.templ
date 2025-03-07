@@ -10,7 +10,7 @@ templ SingleItemPage(item *listing.Item) {
 	<main>
 		<div class="container mx-auto py-4">
 			<article class="flex flex-col sm:flex-row gap-4">
-				<div class="self-stretch sm:max-w-80 flex flex-col gap-4 px-2 sm:px-0">
+				<div class="self-stretch sm:min-w-80 flex flex-col gap-4 px-2 sm:px-0">
 					<img src={ item.ThumbnailURL } class="rounded-sm aspect-square w-full bg-gray-500" alt=""/>
 					if item.Lent {
 						<p>در حال حاضر این کتاب به امانت برده شده است.</p>
@@ -26,7 +26,7 @@ templ SingleItemPage(item *listing.Item) {
 							@OwnerItemActions(item)
 						</div>
 					}
-					<h1 class="as-h1 text-gray-900">
+					<h1 class="as-h1 text-gray-900" dir="auto">
 						{ item.Title }
 					</h1>
 					<div class="inline-flex items-center gap-1 text-base text-gray-900">

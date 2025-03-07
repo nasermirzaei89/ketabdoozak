@@ -88,14 +88,14 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\">لغو</a></div><div class=\"flex flex-col md:flex-row gap-4\"><div class=\"grow flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><label for=\"title\" class=\"text-xl font-semibold\">عنوان کتاب</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full\"><input type=\"text\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"title\" name=\"title\" placeholder=\"\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\">لغو</a></div><div class=\"flex flex-col md:flex-row gap-4\"><div class=\"grow flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><label for=\"title\" class=\"text-xl font-semibold\">عنوان کتاب</label><div class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full\"><input type=\"text\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" id=\"title\" name=\"title\" x-data=\"{ title: &#39;&#39; }\" x-model=\"title\" :dir=\"title.trim() === &#39;&#39; ? &#39;rtl&#39; : &#39;auto&#39;\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(item.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 36, Col: 146}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 44, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -108,7 +108,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(item.OwnerName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 42, Col: 171}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 51, Col: 171}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -136,7 +136,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(locations[i].ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 51, Col: 41}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 60, Col: 41}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -159,7 +159,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(locations[i].Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 52, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 61, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -177,7 +177,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(string(listing.ItemTypeDonate))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 62, Col: 83}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 71, Col: 83}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -200,7 +200,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(string(listing.ItemTypeExchange))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 66, Col: 85}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 75, Col: 85}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -223,7 +223,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(string(listing.ItemTypeLend))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 70, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 79, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -246,7 +246,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(string(listing.ItemTypeSell))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 74, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 83, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
@@ -272,14 +272,14 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<div role=\"button\" class=\"as-button variant-outlined size-md\" hx-get=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetURL(ctx, "/new-contact-info-item")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 88, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 98, Col: 63}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -300,13 +300,13 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Description))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 103, Col: 34}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 113, Col: 34}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" onclick=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" onclick=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -314,7 +314,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "بارگزاری تصویر</div><div class=\"as-button variant-outlined size-md\" role=\"button\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "بارگزاری تصویر</div><div class=\"as-button variant-outlined size-md\" role=\"button\" tabindex=\"0\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -398,13 +398,13 @@ func ContactInfoFormItem(typ listing.ItemContactInfoType, val string) templ.Comp
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(val)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 157, Col: 129}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 167, Col: 129}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "\"></label><div role=\"button\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "\"></label><div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

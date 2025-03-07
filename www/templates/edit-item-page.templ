@@ -38,7 +38,16 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 						<div class="flex flex-col gap-1">
 							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full">
-								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder="" value={ item.Title }/>
+								<input
+									type="text"
+									class="text-base w-full pe-2 focus:outline-none focus:ring-0"
+									id="title"
+									name="title"
+									x-data="{ title: $el.value }"
+									x-model="title"
+									:dir="title.trim() === '' ? 'rtl' : 'auto'"
+									value={ item.Title }
+								/>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
@@ -88,6 +97,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 								}
 								<div
 									role="button"
+									tabindex="0"
 									class="as-button variant-outlined size-md"
 									hx-get={ string(GetURL(ctx, "/new-contact-info-item")) }
 									hx-swap="beforebegin"
@@ -124,11 +134,11 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
 							<div class="flex flex-row gap-2 justify-center">
-								<div class="as-button variant-filled size-md" role="button" onclick="chooseThumbnailUrl()">
+								<div class="as-button variant-filled size-md" role="button" tabindex="0" onclick="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
 								</div>
-								<div class="as-button variant-outlined size-md" role="button">
+								<div class="as-button variant-outlined size-md" role="button" tabindex="0">
 									@icons.MdiDelete(6)
 									حذف تصویر
 								</div>

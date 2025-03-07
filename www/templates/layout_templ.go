@@ -194,7 +194,7 @@ func pageHeader() templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<header class=\"shadow-md sticky top-0 bg-white\"><div class=\"container mx-auto px-4 h-16 flex justify-between items-center\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<header class=\"shadow-md sticky top-0 bg-white\"><div class=\"container mx-auto px-4 h-16 flex justify-between items-center\" hx-boost=\"true\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -211,7 +211,7 @@ func pageHeader() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "کتابدوزک</a><div class=\"inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "کتابدوزک</a><nav class=\"inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -277,7 +277,7 @@ func pageHeader() templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</div></div></header>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</nav></div></header>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -306,7 +306,7 @@ func pageFooter() templ.Component {
 			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<footer class=\"border-t border-gray-300\"><div class=\"container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between\"><nav class=\"flex flex-row gap-4 justify-center sm:justify-end items-center\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<footer class=\"border-t border-gray-300\"><div class=\"container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between\"><nav class=\"flex flex-row gap-4 justify-center sm:justify-end items-center\" hx-boost=\"true\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

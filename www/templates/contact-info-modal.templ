@@ -9,7 +9,7 @@ templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 		<div role="dialog" class="flex flex-col w-screen max-w-100" autofocus>
 			<div class="flex flex-row p-2 ps-4 sticky top-0 bg-white">
 				<div class="grow">اطلاعات تماس</div>
-				<div role="button" @click="$refs.target.remove()" class="cursor-pointer">
+				<div role="button" tabindex="0" @click="$refs.target.remove()" class="cursor-pointer">
 					@icons.MdiClose(6)
 				</div>
 			</div>

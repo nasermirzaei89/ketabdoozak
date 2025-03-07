@@ -119,18 +119,19 @@
 }
 
 .as-badge {
-    @apply px-1 rounded-md border border-black bg-gray-200 text-black;
+    @apply px-1 rounded-md ring-1 ring-inset font-medium text-sm;
+    @apply ring-gray-500/10 bg-gray-50 text-gray-600;
 
     &.color-primary {
-        @apply border-primary-600 bg-primary-50 text-primary-700;
+        @apply ring-primary-700/10 bg-primary-50 text-primary-700;
     }
 
     &.color-yellow {
-        @apply border-yellow-600 bg-yellow-50 text-yellow-700;
+        @apply ring-yellow-600/20 bg-yellow-50 text-yellow-800;
     }
 
     &.color-green {
-        @apply border-green-600 bg-green-50 text-green-700;
+        @apply ring-green-600/20 bg-green-50 text-green-700;
     }
 }
 

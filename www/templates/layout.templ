@@ -37,12 +37,12 @@ templ HTML(children templ.Component, head Head) {
 
 templ pageHeader() {
 	<header class="shadow-md sticky top-0 bg-white">
-		<div class="container mx-auto px-4 h-16 flex justify-between items-center">
+		<div class="container mx-auto px-4 h-16 flex justify-between items-center" hx-boost="true">
 			<a href={ GetBaseURL(ctx) } class="font-bold text-xl inline-flex items-center">
 				@components.HeaderLogo()
 				کتابدوزک
 			</a>
-			<div class="inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium">
+			<nav class="inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium">
 				if IsAuthenticated(ctx) {
 					<a href={ GetURL(ctx, "my/items") } class="as-button variant-text is-primary size-md">
 						@icons.MdiBookshelf(6)
@@ -60,7 +60,7 @@ templ pageHeader() {
 						ورود
 					</a>
 				}
-			</div>
+			</nav>
 		</div>
 	</header>
 }
@@ -68,7 +68,7 @@ templ pageHeader() {
 templ pageFooter() {
 	<footer class="border-t border-gray-300">
 		<div class="container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between">
-			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center">
+			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center" hx-boost="true">
 				<a href={ GetURL(ctx, "/about-us") } class="as-button variant-text size-md">درباره ما</a>
 				<a href="https://github.com/nasermirzaei89/ketabdoozak" target="_blank" class="as-button variant-text size-md">
 					@icons.MdiGithub(6)

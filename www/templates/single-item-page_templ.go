@@ -35,7 +35,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><article class=\"flex flex-col sm:flex-row gap-4\"><div class=\"self-stretch sm:max-w-80 flex flex-col gap-4 px-2 sm:px-0\"><img src=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><article class=\"flex flex-col sm:flex-row gap-4\"><div class=\"self-stretch sm:min-w-80 flex flex-col gap-4 px-2 sm:px-0\"><img src=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -88,7 +88,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<h1 class=\"as-h1 text-gray-900\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<h1 class=\"as-h1 text-gray-900\" dir=\"auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
