@@ -2,9 +2,11 @@ package www
 
 import (
 	"github.com/a-h/templ"
+	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/pkg/errors"
 	"net/http"
+	"time"
 )
 
 func (h *Handler) newItemPageHandler() http.HandlerFunc {
@@ -13,6 +15,24 @@ func (h *Handler) newItemPageHandler() http.HandlerFunc {
 			http.Redirect(w, r, h.BaseURL()+"login", http.StatusTemporaryRedirect)
 
 			return
+		}
+
+		item := &listing.Item{
+			ID:            "",
+			Title:         "",
+			OwnerID:       "",
+			OwnerName:     h.userName(r),
+			LocationID:    "",
+			LocationTitle: "",
+			Types:         nil,
+			ContactInfo:   nil,
+			Description:   "",
+			Status:        "",
+			Lent:          false,
+			ThumbnailURL:  "",
+			CreatedAt:     time.Time{},
+			UpdatedAt:     time.Time{},
+			PublishedAt:   nil,
 		}
 
 		res, err := h.listingSvc.ListLocations(r.Context())
@@ -30,6 +50,6 @@ func (h *Handler) newItemPageHandler() http.HandlerFunc {
 			Meta:  nil,
 		}
 
-		templ.Handler(templates.HTML(templates.NewItemPage(res.Items), head)).ServeHTTP(w, r)
+		templ.Handler(templates.HTML(templates.NewItemPage(item, res.Items), head)).ServeHTTP(w, r)
 	}
 }

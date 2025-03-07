@@ -1,10 +1,14 @@
 package templates
 
-import "github.com/nasermirzaei89/ketabdoozak/listing"
-import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
-import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+import (
+	"github.com/nasermirzaei89/ketabdoozak/listing"
+	"github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+	"slices"
 
-templ NewItemPage(locations []*listing.Location) {
+	. "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+)
+
+templ NewItemPage(item *listing.Item, locations []*listing.Location) {
 	<main>
 		<div class="container mx-auto py-4">
 			<form class="flex flex-col gap-4 px-2 sm:px-0">
@@ -29,15 +33,22 @@ templ NewItemPage(locations []*listing.Location) {
 						<div class="flex flex-col gap-1">
 							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full">
-								<input type="text" dir="auto" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder=""/>
+								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="title" name="title" placeholder="" value={ item.Title }/>
+							</div>
+						</div>
+						<div class="flex flex-col gap-1">
+							<label for="ownerName" class="text-xl font-semibold">نام صاحب کتاب</label>
+							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
+								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="ownerName" name="ownerName" placeholder="نام شما" value={ item.OwnerName }/>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
 							<label for="location" class="text-xl font-semibold">محل دریافت</label>
 							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
-								<select class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
+								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
+									<option value="" selected?={ item.LocationID == "" }></option>
 									for i := range locations {
-										<option value={ locations[i].ID }>
+										<option value={ locations[i].ID } selected?={ item.LocationID == locations[i].ID }>
 											{ locations[i].Title }
 										</option>
 									}
@@ -48,19 +59,19 @@ templ NewItemPage(locations []*listing.Location) {
 							<div class="text-xl font-semibold">انواع ارائه</div>
 							<div class="flex flex-col gap-2 px-2">
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="types" value={ string(listing.ItemTypeDonate) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeDonate) } checked?={ slices.Contains(item.Types, listing.ItemTypeDonate) }/>
 									اهدا
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="types" value={ string(listing.ItemTypeExchange) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeExchange) } checked?={ slices.Contains(item.Types, listing.ItemTypeExchange) }/>
 									معاوضه
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="types" value={ string(listing.ItemTypeLend) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeLend) } checked?={ slices.Contains(item.Types, listing.ItemTypeLend) }/>
 									امانت
 								</label>
 								<label class="inline-flex gap-2">
-									<input type="checkbox" name="types" value={ string(listing.ItemTypeSell) }/>
+									<input type="checkbox" name="types" value={ string(listing.ItemTypeSell) } checked?={ slices.Contains(item.Types, listing.ItemTypeSell) }/>
 									فروشی
 								</label>
 							</div>
@@ -68,7 +79,15 @@ templ NewItemPage(locations []*listing.Location) {
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">اطلاعات تماس</div>
 							<div class="flex flex-col gap-2 items-start">
-								<div role="button" class="as-button variant-outlined size-md" hx-get={ string(GetURL(ctx, "/new-contact-info-item")) } hx-swap="beforebegin">
+								for _, v := range item.ContactInfo {
+									@ContactInfoFormItem(v.Type, v.Value)
+								}
+								<div
+									role="button"
+									class="as-button variant-outlined size-md"
+									hx-get={ string(GetURL(ctx, "/new-contact-info-item")) }
+									hx-swap="beforebegin"
+								>
 									@icons.MdiPlus(6)
 									افزودن
 								</div>
@@ -81,7 +100,7 @@ templ NewItemPage(locations []*listing.Location) {
 								name="description"
 								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden"
 								data-wysiwyg-editor
-							></textarea>
+							>{ string(item.Description) }</textarea>
 						</div>
 					</div>
 					<div class="grow sm:max-w-80 flex flex-col gap-4">

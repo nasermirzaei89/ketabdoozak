@@ -84,6 +84,7 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 func populateUpdateItemRequestFromPostForm(r *http.Request) *listing.UpdateItemRequest {
 	req := listing.UpdateItemRequest{
 		Title:        strings.TrimSpace(r.PostFormValue("title")),
+		OwnerName:    strings.TrimSpace(r.PostFormValue("ownerName")),
 		LocationID:   strings.TrimSpace(r.PostFormValue("locationId")),
 		Types:        nil,
 		ContactInfo:  nil,

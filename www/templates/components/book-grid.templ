@@ -41,7 +41,7 @@ templ BookGrid(title string, items []*listing.Item, actions templ.Component) {
 }
 
 templ BookGridItem(item *listing.Item) {
-	<a href={ GetItemURL(ctx, item.ID) } class="flex flex-col gap-2 p-2 rounded-md border border-gray-300 shadow-xs">
+	<a href={ GetItemURL(ctx, item.ID) } class="flex flex-col gap-2 p-2 rounded-md border border-gray-300 shadow-xs relative">
 		<img src={ item.ThumbnailURL } class="rounded-sm aspect-square w-full bg-gray-500" alt=""/>
 		<div class="line-clamp-2" dir="auto">{ item.Title }</div>
 		<div class="inline-flex items-center gap-1 text-sm text-gray-700">
@@ -53,6 +53,11 @@ templ BookGridItem(item *listing.Item) {
 				@BookTypeBadge(item.Types[i])
 			}
 		</div>
+		if item.Status != listing.ItemStatusPublished {
+			<div class="as-badge absolute top-4 start-4">
+				@ItemStatusText(item.Status)
+			</div>
+		}
 	</a>
 }
 
@@ -69,4 +74,25 @@ templ BookTypeBadge(typ listing.ItemType) {
 				فروشی
 		}
 	</span>
+}
+
+templ ItemStatusText(status listing.ItemStatus) {
+	switch (status) {
+		case listing.ItemStatusDraft:
+			<span>پیش‌نویس</span>
+		case listing.ItemStatusPendingReview:
+			<span>منتظر بررسی</span>
+		case listing.ItemStatusPublished:
+			<span>منتشر شده</span>
+		case listing.ItemStatusRejected:
+			<span>رد شده</span>
+		case listing.ItemStatusExpired:
+			<span>منقضی شده</span>
+		case listing.ItemStatusArchived:
+			<span>آرشیو شده</span>
+		case listing.ItemStatusDeleted:
+			<span>حذف شده</span>
+		default:
+			<span>{ string(status) }</span>
+	}
 }

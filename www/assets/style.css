@@ -119,7 +119,7 @@
 }
 
 .as-badge {
-    @apply px-1 rounded-md border border-black bg-black/10 text-black;
+    @apply px-1 rounded-md border border-black bg-gray-200 text-black;
 
     &.color-primary {
         @apply border-primary-600 bg-primary-50 text-primary-700;

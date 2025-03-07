@@ -67,6 +67,23 @@ func (h *Handler) isAuthenticated(r *http.Request) bool {
 	return session.Values["profile"] != nil
 }
 
+func (h *Handler) userName(r *http.Request) string {
+	session, err := h.cookieStore.Get(r, sessionName)
+	if err != nil {
+		panic(err)
+	}
+
+	sessionProfile, ok := session.Values["profile"].(map[string]any)
+	if ok {
+		userName, ok := sessionProfile["name"].(string)
+		if ok {
+			return userName
+		}
+	}
+
+	return ""
+}
+
 func (h *Handler) setRequestContextSubject(r *http.Request) (*http.Request, error) {
 	session, err := h.cookieStore.Get(r, sessionName)
 	if err != nil {

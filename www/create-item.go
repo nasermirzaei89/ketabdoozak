@@ -59,6 +59,7 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 func populateCreateItemRequestFromPostForm(r *http.Request) *listing.CreateItemRequest {
 	req := listing.CreateItemRequest{
 		Title:        strings.TrimSpace(r.PostFormValue("title")),
+		OwnerName:    strings.TrimSpace(r.PostFormValue("ownerName")),
 		LocationID:   strings.TrimSpace(r.PostFormValue("locationId")),
 		Types:        nil,
 		ContactInfo:  nil,

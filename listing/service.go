@@ -231,6 +231,7 @@ func (svc *Service) DeleteItem(ctx context.Context, itemID string) error {
 
 type CreateItemRequest struct {
 	Title        string
+	OwnerName    string
 	LocationID   string
 	Types        []ItemType
 	ContactInfo  []ItemContactInfo
@@ -258,7 +259,7 @@ func (svc *Service) CreateItem(ctx context.Context, req *CreateItemRequest) (*It
 		ID:            slug.Make(req.Title),
 		Title:         req.Title,
 		OwnerID:       username,
-		OwnerName:     "", // FIXME
+		OwnerName:     req.OwnerName,
 		LocationID:    location.ID,
 		LocationTitle: location.Title,
 		Types:         req.Types,
@@ -288,6 +289,7 @@ func (svc *Service) CreateItem(ctx context.Context, req *CreateItemRequest) (*It
 
 type UpdateItemRequest struct {
 	Title        string
+	OwnerName    string
 	LocationID   string
 	Types        []ItemType
 	ContactInfo  []ItemContactInfo
@@ -309,6 +311,7 @@ func (svc *Service) UpdateItem(ctx context.Context, itemID string, req *UpdateIt
 	}
 
 	item.Title = req.Title
+	item.OwnerName = req.OwnerName
 	item.LocationID = req.LocationID
 
 	location, err := svc.locationRepo.Get(ctx, req.LocationID)
