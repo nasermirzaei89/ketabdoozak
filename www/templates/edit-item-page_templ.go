@@ -327,7 +327,7 @@ func EditItemPage(item *listing.Item, locations []*listing.Location) templ.Compo
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" onclick=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

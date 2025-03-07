@@ -306,7 +306,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location) templ.Compon
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" onclick=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -404,7 +404,7 @@ func ContactInfoFormItem(typ listing.ItemContactInfoType, val string) templ.Comp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "\"></label><div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "\"></label><div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\" @keydown.enter=\"$el.parentElement.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

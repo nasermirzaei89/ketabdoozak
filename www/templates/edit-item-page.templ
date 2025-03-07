@@ -134,7 +134,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
 							<div class="flex flex-row gap-2 justify-center">
-								<div class="as-button variant-filled size-md" role="button" tabindex="0" onclick="chooseThumbnailUrl()">
+								<div class="as-button variant-filled size-md" role="button" tabindex="0" x-data @click="chooseThumbnailUrl()" @keydown.enter="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
 								</div>
