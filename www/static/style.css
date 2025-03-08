@@ -1547,7 +1547,7 @@
 }
 .as-badge {
   border-radius: var(--radius-md);
-  padding-inline: calc(var(--spacing) * 1);
+  padding-inline: calc(var(--spacing) * 2);
   font-size: var(--text-sm);
   line-height: var(--tw-leading, var(--text-sm--line-height));
   --tw-font-weight: var(--font-weight-medium);
