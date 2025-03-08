@@ -1,0 +1,20 @@
+auth:
+  adminUser: admin
+  adminPassword: admin
+#global:
+#  security:
+#    allowInsecureImages: true
+#image:
+#  tag: 26.1.2-debian-12-r3@sha256:f7fbc4e9270e11fff1f8cf08e29bfb39bdf9e7866de731d7368cdfcfb6501d50
+#  registry: quay.io
+#  repository: keycloak/keycloak
+#  tag: 26.1.2
+extraEnvVars:
+  - name: JAVA_OPTS
+    value: "-XX:UseSVE=0"
+extraVolumes: |
+  - name: keycloak-theme-dir
+    emptyDir: {}
+extraVolumeMounts: |
+  - name: keycloak-theme-dir
+    mountPath: /opt/bitnami/keycloak/themes

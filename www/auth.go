@@ -11,25 +11,25 @@ import (
 
 // Authenticator is used to authenticate our users.
 type Authenticator struct {
-	*oidc.Provider
-	oauth2.Config
+	Provider *oidc.Provider
+	Config   oauth2.Config
 }
 
 // NewAuthenticator instantiates the *Authenticator.
-func NewAuthenticator(ctx context.Context, auth0Domain, auth0ClientID, auth0ClientSecret, auth0CallbackURL string) (*Authenticator, error) {
+func NewAuthenticator(ctx context.Context, oidcIssuerURL, oidcClientID, oidcClientSecret, oidcRedirectURL string) (*Authenticator, error) {
 	provider, err := oidc.NewProvider(
 		ctx,
-		"https://"+auth0Domain,
+		oidcIssuerURL,
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create oidc provider")
 	}
 
 	conf := oauth2.Config{
-		ClientID:     auth0ClientID,
-		ClientSecret: auth0ClientSecret,
-		RedirectURL:  auth0CallbackURL,
+		ClientID:     oidcClientID,
+		ClientSecret: oidcClientSecret,
 		Endpoint:     provider.Endpoint(),
+		RedirectURL:  oidcRedirectURL,
 		Scopes:       []string{oidc.ScopeOpenID, "profile"},
 	}
 
@@ -47,10 +47,10 @@ func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) 
 	}
 
 	oidcConfig := &oidc.Config{
-		ClientID: a.ClientID,
+		ClientID: a.Config.ClientID,
 	}
 
-	idToken, err := a.Verifier(oidcConfig).Verify(ctx, rawIDToken)
+	idToken, err := a.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to verify ID token")
 	}

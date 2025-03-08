@@ -192,12 +192,13 @@ func run() error {
 	}
 
 	// WWW Auth
-	wwwAuth0Domain := env.MustGetString("WWW_AUTH0_DOMAIN")
-	wwwAuth0ClientID := env.MustGetString("WWW_AUTH0_CLIENT_ID")
-	wwwAuth0ClientSecret := env.MustGetString("WWW_AUTH0_CLIENT_SECRET")
-	wwwAuth0CallbackURL := env.MustGetString("WWW_AUTH0_CALLBACK_URL")
+	wwwOIDCIssuerURL := env.MustGetString("WWW_OIDC_ISSUER_URL")
+	wwwOIDCClientID := env.MustGetString("WWW_OIDC_CLIENT_ID")
+	wwwOIDCClientSecret := env.MustGetString("WWW_OIDC_CLIENT_SECRET")
+	wwwOIDCRedirectURL := env.MustGetString("WWW_OIDC_REDIRECT_URL")
+	wwwOIDCLogoutRedirectURL := env.MustGetString("WWW_OIDC_LOGOUT_REDIRECT_URL")
 
-	wwwAuth, err := www.NewAuthenticator(ctx, wwwAuth0Domain, wwwAuth0ClientID, wwwAuth0ClientSecret, wwwAuth0CallbackURL)
+	wwwAuth, err := www.NewAuthenticator(ctx, wwwOIDCIssuerURL, wwwOIDCClientID, wwwOIDCClientSecret, wwwOIDCRedirectURL)
 	if err != nil {
 		return errors.Wrap(err, "error initializing www authenticator")
 	}
@@ -210,8 +211,7 @@ func run() error {
 		string(env.Environment()),
 		cookieStore,
 		wwwAuth,
-		wwwAuth0Domain,
-		wwwAuth0ClientID,
+		wwwOIDCLogoutRedirectURL,
 		fileManagerSvc,
 		listingSvc,
 	)

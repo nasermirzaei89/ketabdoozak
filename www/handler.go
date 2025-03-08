@@ -11,12 +11,11 @@ import (
 	"github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 	"github.com/pkg/errors"
 	"net/http"
+	"net/url"
 )
 
 //go:embed static
 var static embed.FS
-
-const serviceName = "www"
 
 const sessionName = "www-session"
 
@@ -26,8 +25,7 @@ type Handler struct {
 	baseURL        templ.SafeURL
 	cookieStore    *sessions.CookieStore
 	auth           *Authenticator
-	auth0Domain    string
-	auth0ClientID  string
+	oidcLogoutURL  string
 	fileManagerSvc *filemanager.Service
 	listingSvc     *listing.Service
 }
@@ -37,19 +35,37 @@ func NewHandler(
 	env string,
 	cookieStore *sessions.CookieStore,
 	auth *Authenticator,
-	auth0Domain string,
-	auth0ClientID string,
+	oidcLogoutRedirectURL string,
 	fileManagerSvc *filemanager.Service,
 	listingSvc *listing.Service,
 ) (*Handler, error) {
+	var claims struct {
+		EndSessionEndpoint string `json:"end_session_endpoint"`
+	}
+
+	err := auth.Provider.Claims(&claims)
+	if err != nil {
+		return nil, errors.Wrap(err, "error getting auth provider claims")
+	}
+
+	logoutURL, err := url.Parse(claims.EndSessionEndpoint)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to parse logout url")
+	}
+
+	params := url.Values{}
+	params.Add("post_logout_redirect_uri", oidcLogoutRedirectURL)
+	params.Add("client_id", auth.Config.ClientID)
+
+	logoutURL.RawQuery = params.Encode()
+
 	h := &Handler{
 		mux:            http.NewServeMux(),
 		middlewares:    make([]func(http.Handler) http.Handler, 0),
 		baseURL:        templ.SafeURL(baseURL),
 		cookieStore:    cookieStore,
 		auth:           auth,
-		auth0Domain:    auth0Domain,
-		auth0ClientID:  auth0ClientID,
+		oidcLogoutURL:  logoutURL.String(),
 		fileManagerSvc: fileManagerSvc,
 		listingSvc:     listingSvc,
 	}

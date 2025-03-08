@@ -1,0 +1,9 @@
+image:
+  tag: "dev"
+  pullPolicy: Never
+
+fullnameOverride: "api-dev"
+
+env:
+  - name: ENV
+    value: "development"

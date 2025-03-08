@@ -31,7 +31,7 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			return
 		}
 
-		token, err := h.auth.Exchange(r.Context(), r.URL.Query().Get("code"))
+		token, err := h.auth.Config.Exchange(r.Context(), r.URL.Query().Get("code"))
 		if err != nil {
 			err = errors.Wrap(err, "failed to exchange token")
 
@@ -63,7 +63,6 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			return
 		}
 
-		session.Values["access_token"] = token.AccessToken
 		session.Values["profile"] = profile
 
 		err = session.Save(r, w)
