@@ -47,7 +47,7 @@ endif
 
 .PHONY: dev
 dev: ## Run dev mode
-	make -j4 air-run tailwindcss-watch templ-watch air-watch-static
+	make -j4 air-run tailwindcss-watch npm-watch templ-watch air-watch-static
 
 .PHONY: templ-generate
 templ-generate: ## Generate Templ Go files
@@ -81,6 +81,18 @@ tailwindcss-watch: .which-tailwindcss  ## Watch and build style.css
 tailwindcss-build: .which-tailwindcss ## Build style.css
 	$(TAILWINDCSS_CMD) --input $(ROOT)/www/assets/style.css --output $(ROOT)/www/static/style.css
 	$(TAILWINDCSS_CMD) --input $(ROOT)/www/assets/style.css --output $(ROOT)/www/static/style.min.css --minify
+
+.which-npm:
+	@which npm > /dev/null || (echo "Install NodeJS from https://nodejs.org/en/download" & exit 1)
+
+.PHONY: npm-watch
+npm-watch: .which-npm
+	npm --prefix ./www run watch
+
+.PHONY: npm-build
+npm-build: .which-npm
+	npm --prefix ./www run build
+	npm --prefix ./www run build:min
 
 .PHONY: air-watch-static
 air-watch-static:

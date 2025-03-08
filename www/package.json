@@ -1,0 +1,38 @@
+{
+  "name": "www",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "watch": "esbuild --bundle --watch --outfile=./static/scripts.js ./assets/scripts.ts",
+    "build": "esbuild --bundle --outfile=./static/scripts.js ./assets/scripts.ts",
+    "build:min": "esbuild --bundle --minify --outfile=./static/scripts.min.js ./assets/scripts.ts"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.9",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.0.9",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.11.5",
+    "@tiptap/extension-blockquote": "^2.11.5",
+    "@tiptap/extension-bold": "^2.11.5",
+    "@tiptap/extension-bullet-list": "^2.11.5",
+    "@tiptap/extension-code": "^2.11.5",
+    "@tiptap/extension-code-block": "^2.11.5",
+    "@tiptap/extension-document": "^2.11.5",
+    "@tiptap/extension-dropcursor": "^2.11.5",
+    "@tiptap/extension-gapcursor": "^2.11.5",
+    "@tiptap/extension-hard-break": "^2.11.5",
+    "@tiptap/extension-heading": "^2.11.5",
+    "@tiptap/extension-history": "^2.11.5",
+    "@tiptap/extension-horizontal-rule": "^2.11.5",
+    "@tiptap/extension-italic": "^2.11.5",
+    "@tiptap/extension-list-item": "^2.11.5",
+    "@tiptap/extension-ordered-list": "^2.11.5",
+    "@tiptap/extension-paragraph": "^2.11.5",
+    "@tiptap/extension-strike": "^2.11.5",
+    "@tiptap/extension-text": "^2.11.5",
+    "@tiptap/extension-underline": "^2.11.5"
+  }
+}
