@@ -7,3 +7,5 @@
 * Use Typescript
 * Write e2e tests
 * Submitting Status
+* Error response show
+* Add book access policy
