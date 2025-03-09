@@ -42,6 +42,7 @@ build: .which-go ## Build binary
 ifeq ($(IN_DOCKER),false)
 	make templ-generate
 	make tailwindcss-build
+	make npm-build
 endif
 	CGO_ENABLED=1 go build -v -o $(ROOT)/bin/$(APP_NAME) $(ROOT)
 

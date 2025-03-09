@@ -40,7 +40,7 @@ func NewHandler(
 	listingSvc *listing.Service,
 ) (*Handler, error) {
 	var claims struct {
-		EndSessionEndpoint string `json:"end_session_endpoint"`
+		EndSessionEndpoint string `json:"end_session_endpoint"` //nolint:tagliatelle
 	}
 
 	err := auth.Provider.Claims(&claims)
