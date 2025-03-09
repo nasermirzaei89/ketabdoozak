@@ -1,5 +1,11 @@
 # Ketabdoozak Book Sharing
 
+Ketabdoozak is a book sharing platform written in Golang.
+
+## Development
+
+To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
+
 ## TODO
 
 * Delete Thumbnail Url action

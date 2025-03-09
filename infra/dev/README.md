@@ -175,35 +175,10 @@ Visit jaeger: http://jaeger-query.jaeger:16686
 
 Visit minio: http://minio.minio:9001
 
-## Adding a User to the root group
+## Cleanup
 
-Get postgres password from
-
-```shell
-kubectl get secrets -n postgres postgres-postgresql -o jsonpath='{.data.postgres-password}' | base64 -d
-```
+To remove everything, run:
 
 ```shell
-kubectl exec -it -n postgres svc/postgres-postgresql -- bash
-psql -U postgres
-```
-
-Enter password
-
-After connecting to the db run:
-
-```
-\c ketabdoozak-db
-```
-
-Now run this query with desired user id:
-
-```postgresql
-INSERT INTO casbin_rules (p_type, v0, v1) VALUES ('g', '<USER_ID>', 'system:group:root');
-```
-
-Then restart the api to apply the added rule:
-
-```shell
-kubectl rollout restart deployment -n ketabdoozak api-dev
+kind delete cluster --name ketabdoozak-dev
 ```
