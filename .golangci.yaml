@@ -26,6 +26,8 @@ linters:
     - gosec
     - dupl
     - stylecheck
+    - maintidx
+    - interfacebloat
 issues:
   exclude-dirs:
     - tmp

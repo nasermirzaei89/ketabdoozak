@@ -54,6 +54,17 @@ func (repo *FileRepo) Get(ctx context.Context, filename string) (*filemanager.Fi
 	return &file, nil
 }
 
+func (repo *FileRepo) Delete(ctx context.Context, filename string) error {
+	q := squirrel.Delete(repo.table).Where(squirrel.Eq{"filename": filename})
+
+	_, err := q.RunWith(repo.db).PlaceholderFormat(squirrel.Dollar).ExecContext(ctx)
+	if err != nil {
+		return errors.Wrap(err, "query row failed")
+	}
+
+	return nil
+}
+
 var _ filemanager.FileRepository = (*FileRepo)(nil)
 
 func NewFileRepo(db *sql.DB) *FileRepo {

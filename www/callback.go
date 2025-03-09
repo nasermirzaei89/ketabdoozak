@@ -2,6 +2,7 @@ package www
 
 import (
 	"github.com/a-h/templ"
+	"github.com/nasermirzaei89/ketabdoozak/sharedcontext"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/pkg/errors"
 	"net/http"
@@ -75,6 +76,30 @@ func (h *Handler) callbackHandler() http.HandlerFunc {
 			return
 		}
 
+		err = h.addUserToAuthenticatedGroup(r)
+		if err != nil {
+			err = errors.Wrap(err, "failed to add user to authenticated group")
+
+			w.WriteHeader(http.StatusInternalServerError)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
+
+			return
+		}
+
 		http.Redirect(w, r, h.BaseURL(), http.StatusTemporaryRedirect)
 	}
+}
+
+func (h *Handler) addUserToAuthenticatedGroup(r *http.Request) error {
+	username, err := h.username(r)
+	if err != nil {
+		return errors.Wrap(err, "failed to get username")
+	}
+
+	err = h.authzSvc.AddToGroup(r.Context(), username, sharedcontext.Authenticated)
+	if err != nil {
+		return errors.Wrap(err, "failed to add user to authenticated group")
+	}
+
+	return nil
 }

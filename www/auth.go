@@ -67,38 +67,49 @@ func (h *Handler) isAuthenticated(r *http.Request) bool {
 	return session.Values["profile"] != nil
 }
 
-func (h *Handler) userName(r *http.Request) string {
+func (h *Handler) userFullName(r *http.Request) (string, error) {
 	session, err := h.cookieStore.Get(r, sessionName)
 	if err != nil {
-		panic(err)
+		return "", errors.Wrap(err, "failed to get session")
 	}
 
 	sessionProfile, ok := session.Values["profile"].(map[string]any)
 	if ok {
 		userName, ok := sessionProfile["name"].(string)
 		if ok {
-			return userName
+			return userName, nil
 		}
 	}
 
-	return ""
+	return "", nil
 }
 
-func (h *Handler) setRequestContextSubject(r *http.Request) (*http.Request, error) {
+func (h *Handler) username(r *http.Request) (string, error) {
 	session, err := h.cookieStore.Get(r, sessionName)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to get www session")
+		return "", errors.Wrap(err, "failed to get session")
 	}
 
 	sessionProfile, ok := session.Values["profile"].(map[string]any)
 	if ok {
 		username, ok := sessionProfile["preferred_username"].(string)
 		if ok {
-			r = r.WithContext(sharedcontext.WithSubject(r.Context(), username))
-		} else {
-			r = r.WithContext(sharedcontext.WithSubject(r.Context(), sharedcontext.Anonymous))
+			return username, nil
 		}
+
+		return "", errors.New("preferred_username not found in session")
 	}
+
+	return sharedcontext.Anonymous, nil
+}
+
+func (h *Handler) setRequestContextSubject(r *http.Request) (*http.Request, error) {
+	username, err := h.username(r)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get username")
+	}
+
+	r = r.WithContext(sharedcontext.WithSubject(r.Context(), username))
 
 	return r, nil
 }

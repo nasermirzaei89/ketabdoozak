@@ -16,4 +16,5 @@ type File struct {
 type FileRepository interface {
 	Insert(ctx context.Context, file *File) (err error)
 	Get(ctx context.Context, filename string) (file *File, err error)
+	Delete(ctx context.Context, filename string) (err error)
 }

@@ -17,11 +17,21 @@ func (h *Handler) newItemPageHandler() http.HandlerFunc {
 			return
 		}
 
+		userName, err := h.userFullName(r)
+		if err != nil {
+			err = errors.Wrap(err, "getting user name")
+
+			w.WriteHeader(http.StatusInternalServerError)
+			templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
+
+			return
+		}
+
 		item := &listing.Item{
 			ID:            "",
 			Title:         "",
 			OwnerID:       "",
-			OwnerName:     h.userName(r),
+			OwnerName:     userName,
 			LocationID:    "",
 			LocationTitle: "",
 			Types:         nil,

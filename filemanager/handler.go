@@ -2,9 +2,9 @@ package filemanager
 
 import (
 	"fmt"
-	"github.com/nasermirzaei89/ketabdoozak/authorization"
 	"github.com/nasermirzaei89/problem"
 	"github.com/nasermirzaei89/respond"
+	"github.com/nasermirzaei89/services/authorization"
 	"github.com/pkg/errors"
 	"net/http"
 )
@@ -13,12 +13,12 @@ const UploadKey = "file"
 
 type Handler struct {
 	mux            *http.ServeMux
-	fileManagerSvc *Service
+	fileManagerSvc Service
 }
 
 var _ http.Handler = (*Handler)(nil)
 
-func NewHandler(fileManagerSvc *Service) *Handler {
+func NewHandler(fileManagerSvc Service) *Handler {
 	h := &Handler{
 		mux:            http.NewServeMux(),
 		fileManagerSvc: fileManagerSvc,
@@ -32,6 +32,7 @@ func NewHandler(fileManagerSvc *Service) *Handler {
 func (h *Handler) RegisterRoutes() {
 	h.mux.Handle("POST /upload", UploadFileHandler(h.fileManagerSvc))
 	h.mux.Handle("GET /files/{filename}", DownloadFileHandler(h.fileManagerSvc))
+	h.mux.Handle("DELETE /files/{filename}", DeleteFileHandler(h.fileManagerSvc))
 }
 
 func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +47,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 //	@Accept		multipart/form-data
 //	@Param		file	formData	file	true	"File key"
 //	@Router		/filemanager/upload [post]
-func UploadFileHandler(fileManagerSvc *Service) http.Handler {
+func UploadFileHandler(fileManagerSvc Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		formFile, header, err := r.FormFile(UploadKey)
 		if err != nil {
@@ -85,7 +86,7 @@ func UploadFileHandler(fileManagerSvc *Service) http.Handler {
 //	@Security	OAuth2Implicit
 //	@Param		filename	path	string	true	"Filename"
 //	@Router		/filemanager/files/{filename} [get]
-func DownloadFileHandler(fileManagerSvc *Service) http.Handler {
+func DownloadFileHandler(fileManagerSvc Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		filename := r.PathValue("filename")
 
@@ -109,5 +110,39 @@ func DownloadFileHandler(fileManagerSvc *Service) http.Handler {
 		}
 
 		http.Redirect(w, r, u, http.StatusTemporaryRedirect)
+	})
+}
+
+// DeleteFileHandler
+//
+//	@Summary	Delete a file
+//	@Tags		filemanager
+//	@Security	OAuth2Implicit
+//	@Param		filename	path	string	true	"Filename"
+//	@Router		/filemanager/files/{filename} [delete]
+func DeleteFileHandler(fileManagerSvc Service) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		filename := r.PathValue("filename")
+
+		err := fileManagerSvc.DeleteFile(r.Context(), filename)
+		if err != nil {
+			var (
+				accessDeniedError           authorization.AccessDeniedError
+				fileByFilenameNotFoundError FileByFilenameNotFoundError
+			)
+
+			switch {
+			case errors.As(err, &accessDeniedError):
+				respond.Done(w, r, problem.Forbidden(err.Error()))
+			case errors.As(err, &fileByFilenameNotFoundError):
+				respond.Done(w, r, problem.NotFound(fmt.Sprintf("file with filename '%s' does not exist", filename)))
+			default:
+				respond.Done(w, r, problem.InternalServerError(errors.Wrap(err, "error on download file")))
+			}
+
+			return
+		}
+
+		respond.Done(w, r, nil)
 	})
 }

@@ -12,10 +12,10 @@ const (
 	GroupRoot = "system:group:root"
 )
 
-type ContextKeySubject struct{}
+type contextKeySubject struct{}
 
 func GetSubject(ctx context.Context) string {
-	userID, ok := ctx.Value(ContextKeySubject{}).(string)
+	userID, ok := ctx.Value(contextKeySubject{}).(string)
 	if !ok {
 		return Anonymous
 	}
@@ -24,7 +24,7 @@ func GetSubject(ctx context.Context) string {
 }
 
 func WithSubject(ctx context.Context, userID string) context.Context {
-	return context.WithValue(ctx, ContextKeySubject{}, userID)
+	return context.WithValue(ctx, contextKeySubject{}, userID)
 }
 
 func WithServiceSubject(ctx context.Context, serviceName string) context.Context {

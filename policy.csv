@@ -1,0 +1,14 @@
+g, system:anonymous, system:unauthenticated
+
+p, system:group:root, *, *, *
+
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/filemanager, -, uploadFile
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/filemanager, *, getPublicFileUrl
+p, system:unauthenticated, github.com/nasermirzaei89/ketabdoozak/filemanager, *, getPublicFileUrl
+
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/listing, -, listPublishedItems
+p, system:unauthenticated, github.com/nasermirzaei89/ketabdoozak/listing, -, listPublishedItems
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/listing, -, listMyItems
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/listing, *, getPublishedItem
+p, system:unauthenticated, github.com/nasermirzaei89/ketabdoozak/listing, *, getPublishedItem
+p, system:authenticated, github.com/nasermirzaei89/ketabdoozak/listing, -, createItem

@@ -9,6 +9,7 @@ import (
 	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+	"github.com/nasermirzaei89/services/authorization"
 	"github.com/pkg/errors"
 	"net/http"
 	"net/url"
@@ -26,8 +27,9 @@ type Handler struct {
 	cookieStore    *sessions.CookieStore
 	auth           *Authenticator
 	oidcLogoutURL  string
-	fileManagerSvc *filemanager.Service
-	listingSvc     *listing.Service
+	authzSvc       *authorization.Service
+	fileManagerSvc filemanager.Service
+	listingSvc     listing.Service
 }
 
 func NewHandler(
@@ -36,8 +38,9 @@ func NewHandler(
 	cookieStore *sessions.CookieStore,
 	auth *Authenticator,
 	oidcLogoutRedirectURL string,
-	fileManagerSvc *filemanager.Service,
-	listingSvc *listing.Service,
+	authzSvc *authorization.Service,
+	fileManagerSvc filemanager.Service,
+	listingSvc listing.Service,
 ) (*Handler, error) {
 	var claims struct {
 		EndSessionEndpoint string `json:"end_session_endpoint"` //nolint:tagliatelle
@@ -66,6 +69,7 @@ func NewHandler(
 		cookieStore:    cookieStore,
 		auth:           auth,
 		oidcLogoutURL:  logoutURL.String(),
+		authzSvc:       authzSvc,
 		fileManagerSvc: fileManagerSvc,
 		listingSvc:     listingSvc,
 	}

@@ -62,9 +62,6 @@ func (svc *Service) AuthenticateMiddleware() func(http.Handler) http.Handler {
 				return
 			}
 
-			// TODO: security issue?
-			span.SetAttributes(attribute.String("authHeader", authHeader))
-
 			// Extract the token from "Bearer <token>"
 			tokenParts := strings.Split(authHeader, " ")
 			if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {

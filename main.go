@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	_ "embed"
 	goerrors "errors"
 	"github.com/gorilla/sessions"
 	_ "github.com/joho/godotenv/autoload"
@@ -9,7 +10,6 @@ import (
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/nasermirzaei89/env"
 	"github.com/nasermirzaei89/ketabdoozak/authentication"
-	"github.com/nasermirzaei89/ketabdoozak/authorization"
 	"github.com/nasermirzaei89/ketabdoozak/db/postgres"
 	_ "github.com/nasermirzaei89/ketabdoozak/docs"
 	"github.com/nasermirzaei89/ketabdoozak/filemanager"
@@ -19,6 +19,7 @@ import (
 	"github.com/nasermirzaei89/problem"
 	problemoutput "github.com/nasermirzaei89/problem/output"
 	"github.com/nasermirzaei89/services/api"
+	"github.com/nasermirzaei89/services/authorization"
 	"github.com/nasermirzaei89/services/swagger"
 	"github.com/pkg/errors"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
@@ -43,6 +44,9 @@ import (
 //
 //	@securityDefinitions.oauth2.implicit	OAuth2Implicit
 //	@authorizationUrl						https://auth.applicaset.com/realms/ketabdoozak/protocol/openid-connect/auth
+
+//go:embed policy.csv
+var casbinPolicyContent string
 
 func main() {
 	if err := run(); err != nil {
@@ -146,6 +150,14 @@ func run() error {
 
 	// Authorization Service
 	authzSvc, err := authorization.NewService(sqlDB)
+	if err != nil {
+		return errors.Wrap(err, "failed to initialize authz service")
+	}
+
+	err = authzSvc.AddPolicyFromCSV(ctx, casbinPolicyContent)
+	if err != nil {
+		return errors.Wrap(err, "failed to add policy")
+	}
 
 	// File Manager Service
 	fileManagerMinioBucketName := env.GetString("FILE_MANAGER_MINIO_BUCKET_NAME", "files")
@@ -168,7 +180,9 @@ func run() error {
 
 	fileRepo := postgres.NewFileRepo(sqlDB)
 
-	fileManagerSvc := filemanager.NewService(authzSvc, minioClient, fileManagerMinioBucketName, fileRepo)
+	var fileManagerSvc filemanager.Service
+	fileManagerSvc = filemanager.NewService(minioClient, fileManagerMinioBucketName, fileRepo)
+	fileManagerSvc = filemanager.NewAuthorizationMiddleware(fileManagerSvc, authzSvc)
 
 	fileManagerHandler := filemanager.NewHandler(fileManagerSvc)
 
@@ -176,7 +190,9 @@ func run() error {
 	listingLocation := postgres.NewListingLocationRepo(sqlDB)
 	listingItemRepo := postgres.NewListingItemRepo(sqlDB)
 
-	listingSvc := listing.NewService(listingLocation, listingItemRepo, validate)
+	var listingSvc listing.Service
+	listingSvc = listing.NewService(listingLocation, listingItemRepo, validate)
+	listingSvc = listing.NewAuthorizationMiddleware(listingSvc, authzSvc)
 
 	// Cookie Store
 	key := env.GetString("STORE_KEY", "super-secret-key")
@@ -212,6 +228,7 @@ func run() error {
 		cookieStore,
 		wwwAuth,
 		wwwOIDCLogoutRedirectURL,
+		authzSvc,
 		fileManagerSvc,
 		listingSvc,
 	)

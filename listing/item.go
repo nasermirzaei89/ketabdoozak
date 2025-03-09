@@ -59,6 +59,12 @@ type Item struct {
 	PublishedAt   *time.Time
 }
 
+type ListItemsRequest struct {
+	Query   string
+	OwnerID string
+	Status  ItemStatus
+}
+
 type ItemRepository interface {
 	List(ctx context.Context, req *ListItemsRequest) (items []*Item, err error)
 	Get(ctx context.Context, itemID string) (item *Item, err error)

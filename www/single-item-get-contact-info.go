@@ -11,9 +11,9 @@ func (h *Handler) singleItemGetContactInfoHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		itemID := r.PathValue("itemId")
 
-		item, err := h.listingSvc.GetItem(r.Context(), itemID)
+		item, err := h.listingSvc.GetPublishedItem(r.Context(), itemID)
 		if err != nil {
-			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
+			err = errors.Wrapf(err, "failed to get published item with id '%s'", itemID)
 
 			w.WriteHeader(http.StatusInternalServerError)
 			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
