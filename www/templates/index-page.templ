@@ -8,9 +8,9 @@ templ IndexPage(items []*listing.Item, q string) {
 		<div class="container mx-auto py-4 gap-4">
 			@components.SearchBar(q)
 			if q == "" {
-				@components.BookGrid("تازه‌ترین کتاب‌ها", items, templ.NopComponent)
+				@components.BookGrid("تازه‌ترین کتاب‌ها", items, templ.NopComponent, false)
 			} else {
-				@components.BookGrid("نتایج جستجو برای «"+q+"»", items, templ.NopComponent)
+				@components.BookGrid("نتایج جستجو برای «"+q+"»", items, templ.NopComponent, false)
 			}
 		</div>
 	</main>

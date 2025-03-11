@@ -127,7 +127,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location) {
 						<div class="flex flex-col gap-1">
 							<div class="text-xl font-semibold">تصویر کتاب</div>
 							<img
-								src={ item.ThumbnailURL }
+								src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") }
 								id="thumbnailPreview"
 								alt=""
 								class="rounded-sm aspect-square w-full bg-gray-500"

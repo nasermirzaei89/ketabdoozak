@@ -28,6 +28,7 @@ linters:
     - stylecheck
     - maintidx
     - interfacebloat
+    - nestif
 issues:
   exclude-dirs:
     - tmp

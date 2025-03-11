@@ -41,7 +41,7 @@ templ HTML(children templ.Component, head Head) {
 
 templ pageHeader() {
 	<header class="shadow-md sticky top-0 bg-white">
-		<div class="container mx-auto px-4 h-16 flex justify-between items-center" hx-boost="true">
+		<div class="container mx-auto px-4 h-16 flex justify-between items-center">
 			<a href={ GetBaseURL(ctx) } class="font-bold text-xl inline-flex items-center">
 				@components.HeaderLogo()
 				کتابدوزک
@@ -52,14 +52,14 @@ templ pageHeader() {
 						@icons.MdiBookshelf(6)
 						کتاب‌های من
 					</a>
-					<a href={ GetURL(ctx, "/logout") } class="as-button variant-text size-md" hx-boost="false">
+					<a href={ GetURL(ctx, "/logout") } class="as-button variant-text size-md">
 						<span class="hidden sm:inline">
 							خروج
 						</span>
 						@icons.MdiLogout(6)
 					</a>
 				} else {
-					<a href={ GetURL(ctx, "/login") } class="as-button variant-filled is-primary size-md" hx-boost="false">
+					<a href={ GetURL(ctx, "/login") } class="as-button variant-filled is-primary size-md">
 						@icons.MdiLogin(6)
 						ورود
 					</a>
@@ -72,7 +72,7 @@ templ pageHeader() {
 templ pageFooter() {
 	<footer class="border-t border-gray-300">
 		<div class="container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between">
-			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center" hx-boost="true">
+			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center">
 				<a href={ GetURL(ctx, "/about-us") } class="as-button variant-text size-md">درباره ما</a>
 				<a href="https://github.com/nasermirzaei89/ketabdoozak" target="_blank" class="as-button variant-text size-md">
 					@icons.MdiGithub(6)

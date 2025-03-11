@@ -10,9 +10,9 @@ templ UserItemsPage(items []*listing.Item, q string) {
 		<div class="container mx-auto py-4 gap-4">
 			@components.SearchBar(q)
 			if q == "" {
-				@components.BookGrid("کتاب‌های من", items, UserItemsGridActions())
+				@components.BookGrid("کتاب‌های من", items, UserItemsGridActions(), true)
 			} else {
-				@components.BookGrid("نتایج جستجو برای «"+q+"» در کتاب‌های من", items, UserItemsGridActions())
+				@components.BookGrid("نتایج جستجو برای «"+q+"» در کتاب‌های من", items, UserItemsGridActions(), true)
 			}
 		</div>
 	</main>
