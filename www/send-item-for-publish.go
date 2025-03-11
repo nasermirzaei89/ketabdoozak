@@ -11,8 +11,7 @@ import (
 func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
-			w.WriteHeader(http.StatusForbidden)
-			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+			sendErrorMessage(w, r, "Access forbidden", http.StatusForbidden)
 
 			return
 		}
@@ -23,8 +22,7 @@ func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 		if err != nil {
 			err = errors.Wrapf(err, "failed to send item with id '%s' for publish", itemID)
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}
@@ -39,8 +37,7 @@ func (h *Handler) sendItemForPublishHandler() http.HandlerFunc {
 
 			err = errors.Wrapf(err, "failed to get item with id '%s'", itemID)
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}

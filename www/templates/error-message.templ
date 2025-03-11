@@ -1,5 +1,18 @@
 package templates
 
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+
 templ ErrorMessage(message string) {
-	<div class="rounded-md bg-red-600 text-white px-4 py-2 mt-4">{ message }</div>
+	<div class="static" x-data x-ref="target" x-init="setTimeout(() => $refs.target.remove(), 5000)">
+		<div class="absolute bottom-0 w-full">
+			<div class="container mx-auto my-4 flex flex-row gap-4 rounded-md bg-red-600 text-white px-4 py-2">
+				<div class="grow" dir="auto">{ message }</div>
+				<div class="shrink">
+					<div role="button" tabindex="0" class="cursor-pointer" @click="$refs.target.remove()" @keydown.enter="$refs.target.remove()">
+						@icons.MdiClose(6)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 }

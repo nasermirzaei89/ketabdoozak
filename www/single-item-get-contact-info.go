@@ -15,8 +15,7 @@ func (h *Handler) singleItemGetContactInfoHandler() http.HandlerFunc {
 		if err != nil {
 			err = errors.Wrapf(err, "failed to get published item with id '%s'", itemID)
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}

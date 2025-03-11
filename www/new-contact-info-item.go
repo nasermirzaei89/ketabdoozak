@@ -9,8 +9,7 @@ import (
 func (h *Handler) newContactInfoItemHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
-			w.WriteHeader(http.StatusForbidden)
-			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+			sendErrorMessage(w, r, "Access forbidden", http.StatusForbidden)
 
 			return
 		}

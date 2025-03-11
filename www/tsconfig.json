@@ -2,7 +2,8 @@
   "compilerOptions": {
     "target": "ES2024",
     "allowJs": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "allowSyntheticDefaultImports": true
   },
   "include": ["./**/*"],
 }

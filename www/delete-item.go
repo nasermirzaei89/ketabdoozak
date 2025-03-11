@@ -1,8 +1,6 @@
 package www
 
 import (
-	"github.com/a-h/templ"
-	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/nasermirzaei89/respond"
 	"github.com/pkg/errors"
 	"net/http"
@@ -11,8 +9,7 @@ import (
 func (h *Handler) deleteItemHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
-			w.WriteHeader(http.StatusForbidden)
-			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+			sendErrorMessage(w, r, "Access forbidden", http.StatusForbidden)
 
 			return
 		}
@@ -23,8 +20,7 @@ func (h *Handler) deleteItemHandler() http.HandlerFunc {
 		if err != nil {
 			err = errors.Wrapf(err, "failed to delete item with id '%s'", itemID)
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}

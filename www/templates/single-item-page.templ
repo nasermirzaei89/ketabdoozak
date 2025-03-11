@@ -48,6 +48,7 @@ templ SingleItemPage(item *listing.Item) {
 							hx-get={ string(GetItemContactInfoURL(ctx, item.ID)) }
 							hx-target="body"
 							hx-swap="beforeend"
+							disabled?={ item.Status != listing.ItemStatusPublished }
 						>
 							@icons.MdiPhone(6)
 							دریافت اطلاعات تماس

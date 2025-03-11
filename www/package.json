@@ -3,17 +3,20 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "watch": "esbuild --bundle --watch --outfile=./static/scripts.js ./assets/scripts.ts",
-    "build": "esbuild --bundle --outfile=./static/scripts.js ./assets/scripts.ts",
-    "build:min": "esbuild --bundle --minify --outfile=./static/scripts.min.js ./assets/scripts.ts"
+    "watch": "esbuild --bundle --watch --outfile=./static/scripts.js --loader:.woff=file --loader:.woff2=file ./assets/scripts.ts",
+    "build": "esbuild --bundle --outfile=./static/scripts.js --loader:.woff=file --loader:.woff2=file ./assets/scripts.ts",
+    "build:min": "esbuild --bundle --minify --sourcemap --outfile=./static/scripts.min.js --loader:.woff=file --loader:.woff2=file ./assets/scripts.ts"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.0.9",
+    "@types/alpinejs": "^3.13.11",
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.0.9",
     "typescript": "^5.8.2"
   },
   "dependencies": {
+    "@fontsource/roboto": "^5.2.5",
+    "@fontsource/vazirmatn": "^5.2.5",
     "@tiptap/core": "^2.11.5",
     "@tiptap/extension-blockquote": "^2.11.5",
     "@tiptap/extension-bold": "^2.11.5",
@@ -33,6 +36,9 @@
     "@tiptap/extension-paragraph": "^2.11.5",
     "@tiptap/extension-strike": "^2.11.5",
     "@tiptap/extension-text": "^2.11.5",
-    "@tiptap/extension-underline": "^2.11.5"
+    "@tiptap/extension-underline": "^2.11.5",
+    "alpinejs": "^3.14.8",
+    "htmx-ext-response-targets": "^2.0.3",
+    "htmx.org": "^2.0.4"
   }
 }

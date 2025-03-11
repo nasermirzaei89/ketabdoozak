@@ -1,5 +1,4 @@
 # Ignore generated files
-scripts.js
-scripts.min.js
-style.css
-style.min.css
+*
+!.gitignore
+!favicon.ico

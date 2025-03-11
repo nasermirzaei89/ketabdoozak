@@ -14,8 +14,7 @@ import (
 func (h *Handler) createItemHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
-			w.WriteHeader(http.StatusForbidden)
-			templ.Handler(templates.ErrorMessage("Access forbidden")).ServeHTTP(w, r)
+			sendErrorMessage(w, r, "Access forbidden", http.StatusForbidden)
 
 			return
 		}
@@ -24,8 +23,7 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 		if err != nil {
 			err := errors.Wrap(err, "failed to parse form")
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}
@@ -34,8 +32,7 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 		//if err != nil {
 		//	err := errors.Wrap(err, "failed to populate create item request from post form")
 		//
-		//	w.WriteHeader(http.StatusBadRequest)
-		//	templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+		//	sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 		//
 		//	return
 		//}
@@ -44,8 +41,7 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 		if err != nil {
 			err = errors.Wrap(err, "failed to create item")
 
-			w.WriteHeader(http.StatusInternalServerError)
-			templ.Handler(templates.ErrorMessage(err.Error())).ServeHTTP(w, r)
+			sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
 
 			return
 		}

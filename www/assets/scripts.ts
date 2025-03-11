@@ -18,7 +18,16 @@ import Strike from '@tiptap/extension-strike'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Gapcursor from '@tiptap/extension-gapcursor'
 import History from '@tiptap/extension-history'
+import htmx from "htmx.org";
+import "htmx-ext-response-targets";
+import Alpine from "alpinejs";
+import "@fontsource/vazirmatn";
+// import "@fontsource/roboto";
 
+window.htmx = htmx;
+window.Alpine = Alpine
+
+Alpine.start()
 function chooseThumbnailUrl() {
     const fileInput = document.createElement("input");
     fileInput.type = "file"
