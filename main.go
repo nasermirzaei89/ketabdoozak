@@ -6,8 +6,6 @@ import (
 	goerrors "errors"
 	"github.com/gorilla/sessions"
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/nasermirzaei89/env"
 	"github.com/nasermirzaei89/ketabdoozak/authentication"
 	"github.com/nasermirzaei89/ketabdoozak/db/postgres"
@@ -29,6 +27,8 @@ import (
 	"go.opentelemetry.io/otel/sdk/log"
 	"go.opentelemetry.io/otel/sdk/metric"
 	"go.opentelemetry.io/otel/sdk/trace"
+	"gocloud.dev/blob"
+	_ "gocloud.dev/blob/s3blob"
 	golog "log"
 	"net"
 	"net/http"
@@ -106,20 +106,6 @@ func run() error {
 	// TODO: set otel logger
 	problem.SetLogger(problemoutput.New())
 
-	// Minio
-	minioEndpoint := env.GetString("MINIO_ENDPOINT", "localhost:9000")
-	minioUsername := env.MustGetString("MINIO_USERNAME")
-	minioPassword := env.MustGetString("MINIO_PASSWORD")
-	minioUseSSL := env.GetBool("MINIO_USE_SSL", false)
-
-	minioClient, err := minio.New(minioEndpoint, &minio.Options{
-		Creds:  credentials.NewStaticV4(minioUsername, minioPassword, ""),
-		Secure: minioUseSSL,
-	})
-	if err != nil {
-		return errors.Wrap(err, "error creating minio client")
-	}
-
 	// Database
 	dbDSN := env.MustGetString("DATABASE_DSN")
 
@@ -160,28 +146,28 @@ func run() error {
 	}
 
 	// File Manager Service
-	fileManagerMinioBucketName := env.GetString("FILE_MANAGER_MINIO_BUCKET_NAME", "files")
-
-	exists, err := minioClient.BucketExists(ctx, fileManagerMinioBucketName)
+	fileManagerFilesBucket, err := blob.OpenBucket(ctx, env.MustGetString("FILE_MANAGER_FILES_BUCKET_URL"))
 	if err != nil {
-		return errors.Wrap(err, "error checking if minio bucket exists")
+		return errors.Wrap(err, "failed to initialize file manager bucket")
 	}
 
-	if !exists {
-		if env.GetBool("FILE_MANAGER_MINIO_BUCKET_CREATE_IF_NOT_EXISTS", false) {
-			err = minioClient.MakeBucket(ctx, fileManagerMinioBucketName, minio.MakeBucketOptions{})
-			if err != nil {
-				return errors.Wrap(err, "error creating minio bucket")
-			}
-		} else {
-			return errors.Errorf("minio bucket does not exist: %s", fileManagerMinioBucketName)
-		}
+	isAccessible, err := fileManagerFilesBucket.IsAccessible(ctx)
+	if err != nil {
+		return errors.Wrap(err, "failed to check if file manager is accessible")
 	}
+
+	if !isAccessible {
+		return errors.New("file manager is not accessible")
+	}
+
+	defer func() {
+		err = goerrors.Join(err, fileManagerFilesBucket.Close())
+	}()
 
 	fileRepo := postgres.NewFileRepo(sqlDB)
 
 	var fileManagerSvc filemanager.Service
-	fileManagerSvc = filemanager.NewService(minioClient, fileManagerMinioBucketName, fileRepo)
+	fileManagerSvc = filemanager.NewService(fileManagerFilesBucket, fileRepo)
 	fileManagerSvc = filemanager.NewAuthorizationMiddleware(fileManagerSvc, authzSvc)
 
 	fileManagerHandler := filemanager.NewHandler(fileManagerSvc)

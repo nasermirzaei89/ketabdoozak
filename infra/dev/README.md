@@ -56,8 +56,8 @@ helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgre
 ```shell
 helm upgrade --install minio oci://registry-1.docker.io/bitnamicharts/minio \
   --namespace minio --create-namespace \
-  --set auth.rootUser=$MINIO_USERNAME \
-  --set auth.rootPassword=$MINIO_PASSWORD \
+  --set auth.rootUser=$AWS_ACCESS_KEY_ID \
+  --set auth.rootPassword=$AWS_SECRET_ACCESS_KEY \
   --version 14.10.3
 ```
 
@@ -109,17 +109,14 @@ kubectl create secret generic cookie --namespace ketabdoozak \
 
 ```shell
 kubectl create secret generic minio --namespace ketabdoozak \
-  --from-literal=endpoint=minio.minio:9000 \
-  --from-literal=username=$MINIO_USERNAME \
-  --from-literal=password=$MINIO_PASSWORD \
-  --from-literal=useSSL=$MINIO_USE_SSL \
+  --from-literal=username=$AWS_ACCESS_KEY_ID \
+  --from-literal=password=$AWS_ACCESS_KEY_ID \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 ```shell
 kubectl create secret generic file-manager --namespace ketabdoozak \
-  --from-literal=FILE_MANAGER_MINIO_BUCKET_NAME=$FILE_MANAGER_MINIO_BUCKET_NAME \
-  --from-literal=FILE_MANAGER_MINIO_BUCKET_CREATE_IF_NOT_EXISTS=$FILE_MANAGER_MINIO_BUCKET_CREATE_IF_NOT_EXISTS \
+  --from-literal=FILE_MANAGER_FILES_BUCKET_URL=$FILE_MANAGER_FILES_BUCKET_URL \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 

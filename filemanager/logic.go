@@ -2,9 +2,9 @@ package filemanager
 
 import (
 	"context"
-	"github.com/minio/minio-go/v7"
 	"github.com/pkg/errors"
 	"go.opentelemetry.io/otel/trace"
+	"gocloud.dev/blob"
 	"io"
 	"log/slog"
 	"path"
@@ -16,26 +16,24 @@ import (
 const DefaultExpirationDuration = time.Hour * 24
 
 type BaseService struct {
-	minioClient     *minio.Client
-	minioBucketName string
-	fileRepo        FileRepository
-	logger          *slog.Logger
-	tracer          trace.Tracer
+	filesBucket *blob.Bucket
+	fileRepo    FileRepository
+	logger      *slog.Logger
+	tracer      trace.Tracer
 }
 
 var _ Service = (*BaseService)(nil)
 
-func NewService(minioClient *minio.Client, minioBucketName string, fileRepo FileRepository) *BaseService {
+func NewService(filesBucket *blob.Bucket, fileRepo FileRepository) *BaseService {
 	return &BaseService{
-		minioClient:     minioClient,
-		minioBucketName: minioBucketName,
-		fileRepo:        fileRepo,
-		logger:          defaultLogger,
-		tracer:          defaultTracer,
+		filesBucket: filesBucket,
+		fileRepo:    fileRepo,
+		logger:      defaultLogger,
+		tracer:      defaultTracer,
 	}
 }
 
-func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader io.Reader, fileSize int64, contentType string) (*File, error) {
+func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader io.Reader, contentType string) (*File, error) {
 	filename = strings.ToLower(filename)
 
 	var uniqueFilename string
@@ -48,25 +46,36 @@ func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader 
 			uniqueFilename = filename[0:len(filename)-len(ext)] + "-" + strconv.Itoa(i) + ext
 		}
 
-		_, err := svc.minioClient.StatObject(ctx, svc.minioBucketName, uniqueFilename, minio.GetObjectOptions{})
+		exists, err := svc.filesBucket.Exists(ctx, uniqueFilename)
 		if err != nil {
-			var minioErr minio.ErrorResponse
-			if errors.As(err, &minioErr) && minioErr.Code == "NoSuchKey" {
-				break
-			}
-
 			return nil, errors.Wrap(err, "failed to check if file exists")
+		}
+
+		if !exists {
+			break
 		}
 	}
 
-	info, err := svc.minioClient.PutObject(ctx, svc.minioBucketName, uniqueFilename, reader, fileSize, minio.PutObjectOptions{})
+	w, err := svc.filesBucket.NewWriter(ctx, uniqueFilename, nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to put object to minio storage")
+		return nil, errors.Wrap(err, "failed to create file writer")
+	}
+
+	defer func() {
+		err := w.Close()
+		if err != nil {
+			svc.logger.Warn("failed to close file writer", slog.String("filename", uniqueFilename), slog.String("error", err.Error()))
+		}
+	}()
+
+	fileSize, err := w.ReadFrom(reader)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to read file")
 	}
 
 	file := &File{
 		Filename:    uniqueFilename,
-		Size:        info.Size,
+		Size:        fileSize,
 		ContentType: contentType,
 		CreatedAt:   time.Now(),
 		UpdatedAt:   time.Now(),
@@ -81,17 +90,23 @@ func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader 
 }
 
 func (svc *BaseService) GetPublicFileURL(ctx context.Context, filename string) (string, error) {
-	file, err := svc.fileRepo.Get(ctx, filename)
+	_, err := svc.fileRepo.Get(ctx, filename)
 	if err != nil {
 		return "", errors.Wrap(err, "failed to get file from repo")
 	}
 
-	u, err := svc.minioClient.PresignedGetObject(ctx, svc.minioBucketName, file.Filename, DefaultExpirationDuration, nil)
+	signedURL, err := svc.filesBucket.SignedURL(ctx, filename, &blob.SignedURLOptions{
+		Expiry:                   DefaultExpirationDuration,
+		Method:                   "",
+		ContentType:              "", // must be empty
+		EnforceAbsentContentType: false,
+		BeforeSign:               nil,
+	})
 	if err != nil {
-		return "", errors.Wrap(err, "failed to presigned get object from minio")
+		return "", errors.Wrap(err, "failed to get file signed url")
 	}
 
-	return u.String(), nil
+	return signedURL, nil
 }
 
 func (svc *BaseService) DeleteFile(ctx context.Context, filename string) error {
@@ -105,16 +120,9 @@ func (svc *BaseService) DeleteFile(ctx context.Context, filename string) error {
 		return errors.Wrap(err, "failed to delete file from repo")
 	}
 
-	opts := minio.RemoveObjectOptions{
-		ForceDelete:      false,
-		GovernanceBypass: false,
-		VersionID:        "",
-		Internal:         minio.AdvancedRemoveOptions{},
-	}
-
-	err = svc.minioClient.RemoveObject(ctx, svc.minioBucketName, file.Filename, opts)
+	err = svc.filesBucket.Delete(ctx, file.Filename)
 	if err != nil {
-		return errors.Wrap(err, "failed to presigned get object from minio")
+		return errors.Wrap(err, "failed to delete file from files bucket")
 	}
 
 	return nil

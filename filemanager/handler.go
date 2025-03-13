@@ -61,7 +61,7 @@ func UploadFileHandler(fileManagerSvc Service) http.Handler {
 
 		defer func() { _ = formFile.Close() }()
 
-		file, err := fileManagerSvc.UploadFile(r.Context(), header.Filename, formFile, header.Size, header.Header.Get("Content-Type"))
+		file, err := fileManagerSvc.UploadFile(r.Context(), header.Filename, formFile, header.Header.Get("Content-Type"))
 		if err != nil {
 			var accessDeniedError authorization.AccessDeniedError
 

@@ -46,26 +46,18 @@ spec:
                 secretKeyRef:
                   key: storeKey
                   name: cookie
-            - name: MINIO_ENDPOINT
-              valueFrom:
-                secretKeyRef:
-                  key: endpoint
-                  name: minio
-            - name: MINIO_USERNAME
+            - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
                   key: username
                   name: minio
-            - name: MINIO_PASSWORD
+            - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
                   key: password
                   name: minio
-            - name: MINIO_USE_SSL
-              valueFrom:
-                secretKeyRef:
-                  key: useSSL
-                  name: minio
+            - name: AWS_REGION
+              value: "us-east-1"
             - name: DATABASE_DSN
               valueFrom:
                 secretKeyRef:
