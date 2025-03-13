@@ -237,7 +237,7 @@ func run() error {
 	addr := env.GetString("HOST", "0.0.0.0") + ":" + env.GetString("PORT", "8080")
 
 	// HTTP Server
-	sever := http.Server{
+	server := http.Server{
 		Addr:                         addr,
 		Handler:                      h,
 		DisableGeneralOptionsHandler: false,
@@ -258,7 +258,7 @@ func run() error {
 	go func() {
 		logger.InfoContext(ctx, "Listening on http://"+addr)
 
-		serverErr <- sever.ListenAndServe()
+		serverErr <- server.ListenAndServe()
 	}()
 
 	// Wait for interruption.
@@ -270,7 +270,7 @@ func run() error {
 	}
 
 	// When Shutdown is called, ListenAndServe immediately returns ErrServerClosed.
-	err = sever.Shutdown(context.Background())
+	err = server.Shutdown(context.Background())
 	if err != nil {
 		return errors.Wrap(err, "error shutting down server")
 	}
