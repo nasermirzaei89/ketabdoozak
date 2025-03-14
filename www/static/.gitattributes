@@ -1,0 +1,6 @@
+# Diff on these files are meaningless
+scripts.min.css -diff
+scripts.min.css.map -diff
+scripts.min.js -diff
+scripts.min.js.map -diff
+style.min.css -diff

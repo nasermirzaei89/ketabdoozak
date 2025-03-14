@@ -1,0 +1,56 @@
+info:
+  contact: {}
+  description: This is ketabdoozak api doc
+  termsOfService: http://swagger.io/terms/
+  title: Ketabdoozak
+  version: "1.0"
+paths:
+  /filemanager/files/{filename}:
+    delete:
+      parameters:
+      - description: Filename
+        in: path
+        name: filename
+        required: true
+        type: string
+      responses: {}
+      security:
+      - OAuth2Implicit: []
+      summary: Delete a file
+      tags:
+      - filemanager
+    get:
+      parameters:
+      - description: Filename
+        in: path
+        name: filename
+        required: true
+        type: string
+      responses: {}
+      security:
+      - OAuth2Implicit: []
+      summary: Download a file
+      tags:
+      - filemanager
+  /filemanager/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File key
+        in: formData
+        name: file
+        required: true
+        type: file
+      responses: {}
+      security:
+      - OAuth2Implicit: []
+      summary: Upload a file
+      tags:
+      - filemanager
+securityDefinitions:
+  OAuth2Implicit:
+    authorizationUrl: https://auth.applicaset.com/realms/ketabdoozak/protocol/openid-connect/auth
+    flow: implicit
+    type: oauth2
+swagger: "2.0"
