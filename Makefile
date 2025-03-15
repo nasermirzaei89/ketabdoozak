@@ -16,6 +16,13 @@ ifeq ($(OS_NAME),darwin)
     OS_NAME := macos
 endif
 
+ifeq ($(OS_ARCH),x86_64)
+    OS_ARCH := x64
+endif
+ifeq ($(OS_ARCH),aarch64)
+    OS_ARCH := arm64
+endif
+
 SWAG_CMD=go tool swag
 GOLANGCI_LINT_CMD=go tool golangci-lint
 AIR_CMD=go tool air
