@@ -15,6 +15,9 @@ type Authenticator struct {
 	Config   oauth2.Config
 }
 
+const keySessionID = "sessionID"
+const keyState = "state"
+
 // NewAuthenticator instantiates the *Authenticator.
 func NewAuthenticator(ctx context.Context, oidcIssuerURL, oidcClientID, oidcClientSecret, oidcRedirectURL string) (*Authenticator, error) {
 	provider, err := oidc.NewProvider(
@@ -50,7 +53,7 @@ func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) 
 		ClientID: a.Config.ClientID,
 	}
 
-	idToken, err := a.Provider.Verifier(oidcConfig).Verify(ctx, rawIDToken)
+	idToken, err := a.Provider.VerifierContext(ctx, oidcConfig).Verify(ctx, rawIDToken)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to verify ID token")
 	}
@@ -58,46 +61,100 @@ func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) 
 	return idToken, nil
 }
 
-func (h *Handler) isAuthenticated(r *http.Request) bool {
+func (h *Handler) sessionID(r *http.Request) string {
 	session, err := h.cookieStore.Get(r, sessionName)
 	if err != nil {
 		panic(err)
 	}
 
-	return session.Values["profile"] != nil
+	sessionID, ok := session.Values[keySessionID].(string)
+	if !ok {
+		return ""
+	}
+
+	return sessionID
+}
+
+var ErrNoSessionID = errors.New("no session ID found")
+
+func (h *Handler) session(r *http.Request) (*Session, error) {
+	sessionID := h.sessionID(r)
+	if sessionID == "" {
+		return nil, ErrNoSessionID
+	}
+
+	session, err := h.sessionRepo.Get(r.Context(), sessionID)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get session")
+	}
+
+	return session, nil
+}
+
+func (h *Handler) isAuthenticated(r *http.Request) bool {
+	_, err := h.session(r)
+
+	return err == nil
+}
+
+func (h *Handler) userInfo(r *http.Request) (*oidc.UserInfo, error) {
+	session, err := h.session(r)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get session")
+	}
+
+	token := &oauth2.Token{
+		AccessToken:  session.AccessToken,
+		TokenType:    session.TokenType,
+		RefreshToken: session.RefreshToken,
+		Expiry:       session.Expiry,
+		ExpiresIn:    session.ExpiresIn,
+	}
+
+	userInfo, err := h.auth.Provider.UserInfo(r.Context(), oauth2.StaticTokenSource(token))
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get user info")
+	}
+
+	return userInfo, nil
 }
 
 func (h *Handler) userFullName(r *http.Request) (string, error) {
-	session, err := h.cookieStore.Get(r, sessionName)
+	userInfo, err := h.userInfo(r)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to get session")
+		return "", errors.Wrap(err, "failed to get user info")
 	}
 
-	sessionProfile, ok := session.Values["profile"].(map[string]any)
-	if ok {
-		userName, ok := sessionProfile["name"].(string)
-		if ok {
-			return userName, nil
-		}
+	var claims struct {
+		Name string `json:"name"`
 	}
 
-	return "", nil
+	err = userInfo.Claims(&claims)
+	if err != nil {
+		return "", errors.Wrap(err, "failed to get user info claims")
+	}
+
+	return claims.Name, nil
 }
 
 func (h *Handler) username(r *http.Request) (string, error) {
-	session, err := h.cookieStore.Get(r, sessionName)
+	userInfo, err := h.userInfo(r)
 	if err != nil {
-		return "", errors.Wrap(err, "failed to get session")
-	}
+		if !errors.Is(err, ErrNoSessionID) && !errors.As(err, &SessionNotFoundError{}) {
+			return "", errors.Wrap(err, "failed to get user info")
+		}
+	} else {
+		var claims map[string]any
 
-	sessionProfile, ok := session.Values["profile"].(map[string]any)
-	if ok {
-		username, ok := sessionProfile["preferred_username"].(string)
+		err = userInfo.Claims(&claims)
+		if err != nil {
+			return "", errors.Wrap(err, "failed to get user info claims")
+		}
+
+		username, ok := claims["preferred_username"].(string)
 		if ok {
 			return username, nil
 		}
-
-		return "", errors.New("preferred_username not found in session")
 	}
 
 	return sharedcontext.Anonymous, nil

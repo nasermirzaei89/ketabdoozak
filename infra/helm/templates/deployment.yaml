@@ -41,11 +41,6 @@ spec:
               value: "0.0.0.0"
             - name: PORT
               value: "80"
-            - name: STORE_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: storeKey
-                  name: cookie
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -63,6 +58,21 @@ spec:
                 secretKeyRef:
                   key: dsn
                   name: database
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  key: url
+                  name: redis
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: redis
+            - name: REDIS_DB
+              valueFrom:
+                secretKeyRef:
+                  key: db
+                  name: redis
             {{- if .Values.extraEnvVars }}
               {{- toYaml .Values.extraEnvVars | nindent 12 }}
             {{- end }}

@@ -31,7 +31,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			return
 		}
 
-		session.Values["state"] = state
+		session.Values[keyState] = state
 
 		err = session.Save(r, w)
 		if err != nil {
@@ -43,7 +43,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			return
 		}
 
-		http.Redirect(w, r, h.auth.Config.AuthCodeURL(state), http.StatusTemporaryRedirect)
+		http.Redirect(w, r, h.auth.Config.AuthCodeURL(state), http.StatusFound)
 	}
 }
 

@@ -19,7 +19,7 @@ func (h *Handler) logoutHandler() http.HandlerFunc {
 			return
 		}
 
-		delete(session.Values, "profile")
+		delete(session.Values, keySessionID)
 
 		err = session.Save(r, w)
 		if err != nil {

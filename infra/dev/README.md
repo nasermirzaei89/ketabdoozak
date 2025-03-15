@@ -51,6 +51,16 @@ helm upgrade --install postgres oci://registry-1.docker.io/bitnamicharts/postgre
   --version 16.4.3
 ```
 
+## Run Redis
+
+```shell
+helm upgrade --install redis oci://registry-1.docker.io/bitnamicharts/redis \
+  --namespace redis --create-namespace \
+  --set auth.password=$REDIS_PASSWORD \
+  --set architecture=standalone \
+  --version 20.11.3
+```
+
 ## Run Minio
 
 ```shell
@@ -92,18 +102,13 @@ kubectl create secret generic authentication \
 
 ```shell
 kubectl create secret generic www \
+  --from-literal=WWW_COOKIE_STORE_KEY=$WWW_COOKIE_STORE_KEY \
   --from-literal=WWW_OIDC_ISSUER_URL=http://keycloak.keycloak/realms/ketabdoozak \
   --from-literal=WWW_OIDC_CLIENT_ID=www \
   --from-literal=WWW_OIDC_CLIENT_SECRET=$WWW_OIDC_CLIENT_SECRET \
   --from-literal=WWW_OIDC_REDIRECT_URL=http://api-dev.ketabdoozak/www/callback \
   --from-literal=WWW_OIDC_LOGOUT_REDIRECT_URL=http://api-dev.ketabdoozak \
   --namespace ketabdoozak \
-  --dry-run=client -o yaml | kubectl apply -f -
-```
-
-```shell
-kubectl create secret generic cookie --namespace ketabdoozak \
-  --from-literal=storeKey=$STORE_KEY \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
@@ -123,6 +128,14 @@ kubectl create secret generic file-manager --namespace ketabdoozak \
 ```shell
 kubectl create secret generic database --namespace ketabdoozak \
   --from-literal=dsn=$DATABASE_DSN \
+  --dry-run=client -o yaml | kubectl apply -f -
+```
+
+```shell
+kubectl create secret generic redis --namespace ketabdoozak \
+  --from-literal=url=redis-master.redis:6379 \
+  --from-literal=password=$REDIS_PASSWORD \
+  --from-literal=db=$REDIS_DB \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 

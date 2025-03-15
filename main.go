@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	_ "embed"
+	"encoding/gob"
 	goerrors "errors"
 	"github.com/gorilla/sessions"
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/nasermirzaei89/env"
 	"github.com/nasermirzaei89/ketabdoozak/authentication"
 	"github.com/nasermirzaei89/ketabdoozak/db/postgres"
+	dbredis "github.com/nasermirzaei89/ketabdoozak/db/redis"
 	_ "github.com/nasermirzaei89/ketabdoozak/docs"
 	"github.com/nasermirzaei89/ketabdoozak/filemanager"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
@@ -20,6 +22,7 @@ import (
 	"github.com/nasermirzaei89/services/authorization"
 	"github.com/nasermirzaei89/services/swagger"
 	"github.com/pkg/errors"
+	"github.com/redis/go-redis/v9"
 	"go.opentelemetry.io/contrib/bridges/otelslog"
 	"go.opentelemetry.io/contrib/exporters/autoexport"
 	"go.opentelemetry.io/otel"
@@ -29,6 +32,7 @@ import (
 	"go.opentelemetry.io/otel/sdk/trace"
 	"gocloud.dev/blob"
 	_ "gocloud.dev/blob/s3blob"
+	"golang.org/x/oauth2"
 	golog "log"
 	"net"
 	"net/http"
@@ -106,6 +110,15 @@ func run() error {
 	// TODO: set otel logger
 	problem.SetLogger(problemoutput.New())
 
+	// Redis
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     env.GetString("REDIS_URL", "localhost:6379"),
+		Password: env.GetString("REDIS_PASSWORD", ""),
+		DB:       env.GetInt("REDIS_DB", 0),
+	})
+
+	defer func() { err = goerrors.Join(err, rdb.Close()) }()
+
 	// Database
 	dbDSN := env.MustGetString("DATABASE_DSN")
 
@@ -181,17 +194,20 @@ func run() error {
 	listingSvc = listing.NewAuthorizationMiddleware(listingSvc, authzSvc)
 
 	// Cookie Store
-	key := env.GetString("STORE_KEY", "super-secret-key")
-	cookieStore := sessions.NewCookieStore([]byte(key))
-	cookieStore.Options = &sessions.Options{
-		Path:        "/",
+	key := env.GetString("WWW_COOKIE_STORE_KEY", "super-secret-key")
+	wwwCookieStore := sessions.NewCookieStore([]byte(key))
+	wwwCookieStore.Options = &sessions.Options{
+		Path:        "/www/",
 		Domain:      "",
 		MaxAge:      0,
-		Secure:      false,
-		HttpOnly:    false,
-		Partitioned: false,
-		SameSite:    0,
+		Secure:      true,
+		HttpOnly:    true,
+		Partitioned: true,
+		SameSite:    http.SameSiteLaxMode,
 	}
+
+	// For secure cookie
+	gob.Register(&oauth2.Token{})
 
 	// WWW Auth
 	wwwOIDCIssuerURL := env.MustGetString("WWW_OIDC_ISSUER_URL")
@@ -208,10 +224,13 @@ func run() error {
 	// WWW Handler
 	wwwBaseURL := "/www/"
 
+	sessionRepo := dbredis.NewSessionRepo(rdb)
+
 	wwwHandler, err := www.NewHandler(
 		wwwBaseURL,
 		string(env.Environment()),
-		cookieStore,
+		wwwCookieStore,
+		sessionRepo,
 		wwwAuth,
 		wwwOIDCLogoutRedirectURL,
 		authzSvc,

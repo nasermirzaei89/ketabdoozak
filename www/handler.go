@@ -25,6 +25,7 @@ type Handler struct {
 	middlewares    []func(http.Handler) http.Handler
 	baseURL        templ.SafeURL
 	cookieStore    *sessions.CookieStore
+	sessionRepo    SessionRepository
 	auth           *Authenticator
 	oidcLogoutURL  string
 	authzSvc       *authorization.Service
@@ -36,6 +37,7 @@ func NewHandler(
 	baseURL string,
 	env string,
 	cookieStore *sessions.CookieStore,
+	sessionRepo SessionRepository,
 	auth *Authenticator,
 	oidcLogoutRedirectURL string,
 	authzSvc *authorization.Service,
@@ -67,6 +69,7 @@ func NewHandler(
 		middlewares:    make([]func(http.Handler) http.Handler, 0),
 		baseURL:        templ.SafeURL(baseURL),
 		cookieStore:    cookieStore,
+		sessionRepo:    sessionRepo,
 		auth:           auth,
 		oidcLogoutURL:  logoutURL.String(),
 		authzSvc:       authzSvc,
@@ -83,15 +86,17 @@ func NewHandler(
 		},
 		func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyIsAuthenticated, h.isAuthenticated(r)))
+				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyEnv, env))
 				next.ServeHTTP(w, r)
 			})
 		},
 		func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyIsAuthenticated, h.isAuthenticated(r)))
+
 				r, err := h.setRequestContextSubject(r)
 				if err != nil {
-					err = errors.Wrap(err, "failed to set request context subject")
+					err := errors.Wrap(err, "failed to set request context subject")
 
 					w.WriteHeader(http.StatusInternalServerError)
 					templ.Handler(templates.HTML(templates.ErrorPage(err), templates.ErrorHead())).ServeHTTP(w, r)
@@ -99,12 +104,6 @@ func NewHandler(
 					return
 				}
 
-				next.ServeHTTP(w, r)
-			})
-		},
-		func(next http.Handler) http.Handler {
-			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyEnv, env))
 				next.ServeHTTP(w, r)
 			})
 		},

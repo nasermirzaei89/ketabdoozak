@@ -17,3 +17,4 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * Check error on save empty item
 * Remove content type from upload
 * Add gocloud server
+* Make dev env lighter
