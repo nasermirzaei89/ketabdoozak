@@ -5,3 +5,8 @@ updates:
     directory: /
     schedule:
       interval: daily
+  - package-ecosystem: npm
+    directory: /www
+    schedule:
+      interval: daily
+    versioning-strategy: 'increase-if-necessary'
