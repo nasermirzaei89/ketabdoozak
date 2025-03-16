@@ -12,6 +12,7 @@ kind create cluster --name ketabdoozak-dev --image kindest/node:v1.32.0
 
 ```shell
 make tailwindcss-build
+make npm-install
 make npm-build
 make templ-generate
 make generate-docs

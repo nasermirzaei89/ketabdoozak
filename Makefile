@@ -93,6 +93,10 @@ tailwindcss-build: .which-tailwindcss ## Build style.css
 .which-npm:
 	@which npm > /dev/null || (echo "Install NodeJS from https://nodejs.org/en/download" & exit 1)
 
+.PHONY: npm-install
+npm-install: .which-npm
+	npm --prefix ./www install
+
 .PHONY: npm-watch
 npm-watch: .which-npm
 	npm --prefix ./www run watch
