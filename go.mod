@@ -20,7 +20,7 @@ require (
 	github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695
 	github.com/nasermirzaei89/services v0.0.0-20250309193642-ecb8d70e076d
 	github.com/pkg/errors v0.9.1
-	github.com/redis/go-redis/v9 v9.7.1
+	github.com/redis/go-redis/v9 v9.7.3
 	github.com/swaggo/swag/v2 v2.0.0-rc4
 	go.opentelemetry.io/contrib/bridges/otelslog v0.10.0
 	go.opentelemetry.io/contrib/exporters/autoexport v0.60.0
