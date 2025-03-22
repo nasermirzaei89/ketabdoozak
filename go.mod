@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/XSAM/otelsql v0.37.0
-	github.com/a-h/templ v0.3.833
+	github.com/a-h/templ v0.3.850
 	github.com/coreos/go-oidc v2.3.0+incompatible
 	github.com/coreos/go-oidc/v3 v3.13.0
 	github.com/go-playground/validator/v10 v10.25.0
@@ -20,7 +20,7 @@ require (
 	github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695
 	github.com/nasermirzaei89/services v0.0.0-20250309193642-ecb8d70e076d
 	github.com/pkg/errors v0.9.1
-	github.com/redis/go-redis/v9 v9.7.1
+	github.com/redis/go-redis/v9 v9.7.3
 	github.com/swaggo/swag/v2 v2.0.0-rc4
 	go.opentelemetry.io/contrib/bridges/otelslog v0.10.0
 	go.opentelemetry.io/contrib/exporters/autoexport v0.60.0
@@ -52,7 +52,6 @@ require (
 	github.com/Masterminds/semver/v3 v3.3.0 // indirect
 	github.com/NYTimes/gziphandler v1.1.1 // indirect
 	github.com/OpenPeeDeeP/depguard/v2 v2.2.0 // indirect
-	github.com/PuerkitoBio/goquery v1.10.1 // indirect
 	github.com/a-h/parse v0.0.0-20250122154542-74294addb73e // indirect
 	github.com/air-verse/air v1.61.7 // indirect
 	github.com/alecthomas/go-check-sumtype v0.3.1 // indirect
@@ -61,7 +60,6 @@ require (
 	github.com/alingse/asasalint v0.0.11 // indirect
 	github.com/alingse/nilnesserr v0.1.2 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
-	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/ashanbrown/forbidigo v1.6.0 // indirect
 	github.com/ashanbrown/makezero v1.2.0 // indirect
 	github.com/aws/aws-sdk-go v1.55.5 // indirect
