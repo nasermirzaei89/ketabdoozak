@@ -116,7 +116,7 @@ kubectl create secret generic www \
 ```shell
 kubectl create secret generic minio --namespace ketabdoozak \
   --from-literal=username=$AWS_ACCESS_KEY_ID \
-  --from-literal=password=$AWS_ACCESS_KEY_ID \
+  --from-literal=password=$AWS_SECRET_ACCESS_KEY \
   --dry-run=client -o yaml | kubectl apply -f -
 ```
 
