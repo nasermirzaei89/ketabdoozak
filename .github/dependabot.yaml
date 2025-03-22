@@ -10,3 +10,7 @@ updates:
     schedule:
       interval: daily
     versioning-strategy: 'increase-if-necessary'
+  - package-ecosystem: terraform
+    directory: /infra/staging
+    schedule:
+      interval: daily
