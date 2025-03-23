@@ -92,6 +92,8 @@ func (repo *ListingItemRepo) List(ctx context.Context, req *listing.ListItemsReq
 		}
 	}
 
+	q = q.OrderBy("published_at DESC")
+
 	rows, err := q.RunWith(repo.db).PlaceholderFormat(squirrel.Dollar).QueryContext(ctx)
 	if err != nil {
 		return nil, errors.Wrap(err, "query failed")

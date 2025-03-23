@@ -37,7 +37,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location, csrfField te
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><form class=\"flex flex-col gap-4 px-2 sm:px-0\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<main><div class=\"container mx-auto py-4\"><form class=\"flex flex-col gap-4 px-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -233,7 +233,7 @@ func pageHeader() templ.Component {
 			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<header class=\"shadow-md sticky top-0 bg-white\"><div class=\"container mx-auto px-4 h-16 flex justify-between items-center\"><a href=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<header class=\"shadow-md sticky top-0 bg-white z-10\"><div class=\"container mx-auto px-4 h-16 flex justify-between items-center\"><a href=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

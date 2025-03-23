@@ -571,8 +571,17 @@
   .isolate {
     isolation: isolate;
   }
+  .-z-50 {
+    z-index: calc(50 * -1);
+  }
   .z-4 {
     z-index: 4;
+  }
+  .z-10 {
+    z-index: 10;
+  }
+  .z-50 {
+    z-index: 50;
   }
   .order-last {
     order: 9999;
@@ -600,6 +609,9 @@
   }
   .m-1 {
     margin: calc(var(--spacing) * 1);
+  }
+  .m-5 {
+    margin: calc(var(--spacing) * 5);
   }
   .mx-auto {
     margin-inline: auto;
@@ -1101,6 +1113,12 @@
   }
   .min-h-screen {
     min-height: 100vh;
+  }
+  .w-2 {
+    width: calc(var(--spacing) * 2);
+  }
+  .w-2\! {
+    width: calc(var(--spacing) * 2) !important;
   }
   .w-full {
     width: 100%;

@@ -24,3 +24,7 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * check iss in id token (The issuer (iss) matches the IdP)
 * The audience (aud) matches the client ID (api)
 * support POST on /auth/logout
+* Sort by published at desc
+* Add pagination
+* Fix messages position
+* 
