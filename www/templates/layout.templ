@@ -47,14 +47,14 @@ templ pageHeader() {
 						@icons.MdiBookshelf(6)
 						کتاب‌های من
 					</a>
-					<a href={ GetURL(ctx, "/logout") } class="as-button variant-text size-md">
+					<a href={ GetURL(ctx, "/auth/logout") } class="as-button variant-text size-md">
 						<span class="hidden sm:inline">
 							خروج
 						</span>
 						@icons.MdiLogout(6)
 					</a>
 				} else {
-					<a href={ GetURL(ctx, "/login") } class="as-button variant-filled is-primary size-md">
+					<a href={ GetURL(ctx, "/auth/login") } class="as-button variant-filled is-primary size-md">
 						@icons.MdiLogin(6)
 						ورود
 					</a>

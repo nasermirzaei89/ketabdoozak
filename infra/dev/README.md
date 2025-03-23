@@ -108,7 +108,7 @@ kubectl create secret generic www \
   --from-literal=WWW_OIDC_ISSUER_URL=http://keycloak.keycloak/realms/ketabdoozak \
   --from-literal=WWW_OIDC_CLIENT_ID=www \
   --from-literal=WWW_OIDC_CLIENT_SECRET=$WWW_OIDC_CLIENT_SECRET \
-  --from-literal=WWW_OIDC_REDIRECT_URL=http://api-dev.ketabdoozak/www/callback \
+  --from-literal=WWW_OIDC_REDIRECT_URL=http://api-dev.ketabdoozak/www/auth/callback \
   --from-literal=WWW_OIDC_LOGOUT_REDIRECT_URL=http://api-dev.ketabdoozak \
   --namespace ketabdoozak \
   --dry-run=client -o yaml | kubectl apply -f -

@@ -12,9 +12,10 @@ func (h *Handler) registerRoutes() {
 	staticServer := http.FileServerFS(static)
 	h.mux.Handle("GET /static/", staticServer)
 
-	h.mux.Handle("GET /login", h.loginHandler())
-	h.mux.Handle("GET /logout", h.logoutHandler())
-	h.mux.Handle("GET /callback", h.callbackHandler())
+	h.mux.Handle("GET /auth/login", h.loginHandler())
+	h.mux.Handle("GET /auth/logout", h.logoutHandler())
+	h.mux.Handle("POST /auth/logout", h.logoutHandler())
+	h.mux.Handle("GET /auth/callback", h.callbackHandler())
 
 	h.mux.Handle("GET /", h.indexPageHandler())
 

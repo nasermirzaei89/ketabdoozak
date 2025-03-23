@@ -3,6 +3,7 @@ package www
 import (
 	"github.com/a-h/templ"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
+	"github.com/nasermirzaei89/respond"
 	"github.com/pkg/errors"
 	"net/http"
 )
@@ -31,6 +32,11 @@ func (h *Handler) logoutHandler() http.HandlerFunc {
 			return
 		}
 
-		http.Redirect(w, r, h.oidcLogoutURL, http.StatusTemporaryRedirect)
+		switch r.Method {
+		case http.MethodGet:
+			http.Redirect(w, r, h.oidcLogoutURL, http.StatusTemporaryRedirect)
+		case http.MethodPost:
+			respond.Done(w, r, nil)
+		}
 	}
 }
