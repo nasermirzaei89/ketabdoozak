@@ -1,3 +1,17 @@
+definitions:
+  filemanager.File:
+    properties:
+      contentType:
+        type: string
+      createdAt:
+        type: string
+      filename:
+        type: string
+      size:
+        type: integer
+      updatedAt:
+        type: string
+    type: object
 info:
   contact: {}
   description: This is ketabdoozak api doc
@@ -13,7 +27,9 @@ paths:
         name: filename
         required: true
         type: string
-      responses: {}
+      responses:
+        "204":
+          description: No Content
       security:
       - OAuth2Implicit: []
       summary: Delete a file
@@ -26,7 +42,9 @@ paths:
         name: filename
         required: true
         type: string
-      responses: {}
+      responses:
+        "307":
+          description: Temporary Redirect
       security:
       - OAuth2Implicit: []
       summary: Download a file
@@ -42,7 +60,11 @@ paths:
         name: file
         required: true
         type: file
-      responses: {}
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/filemanager.File'
       security:
       - OAuth2Implicit: []
       summary: Upload a file

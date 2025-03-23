@@ -46,6 +46,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 //	@Security	OAuth2Implicit
 //	@Accept		multipart/form-data
 //	@Param		file	formData	file	true	"File key"
+//	@Success	200		{object}	File
 //	@Router		/filemanager/upload [post]
 func UploadFileHandler(fileManagerSvc Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -85,6 +86,7 @@ func UploadFileHandler(fileManagerSvc Service) http.Handler {
 //	@Tags		filemanager
 //	@Security	OAuth2Implicit
 //	@Param		filename	path	string	true	"Filename"
+//	@Success	307
 //	@Router		/filemanager/files/{filename} [get]
 func DownloadFileHandler(fileManagerSvc Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -119,6 +121,7 @@ func DownloadFileHandler(fileManagerSvc Service) http.Handler {
 //	@Tags		filemanager
 //	@Security	OAuth2Implicit
 //	@Param		filename	path	string	true	"Filename"
+//	@Success	204
 //	@Router		/filemanager/files/{filename} [delete]
 func DeleteFileHandler(fileManagerSvc Service) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
