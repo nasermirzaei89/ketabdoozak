@@ -20,7 +20,7 @@ require (
 	github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d
 	github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18
 	github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695
-	github.com/nasermirzaei89/services v0.0.0-20250309193642-ecb8d70e076d
+	github.com/nasermirzaei89/services v0.0.0-20250323234909-3228e4a13ca8
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/swaggo/swag/v2 v2.0.0-rc4
