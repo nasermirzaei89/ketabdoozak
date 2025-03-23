@@ -14,6 +14,7 @@ require (
 	github.com/gosimple/slug v1.15.0
 	github.com/joho/godotenv v1.5.1
 	github.com/lib/pq v1.10.9
+	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/nasermirzaei89/env v1.6.0
 	github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d
 	github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18
@@ -82,6 +83,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.26.4 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.30.3 // indirect
 	github.com/aws/smithy-go v1.20.3 // indirect
+	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bep/godartsass v1.2.0 // indirect
 	github.com/bep/godartsass/v2 v2.1.0 // indirect
@@ -157,6 +159,7 @@ require (
 	github.com/google/wire v0.6.0 // indirect
 	github.com/googleapis/gax-go/v2 v2.14.1 // indirect
 	github.com/gordonklaus/ineffassign v0.1.0 // indirect
+	github.com/gorilla/css v1.0.1 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/gostaticanalysis/analysisutil v0.7.1 // indirect

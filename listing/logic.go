@@ -4,10 +4,12 @@ import (
 	"context"
 	"github.com/go-playground/validator/v10"
 	"github.com/gosimple/slug"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/nasermirzaei89/ketabdoozak/sharedcontext"
 	"github.com/pkg/errors"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
+	"html/template"
 	"log/slog"
 	"slices"
 	"time"
@@ -17,6 +19,7 @@ type BaseService struct {
 	locationRepo LocationRepository
 	itemRepo     ItemRepository
 	validate     *validator.Validate
+	htmlPolicy   *bluemonday.Policy
 	logger       *slog.Logger
 	tracer       trace.Tracer
 }
@@ -28,6 +31,7 @@ func NewService(locationRepo LocationRepository, itemRepo ItemRepository, valida
 		locationRepo: locationRepo,
 		itemRepo:     itemRepo,
 		validate:     validate,
+		htmlPolicy:   bluemonday.UGCPolicy(),
 		logger:       defaultLogger,
 		tracer:       defaultTracer,
 	}
@@ -277,6 +281,8 @@ func (svc *BaseService) CreateItem(ctx context.Context, req *CreateItemRequest) 
 		return nil, errors.Wrap(err, "error on get location")
 	}
 
+	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description)))
+
 	timeNow := time.Now()
 
 	item := &Item{
@@ -337,6 +343,9 @@ func (svc *BaseService) UpdateItem(ctx context.Context, itemID string, req *Upda
 
 	item.Types = req.Types
 	item.ContactInfo = req.ContactInfo
+
+	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description)))
+
 	item.Description = req.Description
 	item.Lent = req.Lent
 	item.ThumbnailURL = req.ThumbnailURL
