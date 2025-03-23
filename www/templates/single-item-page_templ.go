@@ -42,13 +42,13 @@ func SingleItemPage(item *listing.Item) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 14, Col: 102}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 15, Col: 98}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"rounded-sm aspect-square w-full bg-gray-500\" alt=\"\"> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"rounded-sm aspect-square w-full bg-gray-500 object-contain\" alt=\"\"> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -95,7 +95,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(item.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 30, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 34, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -112,7 +112,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(item.OwnerName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 34, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 38, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -129,7 +129,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(item.LocationTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 38, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 42, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -152,7 +152,7 @@ func SingleItemPage(item *listing.Item) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetItemContactInfoURL(ctx, item.ID)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 48, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 52, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -242,7 +242,7 @@ func OwnerItemActions(item *listing.Item) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetItemSendForPublishURL(ctx, item.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 74, Col: 59}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 78, Col: 59}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -269,7 +269,7 @@ func OwnerItemActions(item *listing.Item) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetItemPublishURL(ctx, item.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 85, Col: 52}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 89, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -296,7 +296,7 @@ func OwnerItemActions(item *listing.Item) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetItemArchiveURL(ctx, item.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 96, Col: 52}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 100, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -323,7 +323,7 @@ func OwnerItemActions(item *listing.Item) templ.Component {
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetItemURL(ctx, item.ID)))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 107, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 111, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -411,7 +411,7 @@ func ItemStatusText(status listing.ItemStatus) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(string(status))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 133, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/single-item-page.templ`, Line: 137, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {

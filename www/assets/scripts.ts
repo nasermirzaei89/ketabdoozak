@@ -40,6 +40,9 @@ function chooseThumbnailUrl() {
         const formData = new FormData();
         formData.append("file", file);
 
+        const csrfTokenValue = (document.getElementsByName("gorilla.csrf.Token")[0] as HTMLInputElement).value;
+        formData.append("gorilla.csrf.Token", csrfTokenValue);
+
         try {
             const response = await fetch("/www/upload-item-thumbnail", {
                 method: "POST",

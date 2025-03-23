@@ -139,20 +139,20 @@ func BookGridItem(item *listing.Item, isPreview bool) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 51, Col: 99}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 52, Col: 95}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"rounded-sm aspect-square w-full bg-gray-500\" alt=\"\"><div class=\"line-clamp-2 grow\" dir=\"auto\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" class=\"rounded-sm aspect-square w-full bg-gray-500 object-contain\" alt=\"\"><div class=\"line-clamp-2 grow\" dir=\"auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(item.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 52, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 56, Col: 56}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -169,7 +169,7 @@ func BookGridItem(item *listing.Item, isPreview bool) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(item.LocationTitle)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 55, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 59, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -331,7 +331,7 @@ func ItemStatusText(status listing.ItemStatus) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(string(status))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 102, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/components/book-grid.templ`, Line: 106, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

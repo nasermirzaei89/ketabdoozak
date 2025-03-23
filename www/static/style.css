@@ -1232,6 +1232,9 @@
   .bg-white {
     background-color: var(--color-white);
   }
+  .object-contain {
+    object-fit: contain;
+  }
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }

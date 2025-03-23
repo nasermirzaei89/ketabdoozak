@@ -11,7 +11,11 @@ templ SingleItemPage(item *listing.Item) {
 		<div class="container mx-auto py-4">
 			<article class="grid grid-rows-2 sm:grid-rows-1 sm:grid-cols-[300px_1fr] h-full gap-4">
 				<div class="flex flex-col gap-4 px-2 sm:px-0">
-					<img src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") } class="rounded-sm aspect-square w-full bg-gray-500" alt=""/>
+					<img
+						src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") }
+						class="rounded-sm aspect-square w-full bg-gray-500 object-contain"
+						alt=""
+					/>
 					if item.Lent {
 						<p>در حال حاضر این کتاب به امانت برده شده است.</p>
 					}

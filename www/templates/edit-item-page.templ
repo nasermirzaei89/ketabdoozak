@@ -132,7 +132,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField 
 								src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") }
 								id="thumbnailPreview"
 								alt=""
-								class="rounded-sm aspect-square w-full bg-gray-500"
+								class="rounded-sm aspect-square w-full bg-gray-500 object-contain"
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
 							<div class="flex flex-row gap-2 justify-center">

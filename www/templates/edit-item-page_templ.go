@@ -323,7 +323,7 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500 object-contain\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

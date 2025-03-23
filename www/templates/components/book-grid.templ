@@ -48,7 +48,11 @@ templ BookGridItem(item *listing.Item, isPreview bool) {
 	}
 	}}
 	<a href={ itemURL } class="flex flex-col gap-2 p-2 rounded-md border border-gray-300 shadow-xs relative">
-		<img src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") } class="rounded-sm aspect-square w-full bg-gray-500" alt=""/>
+		<img
+			src={ StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail") }
+			class="rounded-sm aspect-square w-full bg-gray-500 object-contain"
+			alt=""
+		/>
 		<div class="line-clamp-2 grow" dir="auto">{ item.Title }</div>
 		<div class="inline-flex items-center gap-1 text-sm text-gray-700">
 			@icons.MdiMapMarker(5)
