@@ -104,6 +104,7 @@ kubectl create secret generic authentication \
 ```shell
 kubectl create secret generic www \
   --from-literal=WWW_COOKIE_STORE_KEY=$WWW_COOKIE_STORE_KEY \
+  --from-literal=WWW_CSRF_AUTH_KEY=$WWW_CSRF_AUTH_KEY \
   --from-literal=WWW_OIDC_ISSUER_URL=http://keycloak.keycloak/realms/ketabdoozak \
   --from-literal=WWW_OIDC_CLIENT_ID=www \
   --from-literal=WWW_OIDC_CLIENT_SECRET=$WWW_OIDC_CLIENT_SECRET \

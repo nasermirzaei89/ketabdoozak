@@ -22,7 +22,6 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * Delete session on logout
 * CSRF token
 * SameSite=Strict
-* Use github.com/gorilla/csrf
 * check iss in id token (The issuer (iss) matches the IdP)
 * The audience (aud) matches the client ID (api)
 * support POST on /auth/logout

@@ -4,6 +4,7 @@ import (
 	"context"
 	"embed"
 	"github.com/a-h/templ"
+	"github.com/gorilla/csrf"
 	"github.com/gorilla/sessions"
 	"github.com/nasermirzaei89/ketabdoozak/filemanager"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
@@ -40,6 +41,7 @@ func NewHandler(
 	sessionRepo SessionRepository,
 	auth *Authenticator,
 	oidcLogoutRedirectURL string,
+	csrfAuthKey []byte,
 	authzSvc *authorization.Service,
 	fileManagerSvc filemanager.Service,
 	listingSvc listing.Service,
@@ -78,6 +80,13 @@ func NewHandler(
 	}
 
 	h.middlewares = append(h.middlewares,
+		csrf.Protect(
+			csrfAuthKey,
+			csrf.Secure(env != "development"),
+			csrf.HttpOnly(true),
+			csrf.Path(baseURL),
+			csrf.ErrorHandler(h.csrfErrorHandler()),
+		),
 		func(next http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				r = r.WithContext(context.WithValue(r.Context(), utils.ContextKeyBaseURL, baseURL))

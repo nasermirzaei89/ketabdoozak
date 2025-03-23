@@ -51,6 +51,7 @@ resource "kubernetes_secret" "ketabdoozak-staging-www" {
 
   data = {
     WWW_COOKIE_STORE_KEY         = var.www_cookie_store_key
+    WWW_CSRF_AUTH_KEY            = var.www_csrf_auth_key
     WWW_OIDC_ISSUER_URL          = var.www_oidc_issuer_url
     WWW_OIDC_CLIENT_ID           = var.www_oidc_client_id
     WWW_OIDC_CLIENT_SECRET       = var.www_oidc_client_secret

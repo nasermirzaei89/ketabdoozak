@@ -10,6 +10,7 @@ require (
 	github.com/coreos/go-oidc/v3 v3.13.0
 	github.com/go-playground/validator/v10 v10.25.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
+	github.com/gorilla/csrf v1.7.2
 	github.com/gorilla/sessions v1.4.0
 	github.com/gosimple/slug v1.15.0
 	github.com/joho/godotenv v1.5.1

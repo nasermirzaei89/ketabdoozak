@@ -50,6 +50,11 @@ variable "www_cookie_store_key" {
   sensitive = true
 }
 
+variable "www_csrf_auth_key" {
+  type      = string
+  sensitive = true
+}
+
 variable "www_oidc_issuer_url" {
   type = string
 }

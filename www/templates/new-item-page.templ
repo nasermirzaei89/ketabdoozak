@@ -3,15 +3,16 @@ package templates
 import (
 	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
-	"slices"
-
 	. "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+	"html/template"
+	"slices"
 )
 
-templ NewItemPage(item *listing.Item, locations []*listing.Location) {
+templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField template.HTML) {
 	<main>
 		<div class="container mx-auto py-4">
 			<form class="flex flex-col gap-4 px-2 sm:px-0">
+				@templ.Raw(string(csrfField))
 				<h1 class="text-2xl font-semibold text-gray-900">
 					افزودن کتاب
 				</h1>

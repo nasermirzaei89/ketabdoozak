@@ -4,11 +4,13 @@ import "github.com/nasermirzaei89/ketabdoozak/listing"
 import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 import "slices"
+import "html/template"
 
-templ EditItemPage(item *listing.Item, locations []*listing.Location) {
+templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField template.HTML) {
 	<main>
 		<div class="container mx-auto py-4">
 			<form class="flex flex-col gap-4 px-2 sm:px-0">
+				@templ.Raw(string(csrfField))
 				<h1 class="text-2xl font-semibold text-gray-900">
 					ویرایش کتاب
 				</h1>

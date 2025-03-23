@@ -226,6 +226,8 @@ func run() error {
 
 	sessionRepo := dbredis.NewSessionRepo(rdb)
 
+	wwwCSRFAuthKey := []byte(env.MustGetString("WWW_CSRF_AUTH_KEY"))
+
 	wwwHandler, err := www.NewHandler(
 		wwwBaseURL,
 		string(env.Environment()),
@@ -233,6 +235,7 @@ func run() error {
 		sessionRepo,
 		wwwAuth,
 		wwwOIDCLogoutRedirectURL,
+		wwwCSRFAuthKey,
 		authzSvc,
 		fileManagerSvc,
 		listingSvc,
