@@ -6,6 +6,7 @@ import (
 	"github.com/a-h/templ"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/pkg/errors"
+	"golang.org/x/oauth2"
 	"net/http"
 )
 
@@ -43,7 +44,7 @@ func (h *Handler) loginHandler() http.HandlerFunc {
 			return
 		}
 
-		http.Redirect(w, r, h.auth.Config.AuthCodeURL(state), http.StatusFound)
+		http.Redirect(w, r, h.auth.Config.AuthCodeURL(state, oauth2.AccessTypeOffline), http.StatusFound)
 	}
 }
 

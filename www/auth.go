@@ -111,7 +111,7 @@ func (h *Handler) userInfo(r *http.Request) (*oidc.UserInfo, error) {
 		ExpiresIn:    session.ExpiresIn,
 	}
 
-	userInfo, err := h.auth.Provider.UserInfo(r.Context(), oauth2.StaticTokenSource(token))
+	userInfo, err := h.auth.Provider.UserInfo(r.Context(), h.auth.Config.TokenSource(r.Context(), token))
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get user info")
 	}
