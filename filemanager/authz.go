@@ -70,13 +70,13 @@ func (mw *AuthorizationMiddleware) removePolicy(ctx context.Context, object, act
 	return nil
 }
 
-func (mw *AuthorizationMiddleware) UploadFile(ctx context.Context, filename string, reader io.Reader, contentType string) (*File, error) {
+func (mw *AuthorizationMiddleware) UploadFile(ctx context.Context, filename string, reader io.Reader) (*File, error) {
 	err := mw.checkAccess(ctx, "", ActionUploadFile)
 	if err != nil {
 		return nil, errors.Wrap(err, "error on check permission")
 	}
 
-	file, err := mw.next.UploadFile(ctx, filename, reader, contentType)
+	file, err := mw.next.UploadFile(ctx, filename, reader)
 	if err != nil {
 		return nil, errors.Wrap(err, "error on upload file")
 	}

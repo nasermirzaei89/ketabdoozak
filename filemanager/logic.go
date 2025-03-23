@@ -33,8 +33,29 @@ func NewService(filesBucket *blob.Bucket, fileRepo FileRepository) *BaseService 
 	}
 }
 
-func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader io.Reader, contentType string) (*File, error) {
-	filename = strings.ToLower(filename)
+func (svc *BaseService) putFile(ctx context.Context, filename string, reader io.Reader) error {
+	w, err := svc.filesBucket.NewWriter(ctx, filename, nil)
+	if err != nil {
+		return errors.Wrap(err, "failed to create file writer")
+	}
+
+	defer func() {
+		err := w.Close()
+		if err != nil {
+			svc.logger.Warn("failed to close file writer", slog.String("filename", filename), slog.String("error", err.Error()))
+		}
+	}()
+
+	_, err = w.ReadFrom(reader)
+	if err != nil {
+		return errors.Wrap(err, "failed to read file")
+	}
+
+	return nil
+}
+
+func (svc *BaseService) uniqueFilename(ctx context.Context, filename string) (string, error) {
+	filename = strings.TrimSpace(strings.ToLower(filename))
 
 	var uniqueFilename string
 
@@ -48,7 +69,7 @@ func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader 
 
 		exists, err := svc.filesBucket.Exists(ctx, uniqueFilename)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to check if file exists")
+			return "", errors.Wrap(err, "failed to check if file exists")
 		}
 
 		if !exists {
@@ -56,29 +77,36 @@ func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader 
 		}
 	}
 
-	w, err := svc.filesBucket.NewWriter(ctx, uniqueFilename, nil)
+	return uniqueFilename, nil
+}
+
+func (svc *BaseService) UploadFile(ctx context.Context, filename string, reader io.Reader) (*File, error) {
+	filename, err := svc.uniqueFilename(ctx, filename)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create file writer")
+		return nil, errors.Wrap(err, "failed to generate unique filename")
 	}
 
-	defer func() {
-		err := w.Close()
-		if err != nil {
-			svc.logger.Warn("failed to close file writer", slog.String("filename", uniqueFilename), slog.String("error", err.Error()))
-		}
-	}()
-
-	fileSize, err := w.ReadFrom(reader)
+	err = svc.putFile(ctx, filename, reader)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to read file")
+		return nil, errors.Wrap(err, "failed to put file into bucket")
+	}
+
+	attributes, err := svc.filesBucket.Attributes(ctx, filename)
+	if err != nil {
+		return nil, errors.Wrap(err, "failed to get file attributes")
+	}
+
+	createdAt := attributes.CreateTime
+	if createdAt.IsZero() {
+		createdAt = time.Now()
 	}
 
 	file := &File{
-		Filename:    uniqueFilename,
-		Size:        fileSize,
-		ContentType: contentType,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
+		Filename:    filename,
+		Size:        attributes.Size,
+		ContentType: attributes.ContentType,
+		CreatedAt:   createdAt,
+		UpdatedAt:   createdAt,
 	}
 
 	err = svc.fileRepo.Insert(ctx, file)

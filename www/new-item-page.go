@@ -13,7 +13,7 @@ import (
 func (h *Handler) newItemPageHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if !h.isAuthenticated(r) {
-			http.Redirect(w, r, h.BaseURL()+"login", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, h.BaseURL()+"auth/login", http.StatusTemporaryRedirect)
 
 			return
 		}

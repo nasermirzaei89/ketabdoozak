@@ -580,6 +580,9 @@
   .z-6 {
     z-index: 6;
   }
+  .z-7 {
+    z-index: 7;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -1282,6 +1285,9 @@
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
+  }
+  .p-9 {
+    padding: calc(var(--spacing) * 9);
   }
   .p-14 {
     padding: calc(var(--spacing) * 14);
