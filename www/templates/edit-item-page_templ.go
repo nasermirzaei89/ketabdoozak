@@ -268,14 +268,14 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" hx-get=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<button type=\"button\" class=\"as-button variant-outlined size-md\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetURL(ctx, "/new-contact-info-item")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 104, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 103, Col: 63}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -289,14 +289,14 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "افزودن</div></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "افزودن</button></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Description))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 119, Col: 34}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 118, Col: 34}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -317,7 +317,7 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(StringWithDefault(item.ThumbnailURL, "https://placehold.co/300x300?text=No Thumbnail"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 132, Col: 100}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 131, Col: 100}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -330,13 +330,13 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(item.ThumbnailURL)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 137, Col: 91}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/edit-item-page.templ`, Line: 136, Col: 91}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\"><div class=\"flex flex-row gap-2 justify-center\"><button class=\"as-button variant-filled size-md\" type=\"button\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -344,7 +344,17 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "بارگزاری تصویر</div><div class=\"as-button variant-outlined size-md\" role=\"button\" tabindex=\"0\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "بارگزاری تصویر</button> <button class=\"as-button variant-outlined size-md\" type=\"button\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if item.ThumbnailURL == "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, " disabled")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -352,17 +362,17 @@ func EditItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "حذف تصویر</div></div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت امانت</div><label class=\"inline-flex gap-2\"><input type=\"checkbox\" name=\"lent\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "حذف تصویر</button></div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت امانت</div><label class=\"inline-flex gap-2\"><input type=\"checkbox\" name=\"lent\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if item.Lent {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, " checked")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, " checked")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "> به امانت برده شده؟</label></div></div></div></form></div></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "> به امانت برده شده؟</label></div></div></div></form></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

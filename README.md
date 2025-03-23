@@ -27,4 +27,4 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * Sort by published at desc
 * Add pagination
 * Fix messages position
-* 
+* Add dark mode

@@ -97,16 +97,15 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField 
 								for _, v := range item.ContactInfo {
 									@ContactInfoFormItem(v.Type, v.Value)
 								}
-								<div
-									role="button"
-									tabindex="0"
+								<button
+									type="button"
 									class="as-button variant-outlined size-md"
 									hx-get={ string(GetURL(ctx, "/new-contact-info-item")) }
 									hx-swap="beforebegin"
 								>
 									@icons.MdiPlus(6)
 									افزودن
-								</div>
+								</button>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
@@ -136,14 +135,14 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField 
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl" value={ item.ThumbnailURL }/>
 							<div class="flex flex-row gap-2 justify-center">
-								<div class="as-button variant-filled size-md" role="button" tabindex="0" x-data @click="chooseThumbnailUrl()" @keydown.enter="chooseThumbnailUrl()">
+								<button class="as-button variant-filled size-md" type="button" x-data @click="chooseThumbnailUrl()" @keydown.enter="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
-								</div>
-								<div class="as-button variant-outlined size-md" role="button" tabindex="0">
+								</button>
+								<button class="as-button variant-outlined size-md" type="button" disabled?={ item.ThumbnailURL == "" }>
 									@icons.MdiDelete(6)
 									حذف تصویر
-								</div>
+								</button>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">

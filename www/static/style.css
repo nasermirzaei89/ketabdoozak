@@ -577,6 +577,9 @@
   .z-4 {
     z-index: 4;
   }
+  .z-6 {
+    z-index: 6;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -1093,6 +1096,9 @@
   .h-3 {
     height: calc(var(--spacing) * 3);
   }
+  .h-6 {
+    height: calc(var(--spacing) * 6);
+  }
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
@@ -1119,6 +1125,9 @@
   }
   .w-2\! {
     width: calc(var(--spacing) * 2) !important;
+  }
+  .w-3 {
+    width: calc(var(--spacing) * 3);
   }
   .w-full {
     width: 100%;

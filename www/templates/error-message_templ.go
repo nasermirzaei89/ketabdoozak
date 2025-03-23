@@ -31,7 +31,7 @@ func ErrorMessage(message string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"static\" x-data x-ref=\"target\" x-init=\"setTimeout(() =&gt; $refs.target.remove(), 5000)\"><div class=\"absolute bottom-0 w-full\"><div class=\"container mx-auto my-4 flex flex-row gap-4 rounded-md bg-red-600 text-white px-4 py-2\"><div class=\"grow\" dir=\"auto\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"static\" x-data x-ref=\"target\" x-init=\"setTimeout(() =&gt; $refs.target.remove(), 10000)\"><div class=\"fixed bottom-0 w-full\"><div class=\"container mx-auto my-4 flex flex-row gap-4 rounded-md bg-red-600 text-white px-4 py-2\"><div class=\"grow\" dir=\"auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -44,7 +44,7 @@ func ErrorMessage(message string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div class=\"shrink\"><div role=\"button\" tabindex=\"0\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\" @keydown.enter=\"$refs.target.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><div class=\"shrink h-6\"><button type=\"button\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -52,7 +52,7 @@ func ErrorMessage(message string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div></div></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</button></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

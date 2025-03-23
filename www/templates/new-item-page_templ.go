@@ -280,14 +280,14 @@ func NewItemPage(item *listing.Item, locations []*listing.Location, csrfField te
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "<div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" hx-get=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "<button type=\"button\" class=\"as-button variant-outlined size-md\" hx-get=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(string(GetURL(ctx, "/new-contact-info-item")))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 99, Col: 63}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 98, Col: 63}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -301,20 +301,20 @@ func NewItemPage(item *listing.Item, locations []*listing.Location, csrfField te
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "افزودن</div></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "افزودن</button></div></div><div class=\"flex flex-col gap-1\"><label for=\"description\" class=\"text-xl font-semibold\">توضیحات</label> <textarea id=\"description\" name=\"description\" class=\"rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden\" data-wysiwyg-editor>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(string(item.Description))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 114, Col: 34}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 113, Col: 34}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500 object-contain\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><div class=\"as-button variant-filled size-md\" role=\"button\" tabindex=\"0\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "</textarea></div></div><div class=\"grow sm:max-w-80 flex flex-col gap-4\"><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">وضعیت انتشار</div><div>ذخیره نشده</div></div><div class=\"flex flex-col gap-1\"><div class=\"text-xl font-semibold\">تصویر کتاب</div><img src=\"https://placehold.co/300x300?text=No Thumbnail\" id=\"thumbnailPreview\" alt=\"\" class=\"rounded-sm aspect-square w-full bg-gray-500 object-contain\"> <input type=\"hidden\" id=\"thumbnailUrl\" name=\"thumbnailUrl\"><div class=\"flex flex-row gap-2 justify-center\"><button class=\"as-button variant-filled size-md\" type=\"button\" tabindex=\"0\" x-data @click=\"chooseThumbnailUrl()\" @keydown.enter=\"chooseThumbnailUrl()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -322,7 +322,17 @@ func NewItemPage(item *listing.Item, locations []*listing.Location, csrfField te
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "بارگزاری تصویر</div><div class=\"as-button variant-outlined size-md\" role=\"button\" tabindex=\"0\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "بارگزاری تصویر</button> <button class=\"as-button variant-outlined size-md\" type=\"button\" tabindex=\"0\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if item.ThumbnailURL == "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, " disabled")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -330,7 +340,7 @@ func NewItemPage(item *listing.Item, locations []*listing.Location, csrfField te
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "حذف تصویر</div></div></div></div></div></form></div></main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "حذف تصویر</button></div></div></div></div></form></div></main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -359,60 +369,60 @@ func ContactInfoFormItem(typ listing.ItemContactInfoType, val string) templ.Comp
 			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "<div class=\"flex flex-row gap-2 w-full\" x-data><label class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80\"><select class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" name=\"contactInfoType\"><option value=\"phoneNumber\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "<div class=\"flex flex-row gap-2 w-full\" x-data><label class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80\"><select class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" name=\"contactInfoType\"><option value=\"phoneNumber\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if typ == listing.ItemContactInfoTypePhoneNumber {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, " selected")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, ">شماره تماس</option> <option value=\"sms\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if typ == listing.ItemContactInfoTypeSMS {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, " selected")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, ">شماره پیامک</option> <option value=\"telegram\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, ">شماره تماس</option> <option value=\"sms\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if typ == listing.ItemContactInfoTypeTelegram {
+		if typ == listing.ItemContactInfoTypeSMS {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, " selected")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, ">شناسه تلگرام</option> <option value=\"whatsapp\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, ">شماره پیامک</option> <option value=\"telegram\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if typ == listing.ItemContactInfoTypeWhatsapp {
+		if typ == listing.ItemContactInfoTypeTelegram {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, " selected")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, ">شماره واتساپ</option></select></label> <label class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80\"><input type=\"text\" dir=\"ltr\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" name=\"contactInfoValue\" value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, ">شناسه تلگرام</option> <option value=\"whatsapp\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if typ == listing.ItemContactInfoTypeWhatsapp {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, " selected")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 46, ">شماره واتساپ</option></select></label> <label class=\"flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80\"><input type=\"text\" dir=\"ltr\" class=\"text-base w-full pe-2 focus:outline-none focus:ring-0\" name=\"contactInfoValue\" value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(val)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 168, Col: 129}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `www/templates/new-item-page.templ`, Line: 167, Col: 129}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "\"></label><div role=\"button\" tabindex=\"0\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\" @keydown.enter=\"$el.parentElement.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 47, "\"></label> <button type=\"button\" class=\"as-button variant-outlined size-md\" @click=\"$el.parentElement.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -420,7 +430,7 @@ func ContactInfoFormItem(typ listing.ItemContactInfoType, val string) templ.Comp
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 46, "<span class=\"hidden sm:inline\">حذف</span></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 48, "<span class=\"hidden sm:inline\">حذف</span></button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

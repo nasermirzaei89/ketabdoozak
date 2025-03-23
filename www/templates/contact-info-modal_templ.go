@@ -33,7 +33,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"contact-info\" x-data x-ref=\"target\" @click=\"$event.target === $el &amp;&amp; $el.remove()\"><div role=\"dialog\" class=\"flex flex-col w-screen max-w-100\" autofocus><div class=\"flex flex-row p-2 ps-4 sticky top-0 bg-white\"><div class=\"grow\">اطلاعات تماس</div><div role=\"button\" tabindex=\"0\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\" @keydown.enter=\"$el.parentElement.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"contact-info\" x-data x-ref=\"target\" @click=\"$event.target === $el &amp;&amp; $el.remove()\"><div role=\"dialog\" class=\"flex flex-col w-screen max-w-100\" autofocus><div class=\"flex flex-row p-2 ps-4 sticky top-0 bg-white\"><div class=\"grow\">اطلاعات تماس</div><button type=\"button\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></div><div class=\"flex flex-col gap-2 p-2\"><div>شما می\u200cتوانید از راه\u200cهای زیر با صاحب کتاب تماس بگیرید:</div><div role=\"list\" class=\"flex flex-col py-1 border rounded border-gray-300\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</button></div><div class=\"flex flex-col gap-2 p-2\"><div>شما می\u200cتوانید از راه\u200cهای زیر با صاحب کتاب تماس بگیرید:</div><div role=\"list\" class=\"flex flex-col py-1 border rounded border-gray-300\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
