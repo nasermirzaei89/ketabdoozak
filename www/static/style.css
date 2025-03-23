@@ -571,6 +571,9 @@
   .isolate {
     isolation: isolate;
   }
+  .z-4 {
+    z-index: 4;
+  }
   .order-last {
     order: 9999;
   }

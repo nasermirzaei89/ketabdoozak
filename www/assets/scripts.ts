@@ -31,7 +31,8 @@ Alpine.start()
 function chooseThumbnailUrl() {
     const fileInput = document.createElement("input");
     fileInput.type = "file"
-    fileInput.accept = "image/png, image/jpeg"
+    // https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types#common_image_file_types
+    fileInput.accept = "image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp"
     fileInput.click();
     fileInput.onchange = async function(changeEvent: Event) {
         const file = (changeEvent.target as HTMLInputElement).files[0];

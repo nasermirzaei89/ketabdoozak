@@ -25017,7 +25017,7 @@ ${expression ? 'Expression: "' + expression + '"\n\n' : ""}`, el);
   function chooseThumbnailUrl() {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
-    fileInput.accept = "image/png, image/jpeg";
+    fileInput.accept = "image/apng, image/avif, image/gif, image/jpeg, image/png, image/svg+xml, image/webp";
     fileInput.click();
     fileInput.onchange = async function(changeEvent) {
       const file = changeEvent.target.files[0];
