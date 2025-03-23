@@ -22,7 +22,7 @@ import htmx from "htmx.org";
 import "htmx-ext-response-targets";
 import Alpine from "alpinejs";
 import "@fontsource/vazirmatn";
-// import "@fontsource/roboto";
+import "@fontsource/roboto";
 
 window.htmx = htmx;
 window.Alpine = Alpine

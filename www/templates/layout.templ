@@ -18,12 +18,11 @@ templ HTML(children templ.Component, head Head) {
 			<title>{ head.PageTitle() } </title>
 			if IsProduction(ctx) {
 				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.min.css")) }/>
-			} else {
-				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.css")) }/>
-			}
-			if IsProduction(ctx) {
+				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/scripts.min.css")) }/>
 				<script src={ string(GetURL(ctx, "/static/scripts.min.js")) } type="module"></script>
 			} else {
+				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.css")) }/>
+				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/scripts.css")) }/>
 				<script src={ string(GetURL(ctx, "/static/scripts.js")) } type="module"></script>
 			}
 		</head>

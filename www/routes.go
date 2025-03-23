@@ -1,6 +1,12 @@
 package www
 
-import "net/http"
+import (
+	"embed"
+	"net/http"
+)
+
+//go:embed static
+var static embed.FS
 
 func (h *Handler) registerRoutes() {
 	staticServer := http.FileServerFS(static)

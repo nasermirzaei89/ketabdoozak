@@ -9,7 +9,6 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 ## TODO
 
 * Delete Thumbnail Url action
-* Deploy
 * Write e2e tests
 * Submitting Status
 * Error response show

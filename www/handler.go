@@ -2,7 +2,6 @@ package www
 
 import (
 	"context"
-	"embed"
 	"github.com/a-h/templ"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/sessions"
@@ -15,9 +14,6 @@ import (
 	"net/http"
 	"net/url"
 )
-
-//go:embed static
-var static embed.FS
 
 const sessionName = "www-session"
 
