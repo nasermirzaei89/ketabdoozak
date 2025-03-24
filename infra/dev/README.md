@@ -69,8 +69,11 @@ helm upgrade --install minio oci://registry-1.docker.io/bitnamicharts/minio \
   --namespace minio --create-namespace \
   --set auth.rootUser=$AWS_ACCESS_KEY_ID \
   --set auth.rootPassword=$AWS_SECRET_ACCESS_KEY \
+  --set defaultBuckets="files" \
   --version 14.10.3
 ```
+
+The value in `defaultBuckets` should include file manager bucket name.
 
 ## Run Jaeger
 
@@ -165,13 +168,15 @@ helm upgrade --install backend ./infra/helm \
 
 Install from https://www.telepresence.io/docs/install/client
 
-Install the Traffic Manager
+Install the Traffic Manager:
 
 ```shell
 telepresence helm install --request-timeout 1m
 ```
 
-Connect to the cluster
+If it failed, just retry it.
+
+Then, connect to the cluster:
 
 ```shell
 telepresence connect
@@ -181,7 +186,7 @@ Visit website: http://api-dev.ketabdoozak
 
 Visit swagger: http://api-dev.ketabdoozak/swagger/index.html
 
-Get client id for swagger from: https://manage.auth0.com/dashboard/eu/ketabdoozak/applications/<APP_ID>/settings
+[//]: # (Get client id for swagger from: https://manage.auth0.com/dashboard/eu/ketabdoozak/applications/<APP_ID>/settings)
 
 Visit jaeger: http://jaeger-query.jaeger:16686
 
