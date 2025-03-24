@@ -97,7 +97,7 @@ require (
 	github.com/breml/errchkjson v0.4.0 // indirect
 	github.com/butuzov/ireturn v0.3.1 // indirect
 	github.com/butuzov/mirror v1.3.0 // indirect
-	github.com/casbin/casbin/v2 v2.103.0 // indirect
+	github.com/casbin/casbin/v2 v2.104.0 // indirect
 	github.com/casbin/govaluate v1.3.0 // indirect
 	github.com/catenacyber/perfsprint v0.8.1 // indirect
 	github.com/ccojocar/zxcvbn-go v1.0.2 // indirect
@@ -266,7 +266,6 @@ require (
 	github.com/sv-tools/openapi v0.2.1 // indirect
 	github.com/swaggo/files/v2 v2.0.0 // indirect
 	github.com/swaggo/http-swagger/v2 v2.0.2 // indirect
-	github.com/swaggo/swag v1.8.1 // indirect
 	github.com/tdakkota/asciicheck v0.4.0 // indirect
 	github.com/tdewolff/parse/v2 v2.7.15 // indirect
 	github.com/tetafro/godot v1.4.20 // indirect
@@ -339,3 +338,5 @@ tool (
 	github.com/golangci/golangci-lint/cmd/golangci-lint
 	github.com/swaggo/swag/v2/cmd/swag
 )
+
+replace github.com/swaggo/http-swagger/v2 v2.0.2 => github.com/santouras/http-swagger/v2 v2.0.0-20240604004458-263c1c0bfc2a

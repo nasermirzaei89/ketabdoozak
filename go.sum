@@ -71,8 +71,6 @@ github.com/a-h/parse v0.0.0-20250122154542-74294addb73e h1:HjVbSQHy+dnlS6C3XajZ6
 github.com/a-h/parse v0.0.0-20250122154542-74294addb73e/go.mod h1:3mnrkvGpurZ4ZrTDbYU84xhwXW2TjTKShSwjRi2ihfQ=
 github.com/a-h/templ v0.3.850 h1:kNCe4CJABjY618ullJakyI5aP2RJ0JkTU04i0qgxFpI=
 github.com/a-h/templ v0.3.850/go.mod h1:qhrhAkRFubE7khxLZHsBFHfX+gWwVNKbzKeF9GlPV4M=
-github.com/agiledragon/gomonkey/v2 v2.3.1 h1:k+UnUY0EMNYUFUAQVETGY9uUTxjMdnUkP0ARyJS1zzs=
-github.com/agiledragon/gomonkey/v2 v2.3.1/go.mod h1:ap1AmDzcVOAz1YpeJ3TCzIgstoaWLA6jbbgxfB4w2iY=
 github.com/air-verse/air v1.61.7 h1:MtOZs6wYoYYXm+S4e+ORjkq9BjvyEamKJsHcvko8LrQ=
 github.com/air-verse/air v1.61.7/go.mod h1:QW4HkIASdtSnwaYof1zgJCSxd41ebvix10t5ubtm9cg=
 github.com/alecthomas/assert/v2 v2.11.0 h1:2Q9r3ki8+JYXvGsDyBXwH3LcJ+WK5D0gc5E8vS6K3D0=
@@ -192,8 +190,8 @@ github.com/butuzov/ireturn v0.3.1/go.mod h1:ZfRp+E7eJLC0NQmk1Nrm1LOrn/gQlOykv+cV
 github.com/butuzov/mirror v1.3.0 h1:HdWCXzmwlQHdVhwvsfBb2Au0r3HyINry3bDWLYXiKoc=
 github.com/butuzov/mirror v1.3.0/go.mod h1:AEij0Z8YMALaq4yQj9CPPVYOyJQyiexpQEQgihajRfI=
 github.com/casbin/casbin/v2 v2.100.0/go.mod h1:LO7YPez4dX3LgoTCqSQAleQDo0S0BeZBDxYnPUl95Ng=
-github.com/casbin/casbin/v2 v2.103.0 h1:dHElatNXNrr8XcseUov0ZSiWjauwmZZE6YMV3eU1yic=
-github.com/casbin/casbin/v2 v2.103.0/go.mod h1:Ee33aqGrmES+GNL17L0h9X28wXuo829wnNUnS0edAco=
+github.com/casbin/casbin/v2 v2.104.0 h1:qDakyBZ4jUg1VskF1+UzIwkg+uXWcp0u0M9PMm1RsTA=
+github.com/casbin/casbin/v2 v2.104.0/go.mod h1:Ee33aqGrmES+GNL17L0h9X28wXuo829wnNUnS0edAco=
 github.com/casbin/govaluate v1.2.0/go.mod h1:G/UnbIjZk/0uMNaLwZZmFQrR72tYRZWQkO70si/iR7A=
 github.com/casbin/govaluate v1.3.0 h1:VA0eSY0M2lA86dYd5kPPuNZMUD9QkWnOCnavGrw9myc=
 github.com/casbin/govaluate v1.3.0/go.mod h1:G/UnbIjZk/0uMNaLwZZmFQrR72tYRZWQkO70si/iR7A=
@@ -634,8 +632,6 @@ github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18 h1:xAqWmwmq
 github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18/go.mod h1:93WvbP7qSzQzCsi6s0hmq9LauUOYjGTHEODeNFiS4HY=
 github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695 h1:qWRe3e3yaf4d9A3ZVF1+J7Vyt9W6QqmtK7x6IGL6fWw=
 github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695/go.mod h1:NsyNOWWgsH0JJB/yaUYXbf0NXqcAJWJArRrBb4pA/HY=
-github.com/nasermirzaei89/services v0.0.0-20250309193642-ecb8d70e076d h1:t/dBWHbv9iu+df5JUV5DvMJDEWEi8HSiA2dcmfPTqe0=
-github.com/nasermirzaei89/services v0.0.0-20250309193642-ecb8d70e076d/go.mod h1:NgqbY0SqoaztgUwEOwQNNQvOSsN81OEu4RQ7bpQRK18=
 github.com/nasermirzaei89/services v0.0.0-20250323234909-3228e4a13ca8 h1:+s45Vx+dWHHDjsdcq9M+WVjqYLWZvtm/+mYdpRfaFjY=
 github.com/nasermirzaei89/services v0.0.0-20250323234909-3228e4a13ca8/go.mod h1:BD+qPH0NNHFPYi2iUI11OQDX8Luv4DL5mDMtT3q8I/4=
 github.com/natefinch/atomic v1.0.1 h1:ZPYKxkqQOx3KZ+RsbnP/YsgvxWQPGxjC0oBt2AhwV0A=
@@ -728,6 +724,8 @@ github.com/sanposhiho/wastedassign/v2 v2.1.0 h1:crurBF7fJKIORrV85u9UUpePDYGWnwvv
 github.com/sanposhiho/wastedassign/v2 v2.1.0/go.mod h1:+oSmSC+9bQ+VUAxA66nBb0Z7N8CK7mscKTDYC6aIek4=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.1 h1:PKK9DyHxif4LZo+uQSgXNqs0jj5+xZwwfKHgph2lxBw=
 github.com/santhosh-tekuri/jsonschema/v6 v6.0.1/go.mod h1:JXeL+ps8p7/KNMjDQk3TCwPpBy0wYklyWTfbkIzdIFU=
+github.com/santouras/http-swagger/v2 v2.0.0-20240604004458-263c1c0bfc2a h1:g+GRBjQub22Nx1tVncgUkI4wUas/5OF/VzvnDoFzDk0=
+github.com/santouras/http-swagger/v2 v2.0.0-20240604004458-263c1c0bfc2a/go.mod h1:rGijaMvrIYldfVx0rVS+2JiUk/LlPBMwYQtOiRuXFjk=
 github.com/sashamelentyev/interfacebloat v1.1.0 h1:xdRdJp0irL086OyW1H/RTZTr1h/tMEOsumirXcOJqAw=
 github.com/sashamelentyev/interfacebloat v1.1.0/go.mod h1:+Y9yU5YdTkrNvoX0xHc84dxiN1iBi9+G8zZIhPVoNjQ=
 github.com/sashamelentyev/usestdlibvars v1.28.0 h1:jZnudE2zKCtYlGzLVreNp5pmCdOxXUzwsMDBkR21cyQ=
@@ -786,10 +784,6 @@ github.com/sv-tools/openapi v0.2.1 h1:ES1tMQMJFGibWndMagvdoo34T1Vllxr1Nlm5wz6b1a
 github.com/sv-tools/openapi v0.2.1/go.mod h1:k5VuZamTw1HuiS9p2Wl5YIDWzYnHG6/FgPOSFXLAhGg=
 github.com/swaggo/files/v2 v2.0.0 h1:hmAt8Dkynw7Ssz46F6pn8ok6YmGZqHSVLZ+HQM7i0kw=
 github.com/swaggo/files/v2 v2.0.0/go.mod h1:24kk2Y9NYEJ5lHuCra6iVwkMjIekMCaFq/0JQj66kyM=
-github.com/swaggo/http-swagger/v2 v2.0.2 h1:FKCdLsl+sFCx60KFsyM0rDarwiUSZ8DqbfSyIKC9OBg=
-github.com/swaggo/http-swagger/v2 v2.0.2/go.mod h1:r7/GBkAWIfK6E/OLnE8fXnviHiDeAHmgIyooa4xm3AQ=
-github.com/swaggo/swag v1.8.1 h1:JuARzFX1Z1njbCGz+ZytBR15TFJwF2Q7fu8puJHhQYI=
-github.com/swaggo/swag v1.8.1/go.mod h1:ugemnJsPZm/kRwFUnzBlbHRd0JY9zE1M4F+uy2pAaPQ=
 github.com/swaggo/swag/v2 v2.0.0-rc4 h1:SZ8cK68gcV6cslwrJMIOqPkJELRwq4gmjvk77MrvHvY=
 github.com/swaggo/swag/v2 v2.0.0-rc4/go.mod h1:Ow7Y8gF16BTCDn8YxZbyKn8FkMLRUHekv1kROJZpbvE=
 github.com/tdakkota/asciicheck v0.4.0 h1:VZ13Itw4k1i7d+dpDSNS8Op645XgGHpkCEh/WHicgWw=
