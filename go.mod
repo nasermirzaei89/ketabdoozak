@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/Masterminds/squirrel v1.5.4
 	github.com/XSAM/otelsql v0.37.0
-	github.com/a-h/templ v0.3.850
+	github.com/a-h/templ v0.3.856
 	github.com/coreos/go-oidc v2.3.0+incompatible
 	github.com/coreos/go-oidc/v3 v3.13.0
 	github.com/go-playground/validator/v10 v10.25.0
@@ -20,7 +20,7 @@ require (
 	github.com/nasermirzaei89/extypes v0.0.0-20220127224359-b3e033c33a5d
 	github.com/nasermirzaei89/problem v0.0.0-20231018193736-8c1b7af1ac18
 	github.com/nasermirzaei89/respond v0.0.0-20220127225024-0b74a5894695
-	github.com/nasermirzaei89/services v0.0.0-20250323234909-3228e4a13ca8
+	github.com/nasermirzaei89/services v0.0.0-20250323235129-d64d89d672f2
 	github.com/pkg/errors v0.9.1
 	github.com/redis/go-redis/v9 v9.7.3
 	github.com/swaggo/swag/v2 v2.0.0-rc4
@@ -339,4 +339,4 @@ tool (
 	github.com/swaggo/swag/v2/cmd/swag
 )
 
-replace github.com/swaggo/http-swagger/v2 v2.0.2 => github.com/santouras/http-swagger/v2 v2.0.0-20240604004458-263c1c0bfc2a
+replace github.com/swaggo/http-swagger/v2 v2.0.2 => github.com/santouras/http-swagger/v2 v2.0.0-20240604004458-263c1c0bfc2a // Will use until https://github.com/swaggo/http-swagger/pull/117 being merged.

@@ -50,6 +50,7 @@ func (h *Handler) editItemPageHandler() http.HandlerFunc {
 			Meta:  nil,
 		}
 
-		templ.Handler(templates.HTML(templates.EditItemPage(item, listLocationsRes.Items, csrf.TemplateField(r)), head)).ServeHTTP(w, r)
+		templ.Handler(templates.HTML(templates.EditItemPage(item, listLocationsRes.Items, csrf.TemplateField(r)), head)).
+			ServeHTTP(w, r)
 	}
 }

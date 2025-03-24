@@ -31,13 +31,6 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 		}
 
 		req := populateUpdateItemRequestFromPostForm(r)
-		//if err != nil {
-		//	err := errors.Wrap(err, "failed to populate update item request from post form")
-		//
-		//	sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
-		//
-		//	return
-		//}
 
 		err = h.listingSvc.UpdateItem(r.Context(), itemID, req)
 		if err != nil {
@@ -78,11 +71,12 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 
 func populateUpdateItemRequestFromPostForm(r *http.Request) *listing.UpdateItemRequest {
 	req := listing.UpdateItemRequest{
-		Title:        strings.TrimSpace(r.PostFormValue("title")),
-		OwnerName:    strings.TrimSpace(r.PostFormValue("ownerName")),
-		LocationID:   strings.TrimSpace(r.PostFormValue("locationId")),
-		Types:        nil,
-		ContactInfo:  nil,
+		Title:       strings.TrimSpace(r.PostFormValue("title")),
+		OwnerName:   strings.TrimSpace(r.PostFormValue("ownerName")),
+		LocationID:  strings.TrimSpace(r.PostFormValue("locationId")),
+		Types:       nil,
+		ContactInfo: nil,
+		//#nosec G203 -- Service will sanitize user input
 		Description:  template.HTML(strings.TrimSpace(r.PostFormValue("description"))),
 		Lent:         false,
 		ThumbnailURL: strings.TrimSpace(r.PostFormValue("thumbnailUrl")),

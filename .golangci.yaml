@@ -9,24 +9,17 @@ linters:
     - nolintlint
     - tenv
     - varnamelen
-    - mnd
-    - lll
     - godox
-    - gocritic
     - gochecknoglobals
     - gci
     - funlen
     - forcetypeassert
-    - exhaustruct
     - gofumpt
     - depguard
     - goimports
-    - cyclop
     - unused
-    - gosec
     - dupl
     - stylecheck
-    - maintidx
     - interfacebloat
     - nestif
 issues:
@@ -39,3 +32,14 @@ issues:
         - maintidx
         - dupl
         - cyclop
+linters-settings:
+  cyclop:
+    max-complexity: 18
+  maintidx:
+    under: 17
+  exhaustruct:
+    exclude:
+      - '.*Error$'  # Ignores any struct type ending with "Error"
+  gomoddirectives:
+    replace-allow-list:
+      - github.com/swaggo/http-swagger/v2

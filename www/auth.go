@@ -18,21 +18,28 @@ type Authenticator struct {
 const keySessionID = "sessionID"
 const keyState = "state"
 
+type NewAuthenticatorRequest struct {
+	OIDCIssuerURL    string
+	OIDCClientID     string
+	OIDCClientSecret string
+	OIDCRedirectURL  string
+}
+
 // NewAuthenticator instantiates the *Authenticator.
-func NewAuthenticator(ctx context.Context, oidcIssuerURL, oidcClientID, oidcClientSecret, oidcRedirectURL string) (*Authenticator, error) {
+func NewAuthenticator(ctx context.Context, req NewAuthenticatorRequest) (*Authenticator, error) {
 	provider, err := oidc.NewProvider(
 		ctx,
-		oidcIssuerURL,
+		req.OIDCIssuerURL,
 	)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to create oidc provider")
 	}
 
 	conf := oauth2.Config{
-		ClientID:     oidcClientID,
-		ClientSecret: oidcClientSecret,
+		ClientID:     req.OIDCClientID,
+		ClientSecret: req.OIDCClientSecret,
 		Endpoint:     provider.Endpoint(),
-		RedirectURL:  oidcRedirectURL,
+		RedirectURL:  req.OIDCRedirectURL,
 		Scopes:       []string{oidc.ScopeOpenID, "profile"},
 	}
 
@@ -50,7 +57,13 @@ func (a *Authenticator) VerifyIDToken(ctx context.Context, token *oauth2.Token) 
 	}
 
 	oidcConfig := &oidc.Config{
-		ClientID: a.Config.ClientID,
+		ClientID:                   a.Config.ClientID,
+		SupportedSigningAlgs:       nil,
+		SkipClientIDCheck:          false,
+		SkipExpiryCheck:            false,
+		SkipIssuerCheck:            false,
+		Now:                        nil,
+		InsecureSkipSignatureCheck: false,
 	}
 
 	idToken, err := a.Provider.VerifierContext(ctx, oidcConfig).Verify(ctx, rawIDToken)

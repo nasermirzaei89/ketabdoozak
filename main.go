@@ -112,9 +112,38 @@ func run() error {
 
 	// Redis
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     env.GetString("REDIS_URL", "localhost:6379"),
-		Password: env.GetString("REDIS_PASSWORD", ""),
-		DB:       env.GetInt("REDIS_DB", 0),
+		Network:                    "",
+		Addr:                       env.GetString("REDIS_URL", "localhost:6379"),
+		ClientName:                 "",
+		Dialer:                     nil,
+		OnConnect:                  nil,
+		Protocol:                   0,
+		Username:                   "",
+		Password:                   env.GetString("REDIS_PASSWORD", ""),
+		CredentialsProvider:        nil,
+		CredentialsProviderContext: nil,
+		DB:                         env.GetInt("REDIS_DB", 0),
+		MaxRetries:                 0,
+		MinRetryBackoff:            0,
+		MaxRetryBackoff:            0,
+		DialTimeout:                0,
+		ReadTimeout:                0,
+		WriteTimeout:               0,
+		ContextTimeoutEnabled:      false,
+		PoolFIFO:                   false,
+		PoolSize:                   0,
+		PoolTimeout:                0,
+		MinIdleConns:               0,
+		MaxIdleConns:               0,
+		MaxActiveConns:             0,
+		ConnMaxIdleTime:            0,
+		ConnMaxLifetime:            0,
+		TLSConfig:                  nil,
+		Limiter:                    nil,
+		DisableIndentity:           false,
+		DisableIdentity:            false,
+		IdentitySuffix:             "",
+		UnstableResp3:              false,
 	})
 
 	defer func() { err = goerrors.Join(err, rdb.Close()) }()
@@ -207,7 +236,7 @@ func run() error {
 	}
 
 	// For secure cookie
-	gob.Register(&oauth2.Token{})
+	gob.Register(new(oauth2.Token))
 
 	// WWW Auth
 	wwwOIDCIssuerURL := env.MustGetString("WWW_OIDC_ISSUER_URL")
@@ -216,7 +245,12 @@ func run() error {
 	wwwOIDCRedirectURL := env.MustGetString("WWW_OIDC_REDIRECT_URL")
 	wwwOIDCLogoutRedirectURL := env.MustGetString("WWW_OIDC_LOGOUT_REDIRECT_URL")
 
-	wwwAuth, err := www.NewAuthenticator(ctx, wwwOIDCIssuerURL, wwwOIDCClientID, wwwOIDCClientSecret, wwwOIDCRedirectURL)
+	wwwAuth, err := www.NewAuthenticator(ctx, www.NewAuthenticatorRequest{
+		OIDCIssuerURL:    wwwOIDCIssuerURL,
+		OIDCClientID:     wwwOIDCClientID,
+		OIDCClientSecret: wwwOIDCClientSecret,
+		OIDCRedirectURL:  wwwOIDCRedirectURL,
+	})
 	if err != nil {
 		return errors.Wrap(err, "error initializing www authenticator")
 	}
@@ -274,6 +308,8 @@ func run() error {
 		ErrorLog:                     nil,
 		BaseContext:                  func(_ net.Listener) context.Context { return ctx },
 		ConnContext:                  nil,
+		HTTP2:                        nil,
+		Protocols:                    nil,
 	}
 	serverErr := make(chan error, 1)
 

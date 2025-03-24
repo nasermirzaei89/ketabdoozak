@@ -20,7 +20,7 @@ func newMigrateInstance(sqlDB *sql.DB) (*migrate.Migrate, error) {
 		return nil, errors.Wrap(err, "failed to create source driver from migrations folder")
 	}
 
-	dbDriver, err := postgres.WithInstance(sqlDB, &postgres.Config{})
+	dbDriver, err := postgres.WithInstance(sqlDB, new(postgres.Config))
 	if err != nil {
 		return nil, errors.Wrap(err, "could not create database driver")
 	}

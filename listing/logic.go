@@ -55,8 +55,9 @@ func (svc *BaseService) ListPublishedItems(ctx context.Context, q string) (*List
 	defer span.End()
 
 	req := &ListItemsRequest{
-		Query:  q,
-		Status: ItemStatusPublished,
+		Query:   q,
+		OwnerID: "",
+		Status:  ItemStatusPublished,
 	}
 
 	items, err := svc.itemRepo.List(ctx, req)
@@ -80,6 +81,7 @@ func (svc *BaseService) ListMyItems(ctx context.Context, q string) (*ListItemsRe
 	req := &ListItemsRequest{
 		Query:   q,
 		OwnerID: sharedcontext.GetSubject(ctx),
+		Status:  "",
 	}
 
 	items, err := svc.itemRepo.List(ctx, req)
@@ -281,7 +283,7 @@ func (svc *BaseService) CreateItem(ctx context.Context, req *CreateItemRequest) 
 		return nil, errors.Wrap(err, "error on get location")
 	}
 
-	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description)))
+	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description))) //#nosec G203 -- Sanitized
 
 	timeNow := time.Now()
 
@@ -344,7 +346,7 @@ func (svc *BaseService) UpdateItem(ctx context.Context, itemID string, req *Upda
 	item.Types = req.Types
 	item.ContactInfo = req.ContactInfo
 
-	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description)))
+	req.Description = template.HTML(svc.htmlPolicy.Sanitize(string(req.Description))) //#nosec G203 -- Sanitized
 
 	item.Description = req.Description
 	item.Lent = req.Lent

@@ -29,13 +29,6 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 		}
 
 		req := populateCreateItemRequestFromPostForm(r)
-		//if err != nil {
-		//	err := errors.Wrap(err, "failed to populate create item request from post form")
-		//
-		//	sendErrorMessage(w, r, err.Error(), http.StatusInternalServerError)
-		//
-		//	return
-		//}
 
 		item, err := h.listingSvc.CreateItem(r.Context(), req)
 		if err != nil {
@@ -54,11 +47,12 @@ func (h *Handler) createItemHandler() http.HandlerFunc {
 
 func populateCreateItemRequestFromPostForm(r *http.Request) *listing.CreateItemRequest {
 	req := listing.CreateItemRequest{
-		Title:        strings.TrimSpace(r.PostFormValue("title")),
-		OwnerName:    strings.TrimSpace(r.PostFormValue("ownerName")),
-		LocationID:   strings.TrimSpace(r.PostFormValue("locationId")),
-		Types:        nil,
-		ContactInfo:  nil,
+		Title:       strings.TrimSpace(r.PostFormValue("title")),
+		OwnerName:   strings.TrimSpace(r.PostFormValue("ownerName")),
+		LocationID:  strings.TrimSpace(r.PostFormValue("locationId")),
+		Types:       nil,
+		ContactInfo: nil,
+		//#nosec G203 -- Service will sanitize user input
 		Description:  template.HTML(strings.TrimSpace(r.PostFormValue("description"))),
 		ThumbnailURL: strings.TrimSpace(r.PostFormValue("thumbnailUrl")),
 		AsDraft:      r.URL.Query().Has("as-draft") && r.URL.Query().Get("as-draft") != "false",
