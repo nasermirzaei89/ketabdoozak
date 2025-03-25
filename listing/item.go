@@ -25,8 +25,8 @@ const (
 )
 
 type ItemContactInfo struct {
-	Type  ItemContactInfoType
-	Value string
+	Type  ItemContactInfoType `json:"type"`
+	Value string              `json:"value"`
 }
 
 type ItemStatus string
@@ -42,21 +42,21 @@ const (
 )
 
 type Item struct {
-	ID            string
-	Title         string
-	OwnerID       string
-	OwnerName     string
-	LocationID    string
-	LocationTitle string
-	Types         []ItemType
-	ContactInfo   []ItemContactInfo
-	Description   template.HTML
-	Status        ItemStatus
-	Lent          bool
-	ThumbnailURL  string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
-	PublishedAt   *time.Time
+	ID            string            `json:"id"`
+	Title         string            `json:"title"`
+	OwnerID       string            `json:"ownerId"`
+	OwnerName     string            `json:"ownerName"`
+	LocationID    string            `json:"locationId"`
+	LocationTitle string            `json:"locationTitle"`
+	Types         []ItemType        `json:"types"`
+	ContactInfo   []ItemContactInfo `json:"contactInfo"`
+	Description   template.HTML     `json:"description"   swaggertype:"string"`
+	Status        ItemStatus        `json:"status"`
+	Lent          bool              `json:"lent"`
+	ThumbnailURL  string            `json:"thumbnailUrl"`
+	CreatedAt     time.Time         `json:"createdAt"`
+	UpdatedAt     time.Time         `json:"updatedAt"`
+	PublishedAt   *time.Time        `json:"publishedAt"`
 }
 
 type ListItemsRequest struct {

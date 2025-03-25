@@ -111,39 +111,10 @@ func run() error {
 	problem.SetLogger(problemoutput.New())
 
 	// Redis
-	rdb := redis.NewClient(&redis.Options{
-		Network:                    "",
-		Addr:                       env.GetString("REDIS_URL", "localhost:6379"),
-		ClientName:                 "",
-		Dialer:                     nil,
-		OnConnect:                  nil,
-		Protocol:                   0,
-		Username:                   "",
-		Password:                   env.GetString("REDIS_PASSWORD", ""),
-		CredentialsProvider:        nil,
-		CredentialsProviderContext: nil,
-		DB:                         env.GetInt("REDIS_DB", 0),
-		MaxRetries:                 0,
-		MinRetryBackoff:            0,
-		MaxRetryBackoff:            0,
-		DialTimeout:                0,
-		ReadTimeout:                0,
-		WriteTimeout:               0,
-		ContextTimeoutEnabled:      false,
-		PoolFIFO:                   false,
-		PoolSize:                   0,
-		PoolTimeout:                0,
-		MinIdleConns:               0,
-		MaxIdleConns:               0,
-		MaxActiveConns:             0,
-		ConnMaxIdleTime:            0,
-		ConnMaxLifetime:            0,
-		TLSConfig:                  nil,
-		Limiter:                    nil,
-		DisableIndentity:           false,
-		DisableIdentity:            false,
-		IdentitySuffix:             "",
-		UnstableResp3:              false,
+	rdb := redis.NewClient(&redis.Options{ //nolint:exhaustruct
+		Addr:     env.GetString("REDIS_URL", "localhost:6379"),
+		Password: env.GetString("REDIS_PASSWORD", ""),
+		DB:       env.GetInt("REDIS_DB", 0),
 	})
 
 	defer func() { err = goerrors.Join(err, rdb.Close()) }()
@@ -222,6 +193,8 @@ func run() error {
 	listingSvc = listing.NewService(listingLocation, listingItemRepo, validate)
 	listingSvc = listing.NewAuthorizationMiddleware(listingSvc, authzSvc)
 
+	listingHandler := listing.NewHandler(listingSvc)
+
 	// Cookie Store
 	key := env.GetString("WWW_COOKIE_STORE_KEY", "super-secret-key")
 	wwwCookieStore := sessions.NewCookieStore([]byte(key))
@@ -283,6 +256,7 @@ func run() error {
 		api.RegisterMiddleware(authSvc.AuthenticateMiddleware()),
 		api.RegisterEndpoint("/swagger/", http.StripPrefix("/swagger", swagger.NewHandler())),
 		api.RegisterEndpoint("/filemanager/", http.StripPrefix("/filemanager", fileManagerHandler)),
+		api.RegisterEndpoint("/listing/", http.StripPrefix("/listing", listingHandler)),
 		api.RegisterEndpoint("/www/", http.StripPrefix("/www", wwwHandler)),
 		api.RedirectRootTo("/www/"),
 	)

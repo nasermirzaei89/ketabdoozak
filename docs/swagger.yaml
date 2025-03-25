@@ -12,6 +12,163 @@ definitions:
       updatedAt:
         type: string
     type: object
+  listing.CreateItemRequest:
+    properties:
+      asDraft:
+        type: boolean
+      contactInfo:
+        items:
+          $ref: '#/definitions/listing.ItemContactInfo'
+        type: array
+      description:
+        type: string
+      locationId:
+        type: string
+      ownerName:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      types:
+        items:
+          $ref: '#/definitions/listing.ItemType'
+        type: array
+    type: object
+  listing.Item:
+    properties:
+      contactInfo:
+        items:
+          $ref: '#/definitions/listing.ItemContactInfo'
+        type: array
+      createdAt:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      lent:
+        type: boolean
+      locationId:
+        type: string
+      locationTitle:
+        type: string
+      ownerId:
+        type: string
+      ownerName:
+        type: string
+      publishedAt:
+        type: string
+      status:
+        $ref: '#/definitions/listing.ItemStatus'
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      types:
+        items:
+          $ref: '#/definitions/listing.ItemType'
+        type: array
+      updatedAt:
+        type: string
+    type: object
+  listing.ItemContactInfo:
+    properties:
+      type:
+        $ref: '#/definitions/listing.ItemContactInfoType'
+      value:
+        type: string
+    type: object
+  listing.ItemContactInfoType:
+    enum:
+    - phoneNumber
+    - sms
+    - telegram
+    - whatsapp
+    type: string
+    x-enum-varnames:
+    - ItemContactInfoTypePhoneNumber
+    - ItemContactInfoTypeSMS
+    - ItemContactInfoTypeTelegram
+    - ItemContactInfoTypeWhatsapp
+  listing.ItemStatus:
+    enum:
+    - draft
+    - pendingReview
+    - published
+    - rejected
+    - expired
+    - archived
+    - deleted
+    type: string
+    x-enum-varnames:
+    - ItemStatusDraft
+    - ItemStatusPendingReview
+    - ItemStatusPublished
+    - ItemStatusRejected
+    - ItemStatusExpired
+    - ItemStatusArchived
+    - ItemStatusDeleted
+  listing.ItemType:
+    enum:
+    - donate
+    - exchange
+    - lend
+    - sell
+    type: string
+    x-enum-varnames:
+    - ItemTypeDonate
+    - ItemTypeExchange
+    - ItemTypeLend
+    - ItemTypeSell
+  listing.ListItemsResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/listing.Item'
+        type: array
+    type: object
+  listing.ListLocationsResponse:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/listing.Location'
+        type: array
+    type: object
+  listing.Location:
+    properties:
+      id:
+        type: string
+      parentID:
+        type: string
+      title:
+        type: string
+    type: object
+  listing.UpdateItemRequest:
+    properties:
+      asDraft:
+        type: boolean
+      contactInfo:
+        items:
+          $ref: '#/definitions/listing.ItemContactInfo'
+        type: array
+      description:
+        type: string
+      lent:
+        type: boolean
+      locationId:
+        type: string
+      ownerName:
+        type: string
+      thumbnailUrl:
+        type: string
+      title:
+        type: string
+      types:
+        items:
+          $ref: '#/definitions/listing.ItemType'
+        type: array
+    type: object
 info:
   contact: {}
   description: This is ketabdoozak api doc
@@ -70,6 +227,175 @@ paths:
       summary: Upload a file
       tags:
       - filemanager
+  /listing/items:
+    post:
+      parameters:
+      - description: Request body
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/listing.CreateItemRequest'
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/listing.Item'
+      security:
+      - OAuth2Implicit: []
+      summary: Create new item
+      tags:
+      - listing
+  /listing/items/{itemId}:
+    delete:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      security:
+      - OAuth2Implicit: []
+      summary: Delete item
+      tags:
+      - listing
+    get:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/listing.Item'
+      security:
+      - OAuth2Implicit: []
+      summary: Get item
+      tags:
+      - listing
+    put:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/listing.UpdateItemRequest'
+      responses:
+        "204":
+          description: No Content
+      security:
+      - OAuth2Implicit: []
+      summary: Update item
+      tags:
+      - listing
+  /listing/items/{itemId}/archive:
+    put:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      security:
+      - OAuth2Implicit: []
+      summary: Publish item
+      tags:
+      - listing
+  /listing/items/{itemId}/publish:
+    put:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      security:
+      - OAuth2Implicit: []
+      summary: Publish item
+      tags:
+      - listing
+  /listing/items/{itemId}/send-for-publish:
+    put:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+      security:
+      - OAuth2Implicit: []
+      summary: Send item for publish
+      tags:
+      - listing
+  /listing/locations:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/listing.ListLocationsResponse'
+      summary: List locations
+      tags:
+      - listing
+  /listing/my-items:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/listing.ListItemsResponse'
+      security:
+      - OAuth2Implicit: []
+      summary: List my items
+      tags:
+      - listing
+  /listing/published-items:
+    get:
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/listing.ListItemsResponse'
+      summary: List published items
+      tags:
+      - listing
+  /listing/published-items/{itemId}:
+    get:
+      parameters:
+      - description: Item id
+        in: path
+        name: itemId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/listing.Item'
+      summary: Get published item
+      tags:
+      - listing
 securityDefinitions:
   OAuth2Implicit:
     authorizationUrl: https://auth.applicaset.com/realms/ketabdoozak/protocol/openid-connect/auth

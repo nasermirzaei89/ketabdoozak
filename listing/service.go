@@ -30,24 +30,24 @@ type ListItemsResponse struct {
 }
 
 type CreateItemRequest struct {
-	Title        string
-	OwnerName    string
-	LocationID   string
-	Types        []ItemType
-	ContactInfo  []ItemContactInfo
-	Description  template.HTML
-	ThumbnailURL string
-	AsDraft      bool
+	Title        string            `json:"title"`
+	OwnerName    string            `json:"ownerName"`
+	LocationID   string            `json:"locationId"`
+	Types        []ItemType        `json:"types"`
+	ContactInfo  []ItemContactInfo `json:"contactInfo"`
+	Description  template.HTML     `json:"description"  swaggertype:"string"`
+	ThumbnailURL string            `json:"thumbnailUrl"`
+	AsDraft      bool              `json:"asDraft"`
 }
 
 type UpdateItemRequest struct {
-	Title        string
-	OwnerName    string
-	LocationID   string
-	Types        []ItemType
-	ContactInfo  []ItemContactInfo
-	Description  template.HTML
-	Lent         bool
-	ThumbnailURL string
-	AsDraft      bool
+	Title        string            `json:"title"`
+	OwnerName    string            `json:"ownerName"`
+	LocationID   string            `json:"locationId"`
+	Types        []ItemType        `json:"types"`
+	ContactInfo  []ItemContactInfo `json:"contactInfo"`
+	Description  template.HTML     `json:"description"  swaggertype:"string"`
+	Lent         bool              `json:"lent"`
+	ThumbnailURL string            `json:"thumbnailUrl"`
+	AsDraft      bool              `json:"asDraft"`
 }

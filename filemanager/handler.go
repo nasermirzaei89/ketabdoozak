@@ -24,12 +24,12 @@ func NewHandler(fileManagerSvc Service) *Handler {
 		fileManagerSvc: fileManagerSvc,
 	}
 
-	h.RegisterRoutes()
+	h.registerRoutes()
 
 	return h
 }
 
-func (h *Handler) RegisterRoutes() {
+func (h *Handler) registerRoutes() {
 	h.mux.Handle("POST /upload", UploadFileHandler(h.fileManagerSvc))
 	h.mux.Handle("GET /files/{filename}", DownloadFileHandler(h.fileManagerSvc))
 	h.mux.Handle("DELETE /files/{filename}", DeleteFileHandler(h.fileManagerSvc))
