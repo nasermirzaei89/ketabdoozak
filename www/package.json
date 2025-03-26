@@ -8,10 +8,10 @@
     "build:min": "esbuild --bundle --minify --sourcemap --outfile=./static/scripts.min.js --loader:.woff=file --loader:.woff2=file ./assets/scripts.ts"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.0.15",
+    "@tailwindcss/cli": "^4.0.16",
     "@types/alpinejs": "^3.13.11",
     "esbuild": "^0.25.1",
-    "tailwindcss": "^4.0.15",
+    "tailwindcss": "^4.0.16",
     "typescript": "^5.8.2"
   },
   "dependencies": {
