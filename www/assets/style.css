@@ -22,11 +22,11 @@
 
 body {
     @apply grid grid-rows-(--layout-template) min-h-screen relative;
-    @apply bg-white dark:bg-gray-950 text-gray-950 dark:text-gray-50;
+    @apply bg-white dark:bg-gray-800 text-gray-950 dark:text-gray-50;
 }
 
 header {
-    @apply shadow-md dark:shadow-gray-500/10 sticky top-0 bg-white dark:bg-gray-950 z-10;
+    @apply shadow-md sticky top-0 bg-white dark:bg-gray-800 z-10;
 
     .as-header-container {
         @apply container mx-auto px-4 h-16 flex justify-between items-center;
@@ -99,7 +99,7 @@ footer {
 
 .wysiwyg-editor {
     @apply rounded-md border-2 border-gray-300 dark:border-gray-700 focus-within:border-primary-500;
-    @apply text-base w-full outline-none focus:ring-2 ring-black/30 bg-white dark:bg-gray-950;
+    @apply text-base w-full outline-none focus:ring-2 ring-black/30 bg-white dark:bg-gray-800;
 
     .wysiwyg-editor-toolbar {
         @apply flex flex-row flex-wrap divide-x py-2 border-b-2 border-gray-700 dark:border-gray-300;
