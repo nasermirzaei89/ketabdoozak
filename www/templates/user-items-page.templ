@@ -19,7 +19,7 @@ templ UserItemsPage(items []*listing.Item, q string) {
 }
 
 templ UserItemsGridActions() {
-	<a href={ GetURL(ctx, "items/new") } class="as-button variant-filled is-primary size-md">
+	<a href={ GetURL(ctx, "items/new") } class="as-button variant-filled is-primary">
 		@icons.MdiPlus(6)
 		افزودن کتاب
 	</a>

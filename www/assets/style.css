@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 @plugin "@tailwindcss/typography";
 
 @theme {
@@ -17,6 +18,43 @@
     --font-sans: Vazirmatn, Roboto, sans-serif;
 
     --layout-template: auto 1fr auto;
+}
+
+body {
+    @apply grid grid-rows-(--layout-template) min-h-screen relative;
+    @apply bg-white dark:bg-gray-950 text-gray-950 dark:text-gray-50;
+}
+
+header {
+    @apply shadow-md dark:shadow-gray-500/10 sticky top-0 bg-white dark:bg-gray-950 z-10;
+
+    .as-header-container {
+        @apply container mx-auto px-4 h-16 flex justify-between items-center;
+
+        .as-header-title {
+            @apply font-bold text-xl inline-flex items-center;
+        }
+
+        nav {
+            @apply inline-flex gap-2 sm:gap-4;
+        }
+    }
+}
+
+footer {
+    @apply border-t border-gray-300 dark:border-gray-700;
+
+    .as-footer-container {
+        @apply container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between;
+
+        nav {
+            @apply flex flex-row gap-4 justify-center sm:justify-end items-center;
+        }
+
+        .as-footer-copyright {
+            @apply inline-flex justify-center sm:justify-start items-center p-2 gap-2 text-base sm:order-first;
+        }
+    }
 }
 
 .as-h1 {
@@ -43,26 +81,84 @@
     @apply text-base font-bold;
 }
 
+.as-text-field,
+.as-select-field {
+    @apply flex flex-row rounded-md border-2 border-gray-300 dark:border-gray-700 focus-within:border-primary-500 gap-2 px-2 py-1 text-gray-700 dark:text-gray-300 w-full h-10;
+
+    input[type=search],
+    input[type=text],
+    select {
+        @apply text-base w-full pe-2 focus:outline-none focus:ring-0;
+    }
+}
+
+.as-textarea {
+    @apply rounded-md border-2 border-gray-300 dark:border-gray-700 focus-within:border-primary-500;
+    @apply text-base w-full outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 ;
+}
+
+.wysiwyg-editor {
+    @apply rounded-md border-2 border-gray-300 dark:border-gray-700 focus-within:border-primary-500;
+    @apply text-base w-full outline-none focus:ring-2 ring-black/30 bg-white dark:bg-gray-950;
+
+    .wysiwyg-editor-toolbar {
+        @apply flex flex-row flex-wrap divide-x py-2 border-b-2 border-gray-700 dark:border-gray-300;
+
+        .toolset {
+            @apply inline-flex gap-2 px-2;
+
+            button {
+                @apply rounded-sm cursor-pointer text-gray-950 dark:text-gray-50 hover:opacity-80;
+
+                svg {
+                    @apply fill-gray-950 dark:fill-gray-50 size-5;
+                }
+            }
+        }
+    }
+
+    .wysiwyg-editor-content {
+        @apply prose dark:prose-invert max-w-none min-h-32 px-4 focus:outline-none focus:ring-0;
+    }
+}
+
+label:has(+ .as-text-field),
+label:has(+ .as-textarea),
+label:has(+ .as-select-field) {
+    @apply cursor-pointer;
+}
+
+label:has(+ .as-text-field),
+label:has(+ .as-textarea),
+label:has(+ .as-select-field),
+.as-label {
+    @apply text-xl font-semibold;
+}
+
+.as-thumbnail {
+    @apply rounded-sm aspect-square w-full bg-gray-500 object-contain;
+}
+
 .as-button {
-    @apply rounded font-semibold duration-200 outline-none focus:ring-2 ring-black/30 inline-flex gap-1 items-center justify-center cursor-pointer;
+    @apply rounded font-semibold duration-200 outline-none focus:ring-2 ring-black/30 dark:ring-white/30 inline-flex gap-1 items-center justify-center cursor-pointer;
     @apply hover:opacity-80;
     @apply disabled:opacity-50 disabled:cursor-auto;
     @apply text-nowrap;
 
     &.variant-filled {
-        @apply text-white bg-black;
+        @apply text-white dark:text-black bg-gray-950 dark:bg-gray-50;
 
         &.is-primary {
-            @apply bg-primary-600;
+            @apply dark:text-white bg-primary-600;
         }
 
         &.is-danger {
-            @apply bg-red-600;
+            @apply dark:text-white bg-red-600;
         }
     }
 
     &.variant-outlined {
-        @apply text-black border-2 border-black;
+        @apply text-gray-950 dark:text-gray-50 border-2 border-gray-950 dark:border-gray-50 ;
 
         &.is-primary {
             @apply text-primary-600 border-primary-600;
@@ -74,7 +170,7 @@
     }
 
     &.variant-text {
-        @apply text-black;
+        @apply text-gray-950 dark:text-gray-50;
 
         &.is-primary {
             @apply text-primary-600;
@@ -86,7 +182,7 @@
     }
 
     &.variant-link {
-        @apply text-black underline;
+        @apply text-gray-950 dark:text-gray-50 underline;
 
         &.is-primary {
             @apply text-primary-600;
@@ -109,9 +205,8 @@
         @apply h-8 px-2 text-sm;
     }
 
-    &.size-md {
-        @apply h-10 px-4 text-base;
-    }
+    /*&.size-md */
+    @apply h-10 px-4 text-base;
 
     &.size-lg {
         @apply h-14 px-6 text-lg;
@@ -135,33 +230,15 @@
     }
 }
 
-.wysiwyg-editor {
-    @apply rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 bg-white w-full;
-}
-
-.wysiwyg-editor-toolbar {
-    @apply flex flex-row flex-wrap divide-x py-2 border-b border-gray-700 ;
-}
-
-.wysiwyg-editor-toolbar {
-    .toolset {
-        @apply inline-flex gap-2 px-2;
-
-        button {
-            @apply rounded-sm cursor-pointer hover:bg-gray-100;
-
-            svg {
-                @apply fill-gray-700 size-5;
-            }
-        }
-    }
+.as-book-grid-item {
+    @apply flex flex-col gap-2 p-2 rounded-md border border-gray-300 dark:border-gray-700 shadow-xs relative;
 }
 
 #contact-info {
     @apply flex fixed size-full items-center justify-center bg-black/10 backdrop-blur-sm overflow-y-scroll;
 
     div[role="dialog"] {
-        @apply bg-white shadow-md rounded-md;
+        @apply bg-white dark:bg-gray-950 shadow-md rounded-md;
         /*inset: 50% auto auto 50%;*/
         /*transform: translate(-50%, -50%);*/
     }

@@ -26,7 +26,7 @@ templ HTML(children templ.Component, head Head) {
 				<script src={ string(GetURL(ctx, "/static/scripts.js")) } type="module"></script>
 			}
 		</head>
-		<body class="grid grid-rows-(--layout-template) min-h-screen relative" hx-ext="response-targets">
+		<body hx-ext="response-targets">
 			@pageHeader()
 			@children
 			@pageFooter()
@@ -35,26 +35,26 @@ templ HTML(children templ.Component, head Head) {
 }
 
 templ pageHeader() {
-	<header class="shadow-md sticky top-0 bg-white z-10">
-		<div class="container mx-auto px-4 h-16 flex justify-between items-center">
-			<a href={ GetBaseURL(ctx) } class="font-bold text-xl inline-flex items-center">
+	<header>
+		<div class="as-header-container">
+			<a href={ GetBaseURL(ctx) } class="as-header-title">
 				@components.HeaderLogo()
 				کتابدوزک
 			</a>
-			<nav class="inline-flex gap-2 sm:gap-4 *:hover:text-primary-600 *:font-medium">
+			<nav>
 				if IsAuthenticated(ctx) {
-					<a href={ GetURL(ctx, "my/items") } class="as-button variant-text is-primary size-md">
+					<a href={ GetURL(ctx, "my/items") } class="as-button variant-text is-primary">
 						@icons.MdiBookshelf(6)
 						کتاب‌های من
 					</a>
-					<a href={ GetURL(ctx, "/auth/logout") } class="as-button variant-text size-md">
-						<span class="hidden sm:inline">
+					<a href={ GetURL(ctx, "/auth/logout") } class="as-button variant-text">
+						<span class="sr-only sm:not-sr-only sm:inline">
 							خروج
 						</span>
 						@icons.MdiLogout(6)
 					</a>
 				} else {
-					<a href={ GetURL(ctx, "/auth/login") } class="as-button variant-filled is-primary size-md">
+					<a href={ GetURL(ctx, "/auth/login") } class="as-button variant-filled is-primary">
 						@icons.MdiLogin(6)
 						ورود
 					</a>
@@ -65,20 +65,20 @@ templ pageHeader() {
 }
 
 templ pageFooter() {
-	<footer class="border-t border-gray-300">
-		<div class="container mx-auto px-2 sm:px-0 py-4 flex flex-col sm:flex-row justify-between">
-			<nav class="flex flex-row gap-4 justify-center sm:justify-end items-center">
-				<a href={ GetURL(ctx, "/about-us") } class="as-button variant-text size-md">درباره ما</a>
-				<a href="https://github.com/nasermirzaei89/ketabdoozak" target="_blank" class="as-button variant-text size-md">
+	<footer>
+		<div class="as-footer-container">
+			<nav>
+				<a href={ GetURL(ctx, "/about-us") } class="as-button variant-text">درباره ما</a>
+				<a href="https://github.com/nasermirzaei89/ketabdoozak" target="_blank" class="as-button variant-text">
 					@icons.MdiGithub(6)
 					سورس کد
 				</a>
-				<a href="#" class="as-button variant-text size-md">
+				<a href="#" class="as-button variant-text">
 					@icons.MdiHandPeace(6)
 					دونیت
 				</a>
 			</nav>
-			<div class="inline-flex justify-center sm:justify-start items-center p-2 gap-2 text-base sm:order-first">
+			<div class="as-footer-copyright">
 				@icons.MdiCopyleft(6)
 				<span>
 					2025

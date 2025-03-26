@@ -1,42 +1,47 @@
 package templates
 
-import (
-	"github.com/nasermirzaei89/ketabdoozak/listing"
-	"github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
-	. "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
-	"html/template"
-	"slices"
-)
+import "github.com/nasermirzaei89/ketabdoozak/listing"
+import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
+import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
+import "html/template"
+import "slices"
 
 templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField template.HTML) {
 	<main>
 		<div class="container mx-auto py-4">
-			<form class="flex flex-col gap-4 px-2">
+			<form class="flex flex-col gap-4 px-4">
 				@templ.Raw(string(csrfField))
-				<h1 class="text-2xl font-semibold text-gray-900">
+				<h1 class="text-2xl font-semibold">
 					افزودن کتاب
 				</h1>
 				<div class="flex flex-col sm:flex-row order-last sm:order-none gap-2 justify-end">
-					<button class="as-button variant-filled is-primary size-md" hx-post={ string(GetURL(ctx, "items")) }>
+					<button
+						class="as-button variant-filled is-primary"
+						hx-post={ string(GetURL(ctx, "items")) }
+						hx-target="main"
+					>
 						@icons.MdiSend(6)
 						ارسال برای انتشار
 					</button>
-					<button class="as-button variant-outlined size-md" hx-post={ string(GetURL(ctx, "items?as-draft")) }>
+					<button
+						class="as-button variant-outlined"
+						hx-post={ string(GetURL(ctx, "items?as-draft")) }
+						hx-target="main"
+					>
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس
 					</button>
-					<a class="as-button variant-outlined size-md" href={ GetURL(ctx, "my/items") }>
+					<a class="as-button variant-outlined" href={ GetURL(ctx, "my/items") }>
 						لغو
 					</a>
 				</div>
 				<div class="flex flex-col md:flex-row gap-4">
 					<div class="grow flex flex-col gap-4">
 						<div class="flex flex-col gap-1">
-							<label for="title" class="text-xl font-semibold">عنوان کتاب</label>
-							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full">
+							<label for="title">عنوان کتاب</label>
+							<div class="as-text-field">
 								<input
 									type="text"
-									class="text-base w-full pe-2 focus:outline-none focus:ring-0"
 									id="title"
 									name="title"
 									x-data="{ title: '' }"
@@ -47,15 +52,15 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label for="ownerName" class="text-xl font-semibold">نام صاحب کتاب</label>
-							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
-								<input type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="ownerName" name="ownerName" placeholder="نام شما" value={ item.OwnerName }/>
+							<label for="ownerName">نام صاحب کتاب</label>
+							<div class="as-text-field sm:max-w-80">
+								<input type="text" id="ownerName" name="ownerName" placeholder="نام شما" value={ item.OwnerName }/>
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label for="location" class="text-xl font-semibold">محل دریافت</label>
-							<div class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full sm:max-w-80">
-								<select type="text" class="text-base w-full pe-2 focus:outline-none focus:ring-0" id="location" name="locationId">
+							<label for="location">محل دریافت</label>
+							<div class="as-select-field sm:max-w-80">
+								<select type="text" id="location" name="locationId">
 									<option value="" selected?={ item.LocationID == "" }></option>
 									for i := range locations {
 										<option value={ locations[i].ID } selected?={ item.LocationID == locations[i].ID }>
@@ -66,7 +71,7 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
-							<div class="text-xl font-semibold">انواع ارائه</div>
+							<div class="as-label">انواع ارائه</div>
 							<div class="flex flex-col gap-2 px-2">
 								<label class="inline-flex gap-2">
 									<input type="checkbox" name="types" value={ string(listing.ItemTypeDonate) } checked?={ slices.Contains(item.Types, listing.ItemTypeDonate) }/>
@@ -87,14 +92,14 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
-							<div class="text-xl font-semibold">اطلاعات تماس</div>
+							<div class="as-label">اطلاعات تماس</div>
 							<div class="flex flex-col gap-2 items-start">
 								for _, v := range item.ContactInfo {
 									@ContactInfoFormItem(v.Type, v.Value)
 								}
 								<button
 									type="button"
-									class="as-button variant-outlined size-md"
+									class="as-button variant-outlined"
 									hx-get={ string(GetURL(ctx, "/new-contact-info-item")) }
 									hx-swap="beforebegin"
 								>
@@ -104,11 +109,11 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 							</div>
 						</div>
 						<div class="flex flex-col gap-1">
-							<label for="description" class="text-xl font-semibold">توضیحات</label>
+							<label for="description">توضیحات</label>
 							<textarea
 								id="description"
 								name="description"
-								class="rounded-md border border-black/60 outline-none focus:ring-2 ring-black/30 min-h-10 px-4 py-2 text-base hidden"
+								class="as-textarea hidden"
 								data-wysiwyg-editor
 							>{ string(item.Description) }</textarea>
 						</div>
@@ -124,15 +129,15 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 								src="https://placehold.co/300x300?text=No Thumbnail"
 								id="thumbnailPreview"
 								alt=""
-								class="rounded-sm aspect-square w-full bg-gray-500 object-contain"
+								class="as-thumbnail"
 							/>
 							<input type="hidden" id="thumbnailUrl" name="thumbnailUrl"/>
 							<div class="flex flex-row gap-2 justify-center">
-								<button class="as-button variant-filled size-md" type="button" tabindex="0" x-data @click="chooseThumbnailUrl()" @keydown.enter="chooseThumbnailUrl()">
+								<button class="as-button variant-filled" type="button" tabindex="0" x-data @click="chooseThumbnailUrl()" @keydown.enter="chooseThumbnailUrl()">
 									@icons.MdiUpload(6)
 									بارگزاری تصویر
 								</button>
-								<button class="as-button variant-outlined size-md" type="button" tabindex="0" disabled?={ item.ThumbnailURL == "" }>
+								<button class="as-button variant-outlined" type="button" tabindex="0" disabled?={ item.ThumbnailURL == "" }>
 									@icons.MdiDelete(6)
 									حذف تصویر
 								</button>
@@ -147,8 +152,8 @@ templ NewItemPage(item *listing.Item, locations []*listing.Location, csrfField t
 
 templ ContactInfoFormItem(typ listing.ItemContactInfoType, val string) {
 	<div class="flex flex-row gap-2 w-full" x-data>
-		<label class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
-			<select class="text-base w-full pe-2 focus:outline-none focus:ring-0" name="contactInfoType">
+		<label class="as-select-field max-w-80">
+			<select name="contactInfoType">
 				<option value="phoneNumber" selected?={ typ == listing.ItemContactInfoTypePhoneNumber }>
 					شماره تماس
 				</option>
@@ -163,10 +168,10 @@ templ ContactInfoFormItem(typ listing.ItemContactInfoType, val string) {
 				</option>
 			</select>
 		</label>
-		<label class="flex flex-row border rounded-md border-gray-300 focus-within:border-primary-500 focus-within:ring ring-primary-500 gap-2 px-2 py-1 text-gray-700 w-full max-w-80">
-			<input type="text" dir="ltr" class="text-base w-full pe-2 focus:outline-none focus:ring-0" name="contactInfoValue" value={ val }/>
+		<label class="as-text-field max-w-80">
+			<input type="text" dir="ltr" name="contactInfoValue" value={ val }/>
 		</label>
-		<button type="button" class="as-button variant-outlined size-md" @click="$el.parentElement.remove()">
+		<button type="button" class="as-button variant-outlined" @click="$el.parentElement.remove()">
 			@icons.MdiDelete(6)
 			<span class="hidden sm:inline">حذف</span>
 		</button>

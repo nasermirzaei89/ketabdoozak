@@ -120,7 +120,7 @@ const initWysiwygEditor = (element) => {
         content: element.value,
         editorProps: {
             attributes: {
-                class: "prose max-w-none min-h-32 px-3 py-2"
+                class: "wysiwyg-editor-content"
             },
         },
         onUpdate({editor}) {

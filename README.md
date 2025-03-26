@@ -12,8 +12,6 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * Write e2e tests
 * Submitting Status
 * Error response show
-* Add book access policy
-* Check error on save empty item
 * Add gocloud server
 * Make dev env lighter
 * Set session max age based on refresh token lifetime
@@ -23,7 +21,5 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * The audience (aud) matches the client ID (api)
 * Sort by published at desc
 * Add pagination
-* Fix messages position
-* Add dark mode
 * Login page theme
 * i18n
