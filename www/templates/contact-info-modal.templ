@@ -7,7 +7,7 @@ import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 	<div id="contact-info" x-data x-ref="target" @click="$event.target === $el && $el.remove()">
 		<div role="dialog" class="flex flex-col w-screen max-w-100" autofocus>
-			<div class="flex flex-row p-2 ps-4 sticky top-0 bg-white">
+			<div class="flex flex-row p-2 ps-4 sticky top-0 bg-white dark:bg-gray-950">
 				<div class="grow">اطلاعات تماس</div>
 				<button type="button" class="cursor-pointer" @click="$refs.target.remove()">
 					@icons.MdiClose(6)
@@ -21,7 +21,7 @@ templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 					for i := range contactInfo {
 						switch (contactInfo[i].Type) {
 							case listing.ItemContactInfoTypePhoneNumber:
-								<a role="listitem" href={ PhoneNumberURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+								<a role="listitem" href={ PhoneNumberURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200">
 									<div class="inline-flex items-center gap-2">
 										@icons.MdiPhone(6)
 										<span>شماره تماس</span>
@@ -31,7 +31,7 @@ templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 									</div>
 								</a>
 							case listing.ItemContactInfoTypeSMS:
-								<a role="listitem" href={ SMSURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+								<a role="listitem" href={ SMSURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200">
 									<div class="inline-flex items-center gap-2">
 										@icons.MdiCellphoneMessage(6)
 										<span>شماره پیامک</span>
@@ -41,7 +41,7 @@ templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 									</div>
 								</a>
 							case listing.ItemContactInfoTypeTelegram:
-								<a role="listitem" href={ TelegramURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+								<a role="listitem" href={ TelegramURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200">
 									<div class="inline-flex items-center gap-2">
 										@icons.MdiTelegram(6)
 										<span>تلگرام</span>
@@ -51,7 +51,7 @@ templ ContactInfoModal(contactInfo []listing.ItemContactInfo) {
 									</div>
 								</a>
 							case listing.ItemContactInfoTypeWhatsapp:
-								<a role="listitem" href={ WhatsappURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200">
+								<a role="listitem" href={ WhatsappURL(contactInfo[i].Value) } class="flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200">
 									<div class="inline-flex items-center gap-2">
 										@icons.MdiWhatsapp(6)
 										<span>واتساپ</span>

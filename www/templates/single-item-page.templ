@@ -22,7 +22,7 @@ templ SingleItemPage(item *listing.Item) {
 				</div>
 				<div class="flex flex-col gap-4 px-2 sm:px-0">
 					if IsCurrentUser(ctx, item.OwnerID) {
-						<div class="inline-flex items-center gap-1 text-base text-gray-900">
+						<div class="inline-flex items-center gap-1 text-base text-gray-900 dark:text-gray-100">
 							@icons.MdiFileEye(6)
 							@ItemStatusText(item.Status)
 						</div>
@@ -33,11 +33,11 @@ templ SingleItemPage(item *listing.Item) {
 					<h1 class="as-h1 text-gray-900" dir="auto">
 						{ item.Title }
 					</h1>
-					<div class="inline-flex items-center gap-1 text-base text-gray-900">
+					<div class="inline-flex items-center gap-1 text-base text-gray-900 dark:text-gray-100">
 						@icons.MdiAccount(6)
 						{ item.OwnerName }
 					</div>
-					<div class="inline-flex items-center gap-1 text-base text-gray-900">
+					<div class="inline-flex items-center gap-1 text-base text-gray-900 dark:text-gray-100">
 						@icons.MdiMapMarker(6)
 						{ item.LocationTitle }
 					</div>

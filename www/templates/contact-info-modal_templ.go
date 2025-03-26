@@ -33,7 +33,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"contact-info\" x-data x-ref=\"target\" @click=\"$event.target === $el &amp;&amp; $el.remove()\"><div role=\"dialog\" class=\"flex flex-col w-screen max-w-100\" autofocus><div class=\"flex flex-row p-2 ps-4 sticky top-0 bg-white\"><div class=\"grow\">اطلاعات تماس</div><button type=\"button\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"contact-info\" x-data x-ref=\"target\" @click=\"$event.target === $el &amp;&amp; $el.remove()\"><div role=\"dialog\" class=\"flex flex-col w-screen max-w-100\" autofocus><div class=\"flex flex-row p-2 ps-4 sticky top-0 bg-white dark:bg-gray-950\"><div class=\"grow\">اطلاعات تماس</div><button type=\"button\" class=\"cursor-pointer\" @click=\"$refs.target.remove()\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -57,7 +57,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200\"><div class=\"inline-flex items-center gap-2\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200\"><div class=\"inline-flex items-center gap-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -92,7 +92,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200\"><div class=\"inline-flex items-center gap-2\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200\"><div class=\"inline-flex items-center gap-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -127,7 +127,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200\"><div class=\"inline-flex items-center gap-2\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200\"><div class=\"inline-flex items-center gap-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -162,7 +162,7 @@ func ContactInfoModal(contactInfo []listing.ItemContactInfo) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 duration-200\"><div class=\"inline-flex items-center gap-2\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" class=\"flex flex-row justify-between items-center px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-900 duration-200\"><div class=\"inline-flex items-center gap-2\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

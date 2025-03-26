@@ -215,7 +215,7 @@ label:has(+ .as-select-field),
 
 .as-badge {
     @apply px-2 rounded-md ring-1 ring-inset font-medium text-sm;
-    @apply ring-gray-500/10 bg-gray-50 text-gray-600;
+    @apply ring-gray-500/10 bg-gray-50 dark:bg-gray-950 text-gray-600 dark:text-gray-400;
 
     &.color-primary {
         @apply ring-primary-700/10 bg-primary-50 text-primary-700;
