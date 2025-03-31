@@ -69,8 +69,7 @@ func (repo *SessionRepo) Insert(ctx context.Context, session *www.Session) error
 			return errors.Wrap(err, "failed to check session in redis")
 		}
 	} else {
-		// TODO: don't use inline error
-		return errors.New("session already exists")
+		return www.SessionAlreadyExistsError{ID: session.ID}
 	}
 
 	err = repo.set(ctx, session.ID, session)

@@ -17,12 +17,12 @@ templ HTML(children templ.Component, head Head) {
 			<link rel="icon" type="image/png" href={ string(GetURL(ctx, "/static/favicon.ico")) } sizes="32x32"/>
 			<title>{ head.PageTitle() } </title>
 			if IsProduction(ctx) {
-				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.min.css")) }/>
-				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/scripts.min.css")) }/>
+				<link rel="stylesheet" type="text/css" href={ string(GetURL(ctx, "/static/style.min.css")) }/>
+				<link rel="stylesheet" type="text/css" href={ string(GetURL(ctx, "/static/scripts.min.css")) }/>
 				<script src={ string(GetURL(ctx, "/static/scripts.min.js")) } type="module"></script>
 			} else {
-				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/style.css")) }/>
-				<link rel="stylesheet" href={ string(GetURL(ctx, "/static/scripts.css")) }/>
+				<link rel="stylesheet" type="text/css" href={ string(GetURL(ctx, "/static/style.css")) }/>
+				<link rel="stylesheet" type="text/css" href={ string(GetURL(ctx, "/static/scripts.css")) }/>
 				<script src={ string(GetURL(ctx, "/static/scripts.js")) } type="module"></script>
 			}
 		</head>
