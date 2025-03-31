@@ -19,6 +19,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField 
 						class="as-button variant-filled is-primary"
 						hx-put={ string(GetItemURL(ctx, item.ID)) }
 						hx-target="main"
+						hx-swap="outerHTML"
 					>
 						@icons.MdiSend(6)
 						ارسال برای انتشار
@@ -27,6 +28,7 @@ templ EditItemPage(item *listing.Item, locations []*listing.Location, csrfField 
 						class="as-button variant-outlined"
 						hx-put={ string(GetItemURL(ctx, item.ID)) + "?as-draft" }
 						hx-target="main"
+						hx-swap="outerHTML"
 					>
 						@icons.MdiContentSave(6)
 						ذخیره پیش‌نویس

@@ -65,7 +65,16 @@ func (h *Handler) updateItemHandler() http.HandlerFunc {
 			return
 		}
 
-		templ.Handler(templates.EditItemPage(item, res.Items, csrf.TemplateField(r))).ServeHTTP(w, r)
+		msg := "کتاب با موفقیت ذخیره شد."
+
+		if !req.AsDraft {
+			msg = "کتاب برای انتشار ارسال شد."
+		}
+
+		templ.Handler(templ.Join(
+			templates.EditItemPage(item, res.Items, csrf.TemplateField(r)),
+			templates.SuccessMessage(msg),
+		)).ServeHTTP(w, r)
 	}
 }
 
