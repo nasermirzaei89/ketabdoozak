@@ -15002,13 +15002,14 @@
       ];
     }
   });
+  var focusEventsPluginKey = new PluginKey("focusEvents");
   var FocusEvents = Extension.create({
     name: "focusEvents",
     addProseMirrorPlugins() {
       const { editor } = this;
       return [
         new Plugin({
-          key: new PluginKey("focusEvents"),
+          key: focusEventsPluginKey,
           props: {
             handleDOMEvents: {
               focus: (view, event2) => {
@@ -16692,7 +16693,7 @@ img.ProseMirror-separator {
           }
         },
         type: {
-          default: void 0,
+          default: null,
           parseHTML: (element) => element.getAttribute("type")
         }
       };
