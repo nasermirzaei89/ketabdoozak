@@ -23,6 +23,14 @@ func (err SessionNotFoundError) Error() string {
 	return fmt.Sprintf("session with id '%s' not found", err.ID)
 }
 
+type SessionAlreadyExistsError struct {
+	ID string
+}
+
+func (err SessionAlreadyExistsError) Error() string {
+	return fmt.Sprintf("session with id '%s' already exists", err.ID)
+}
+
 type SessionRepository interface {
 	Insert(ctx context.Context, session *Session) (err error)
 	Get(ctx context.Context, id string) (session *Session, err error)
