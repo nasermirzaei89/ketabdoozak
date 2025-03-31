@@ -4,39 +4,42 @@ import "github.com/nasermirzaei89/ketabdoozak/www/templates/icons"
 
 templ messages() {
 	<div class="static">
-		<div class="fixed bottom-0 w-full messages">
-		</div>
+		<div class="fixed bottom-0 w-full messages"></div>
 	</div>
 }
 
 templ SuccessMessage(message string) {
-<div hx-swap-oob="beforeend:.messages">
-    <div
-        x-data x-ref="target" x-init="setTimeout(() => $refs.target.remove(), 10000)"
-        class="container mx-auto my-4 flex flex-row gap-4 rounded-md bg-green-600 text-white px-4 py-2"
-    >
-        <div class="grow" dir="auto">{ message }</div>
-        <div class="shrink h-6">
-            <button type="button" class="cursor-pointer" @click="$refs.target.remove()">
-                @icons.MdiClose(6)
-            </button>
-        </div>
-    </div>
-    </div>
+	<div hx-swap-oob="beforeend:.messages">
+		<div
+			x-data
+			x-ref="target"
+			x-init="setTimeout(() => $refs.target.remove(), 10000)"
+			class="container mx-auto my-4 flex flex-row gap-4 rounded-md bg-green-600 text-white px-4 py-2"
+		>
+			<div class="grow" dir="auto">{ message }</div>
+			<div class="shrink h-6">
+				<button type="button" class="cursor-pointer" @click="$refs.target.remove()">
+					@icons.MdiClose(6)
+				</button>
+			</div>
+		</div>
+	</div>
 }
 
 templ ErrorMessage(message string) {
-<div hx-swap-oob="beforeend:.messages">
-    <div
-        x-data x-ref="target" x-init="setTimeout(() => $refs.target.remove(), 10000)"
-        class="container mx-auto my-4 flex flex-row gap-4 rounded-md bg-red-600 text-white px-4 py-2"
-    >
-        <div class="grow" dir="auto">{ message }</div>
-        <div class="shrink h-6">
-            <button type="button" class="cursor-pointer" @click="$refs.target.remove()">
-                @icons.MdiClose(6)
-            </button>
-        </div>
-    </div>
-    </div>
+	<div hx-swap-oob="beforeend:.messages">
+		<div
+			x-data
+			x-ref="target"
+			x-init="setTimeout(() => $refs.target.remove(), 10000)"
+			class="container mx-auto my-4 flex flex-row gap-4 rounded-md bg-red-600 text-white px-4 py-2"
+		>
+			<div class="grow" dir="auto">{ message }</div>
+			<div class="shrink h-6">
+				<button type="button" class="cursor-pointer" @click="$refs.target.remove()">
+					@icons.MdiClose(6)
+				</button>
+			</div>
+		</div>
+	</div>
 }

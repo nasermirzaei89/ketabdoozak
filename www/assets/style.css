@@ -26,7 +26,7 @@ body {
 }
 
 header {
-    @apply shadow-md sticky top-0 bg-white dark:bg-gray-800 z-10;
+    @apply shadow-md dark:shadow-none sticky top-0 bg-white dark:bg-gray-900 z-10;
 
     .as-header-container {
         @apply container mx-auto px-4 h-16 flex justify-between items-center;
@@ -235,10 +235,10 @@ label:has(+ .as-select-field),
 }
 
 #contact-info {
-    @apply flex fixed size-full items-center justify-center bg-black/10 backdrop-blur-sm overflow-y-scroll;
+    @apply flex fixed size-full items-center justify-center bg-black/10 dark:bg-white/10 backdrop-blur-sm overflow-y-scroll z-10;
 
     div[role="dialog"] {
-        @apply bg-white dark:bg-gray-950 shadow-md rounded-md;
+        @apply bg-white dark:bg-gray-800 shadow-md rounded-md;
         /*inset: 50% auto auto 50%;*/
         /*transform: translate(-50%, -50%);*/
     }

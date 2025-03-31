@@ -23,3 +23,4 @@ To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
 * Add pagination
 * Login page theme
 * i18n
+* badge dark mode
