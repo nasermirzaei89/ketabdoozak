@@ -6,7 +6,7 @@ import "github.com/nasermirzaei89/ketabdoozak/www/templates/components"
 import . "github.com/nasermirzaei89/ketabdoozak/www/templates/utils"
 import "slices"
 
-templ SingleItemPage(item *listing.Item) {
+templ SingleItemPage(item *listing.Item, csrfToken string) {
 	<main>
 		<div class="container mx-auto py-4">
 			<article class="grid grid-rows-2 sm:grid-rows-1 sm:grid-cols-[300px_1fr] h-full gap-4">
@@ -27,7 +27,7 @@ templ SingleItemPage(item *listing.Item) {
 							@ItemStatusText(item.Status)
 						</div>
 						<div class="flex flex-row gap-2">
-							@OwnerItemActions(item)
+							@OwnerItemActions(item, csrfToken)
 						</div>
 					}
 					<h1 class="as-h1 text-gray-900 dark:text-gray-100" dir="auto">
@@ -67,7 +67,8 @@ templ SingleItemPage(item *listing.Item) {
 	</main>
 }
 
-templ OwnerItemActions(item *listing.Item) {
+templ OwnerItemActions(item *listing.Item, csrfToken string) {
+    {{ hxHeaders := `{"X-CSRF-Token": "`+csrfToken+`"}` }}
 	<a class="as-button variant-outlined" href={ GetEditItemURL(ctx, item.ID) }>
 		@icons.MdiPencil(6)
 		ویرایش
@@ -78,6 +79,7 @@ templ OwnerItemActions(item *listing.Item) {
 			hx-post={ string(GetItemSendForPublishURL(ctx, item.ID)) }
 			hx-confirm="آیا می‌خواهید این کتاب را برای بررسی و انتشار ارسال نمائید؟"
 			hx-target="main"
+			hx-headers={hxHeaders}
 		>
 			@icons.MdiSend(6)
 			ارسال برای انتشار
@@ -89,6 +91,7 @@ templ OwnerItemActions(item *listing.Item) {
 			hx-post={ string(GetItemPublishURL(ctx, item.ID)) }
 			hx-confirm="آیا می‌خواهید این کتاب را مجددا منتشر کنید؟"
 			hx-target="main"
+			hx-headers={hxHeaders}
 		>
 			@icons.MdiPublish(6)
 			انتشار
@@ -100,6 +103,7 @@ templ OwnerItemActions(item *listing.Item) {
 			hx-post={ string(GetItemArchiveURL(ctx, item.ID)) }
 			hx-confirm="آیا می‌خواهید این کتاب را آرشیو کنید؟"
 			hx-target="main"
+			hx-headers={hxHeaders}
 		>
 			@icons.MdiArchive(6)
 			آرشیو
@@ -110,6 +114,7 @@ templ OwnerItemActions(item *listing.Item) {
 			class="as-button variant-outlined is-danger"
 			hx-delete={ string(GetItemURL(ctx, item.ID)) }
 			hx-confirm="آیا از پاک کردن این کتاب مطمئنید؟"
+			hx-headers={hxHeaders}
 		>
 			@icons.MdiDelete(6)
 			حذف
