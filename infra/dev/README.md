@@ -75,7 +75,7 @@ helm upgrade --install minio oci://registry-1.docker.io/bitnamicharts/minio \
 
 The value in `defaultBuckets` should include file manager bucket name.
 
-## Run Jaeger
+## Run Jaeger (Optional)
 
 ```shell
 helm upgrade --install jaeger oci://registry-1.docker.io/bitnamicharts/jaeger \
