@@ -2,6 +2,7 @@ package www
 
 import (
 	"github.com/a-h/templ"
+	"github.com/gorilla/csrf"
 	"github.com/nasermirzaei89/ketabdoozak/listing"
 	"github.com/nasermirzaei89/ketabdoozak/www/templates"
 	"github.com/pkg/errors"
@@ -75,6 +76,6 @@ func (h *Handler) singleItemPageHandler() http.HandlerFunc {
 			},
 		}
 
-		templ.Handler(templates.HTML(templates.SingleItemPage(item), head)).ServeHTTP(w, r)
+		templ.Handler(templates.HTML(templates.SingleItemPage(item, csrf.Token(r)), head)).ServeHTTP(w, r)
 	}
 }
