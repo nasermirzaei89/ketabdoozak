@@ -2,6 +2,8 @@
 
 Ketabdoozak is a book sharing platform written in Golang.
 
+[![Super-Linter](https://github.com/nasermirzaei89/ketabdoozak/actions/workflows/check.yaml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 ## Development
 
 To run project in localhost read [./infra/dev/README.md](./infra/dev/README.md)
