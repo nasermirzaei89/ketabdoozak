@@ -166,7 +166,7 @@ helm upgrade --install backend ./infra/helm \
 
 ## Access with Telepresence
 
-Install from https://www.telepresence.io/docs/install/client
+Install from <https://www.telepresence.io/docs/install/client>
 
 Install the Traffic Manager:
 
@@ -182,15 +182,15 @@ Then, connect to the cluster:
 telepresence connect
 ```
 
-Visit website: http://api-dev.ketabdoozak
+Visit site: <http://api-dev.ketabdoozak>
 
-Visit swagger: http://api-dev.ketabdoozak/swagger/index.html
+Visit swagger: <http://api-dev.ketabdoozak/swagger/index.html>
 
 [//]: # (Get client id for swagger from: https://manage.auth0.com/dashboard/eu/ketabdoozak/applications/<APP_ID>/settings)
 
-Visit jaeger: http://jaeger-query.jaeger:16686
+Visit jaeger: <http://jaeger-query.jaeger:16686>
 
-Visit minio: http://minio.minio:9001
+Visit minio: <http://minio.minio:9001>
 
 ## Cleanup
 
