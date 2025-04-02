@@ -1,4 +1,6 @@
 terraform {
+  required_version = "v1.11.1"
+
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
