@@ -24,3 +24,14 @@ jobs:
         with:
           version: v1.64.5
           only-new-issues: true
+
+  super-lint:
+    name: Super Lint
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Super-linter
+        uses: super-linter/super-linter@v7.3.0
