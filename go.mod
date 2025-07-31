@@ -7,7 +7,7 @@ require (
 	github.com/XSAM/otelsql v0.38.0
 	github.com/a-h/templ v0.3.857
 	github.com/coreos/go-oidc v2.3.0+incompatible
-	github.com/coreos/go-oidc/v3 v3.13.0
+	github.com/coreos/go-oidc/v3 v3.15.0
 	github.com/go-playground/validator/v10 v10.26.0
 	github.com/golang-migrate/migrate/v4 v4.18.2
 	github.com/gorilla/csrf v1.7.2
